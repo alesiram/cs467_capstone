@@ -1,5 +1,6 @@
 import express from 'express';
 import mongoose from 'mongoose';
+import 'dotenv/config';
 import { register, login, logout } from './controllers/auth_controller.mjs';
 
 // Express middleware to parse incoming requests with JSON payloads
