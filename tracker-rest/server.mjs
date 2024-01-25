@@ -28,5 +28,5 @@ app.post('/logout', logout);
 /* ROUTES END */
 
 // Listen on the PORT
-const port = process.env.PORT || 3000;
-app.listen(port, () => console.log(`Server running on port ${port}`));
+const PORT = process.env.PORT;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
