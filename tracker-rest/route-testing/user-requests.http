@@ -1,0 +1,188 @@
+### Request 1: Register new user 1 (note: username gets converted to lowercase in db to prevent dups)
+POST http://localhost:3000/users/register HTTP/1.1
+content-type: application/json
+
+{
+    "username": "AI",
+    "password": "SOMEPWD"
+}
+
+### Request 2: Register new user 2
+POST http://localhost:3000/users/register HTTP/1.1
+content-type: application/json
+
+{
+    "username": "AI2",
+    "password": "OtherPWD1"
+}
+
+### Request 3: Register new user 3 with different username but same password as user 2
+POST http://localhost:3000/users/register HTTP/1.1
+content-type: application/json
+
+{
+    "username": "aI3",
+    "password": "OtherPWD1"
+}
+
+### Request 4: Register new user with existing username (should be invalid)
+POST http://localhost:3000/users/register HTTP/1.1
+content-type: application/json
+
+{
+    "username": "AI",
+    "password": "SOMEPWD1"
+}
+
+### Request 5: Register new user with existing username (should be invalid)
+POST http://localhost:3000/users/register HTTP/1.1
+content-type: application/json
+
+{
+    "username": "ai2",
+    "password": "SOMEPWD2"
+}
+
+### Request 6: Login user 1 with incorrect password (should be invalid)
+POST http://localhost:3000/users/login HTTP/1.1
+content-type: application/json
+
+{
+    "username": "AI",
+    "password": "SOMEPWD1"
+}
+
+### Request 7: Login user 2 with incorrect password (should be invalid)
+POST http://localhost:3000/users/login HTTP/1.1
+content-type: application/json
+
+{
+    "username": "AI2",
+    "password": "SOMEPWD12"
+}
+
+### Request 8: Get all users to confirm all registered
+GET http://localhost:3000/users/all HTTP/1.1
+content-type: application/json
+
+{
+
+}
+
+### Request 9: Login user 1 with correct password (token/user_id returned)
+POST http://localhost:3000/users/login HTTP/1.1
+content-type: application/json
+
+{
+    "username": "AI",
+    "password": "SOMEPWD"
+}
+
+### Request 10: Get user 1 details using returned token above for authorization (protected route) Copy the token from above into the 'Authorization' field below (example shown below)
+GET http://localhost:3000/users/user-info HTTP/1.1
+content-type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWIzMmZjNWEzYTE1NWI0YjFlMGIzNmIiLCJpYXQiOjE3MDYyNDIwMjF9.q5EHyXGldVLlQWDWkQ6guCuob77sgEVnynRBi_xy4q8
+
+{
+
+}
+
+### Request 11: Login user 2 with correct password (token returned)
+POST http://localhost:3000/users/login HTTP/1.1
+content-type: application/json
+
+{
+    "username": "AI2",
+    "password": "OtherPWD1"
+}
+
+### Request 12: Get user 2 details using returned token above for authorization (protected route)
+GET http://localhost:3000/users/user-info HTTP/1.1
+content-type: application/json
+Authorization: 
+
+{
+
+}
+
+### Request 13: Login user 1 with correct password (token returned)
+POST http://localhost:3000/users/login HTTP/1.1
+content-type: application/json
+
+{
+    "username": "AI",
+    "password": "SOMEPWD"
+}
+
+### Request 14: Update user 1 using returned token (protected route)
+PUT http://localhost:3000/users/update HTTP/1.1
+content-type: application/json
+Authorization: 
+
+{
+    "newUsername": "UPDATEDNAME",
+    "newPassword": "UPDATEDPWD"
+}
+
+### Request 15: Login user 1 with updated details (token returned)
+POST http://localhost:3000/users/login HTTP/1.1
+content-type: application/json
+
+{
+    "username": "UPDATEDNAME",
+    "password": "UPDATEDPWD"
+}
+
+### Request 16: Get user 1 details to confirm update using returned token above for authorization (protected route)
+GET http://localhost:3000/users/user-info HTTP/1.1
+content-type: application/json
+Authorization: 
+
+{
+
+}
+
+### Request 17: Update user 1 again using token above (protected route)
+PUT http://localhost:3000/users/update HTTP/1.1
+content-type: application/json
+Authorization: 
+
+{
+    "newUsername": "UPDATEDAGAIN"
+}
+
+### Request 18: Login user 1 (token returned)
+POST http://localhost:3000/users/login HTTP/1.1
+content-type: application/json
+
+{
+    "username": "UPDATEDAGAIN",
+    "password": "UPDATEDPWD"
+}
+
+### Request 19: Get user 1 details using returned token (protected route)
+GET http://localhost:3000/users/user-info HTTP/1.1
+content-type: application/json
+Authorization: 
+
+{
+
+}
+
+### Request 20: Delete user 1 using token above (protected route)
+DELETE http://localhost:3000/users/delete HTTP/1.1
+content-type: application/json
+Authorization: 
+
+{
+
+}
+
+### Request 21: Get user 1 details to confirm it's deleted using token above (protected route) (should have error to authenticate)
+GET http://localhost:3000/users/user-info HTTP/1.1
+content-type: application/json
+Authorization: 
+
+{
+
+}
