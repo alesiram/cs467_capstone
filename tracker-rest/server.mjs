@@ -1,7 +1,8 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import 'dotenv/config';
-import { register, login, logout } from './controllers/auth_controller.mjs';
+import * as auth from './controllers/auth_controller.mjs'
+import { authMiddleware } from './middleware/auth_middleware.mjs';
 
 // Express middleware to parse incoming requests with JSON payloads
 const app = express();
@@ -21,9 +22,18 @@ db.once("open", () => {
 /* ROUTES START */
 
 // Routes to register/login/logout
-app.post('/register', register);
-app.post('/login', login);
-app.post('/logout', logout);
+app.post('/users/register', auth.register);
+app.post('/users/login', auth.login);
+
+// Route to get all usernames and _ids
+app.get('/users/all', auth.getAllUsers);
+
+// Route to get user details (protected route - must be auth'd)
+app.get('/users/user-info', authMiddleware, auth.userDetail);
+
+// Routes to update and delete user (protected routes - must be auth'd)
+app.put('/users/update', authMiddleware, auth.updateUser);
+app.delete('/users/delete', authMiddleware, auth.deleteUser);
 
 /* ROUTES END */
 
