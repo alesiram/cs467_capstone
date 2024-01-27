@@ -1,0 +1,96 @@
+/* CREATED WITH GPT 4.0 */
+
+/* home.css */
+
+:root {
+    --primary-color: #3498db; /* Primary blue color */
+    --secondary-color: #27ae60; /* Secondary green color */
+    --background-color: #f4f4f4; /* Light grey background */
+    --text-color: #333; /* Dark text color for contrast */
+    --button-text-color: white; /* White text color for buttons */
+  }
+  
+  .home-page {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(to right bottom, var(--background-color), #e6e6e6); /* Variable background with gradient */
+    padding: 40px 20px;
+    color: var(--text-color);
+    line-height: 1.6; /* Improves readability */
+    border-radius: 20px; /* Rounded edges for the container */
+    max-width: 800px; /* Max width for the container */
+    margin: 2rem auto; /* Centers the container with top and bottom margin */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  }
+  
+  .home-page h1 {
+    color: var(--primary-color);
+    font-size: 2.5rem; /* Larger text for emphasis */
+    text-align: center; /* Center the heading */
+    margin-bottom: 1rem; /* Spacing after the heading */
+    padding-bottom: .5rem; /* Spacing for underline effect */
+    border-bottom: 4px solid var(--secondary-color); /* Underline effect for the heading */
+  }
+  
+  .home-page p {
+    text-align: center; /* Center the text for a balanced look */
+    max-width: 600px; /* Maximum width for optimal line length */
+    margin: 0 auto 2rem; /* Auto margins for horizontal centering and spacing below */
+  }
+  
+  /* Style the buttons for a modern look */
+  button {
+    background-color: var(--secondary-color);
+    color: var(--button-text-color);
+    border: none;
+    padding: 15px 30px;
+    border-radius: 30px; /* Rounded edges for a softer look */
+    cursor: pointer;
+    font-size: 1rem;
+    margin: 0 10px 20px; /* Spacing around buttons */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+  }
+  
+  button:hover {
+    background-color: darken(var(--secondary-color), 10%); /* Slightly darker on hover */
+  }
+  
+  button:disabled {
+    background-color: #bbb; /* Grey color indicating disabled state */
+    color: #fff;
+    cursor: not-allowed;
+  }
+  
+  .login-button-container {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+  }
+  
+  .login-button-container button {
+    background-color: var(--primary-color);
+    color: var(--button-text-color);
+  }
+  
+  /* Responsive design adjustments */
+  @media (max-width: 768px) {
+    .home-page {
+      padding: 20px;
+      border-radius: 10px; /* Slightly less rounded for smaller screens */
+    }
+  
+    .home-page h1 {
+      font-size: 2rem; /* Smaller font size for small screens */
+    }
+  
+    .login-button-container {
+      position: static;
+      text-align: center; /* Center the login button on smaller screens */
+      margin: 20px 0;
+    }
+  
+    .login-button-container button {
+      width: 100%; /* Full width for mobile */
+      padding: 15px; /* Larger padding for a touch-friendly button */
+    }
+  }
