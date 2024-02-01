@@ -55,6 +55,14 @@ const LoginPage = () => {
   // Handle when user submits to signup
   const handleSignupSubmit = async (e) => {
     e.preventDefault();
+    // Password validation
+    const passwordRegex = /^(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{5,15}$/;
+    if (!passwordRegex.test(signupPassword)) {
+      setMessage('Password must be 5-15 characters and include at least one special character.');
+      setModalMessageType('error');
+      setShowModal(true);
+      return;
+    }
     try {
       const response = await fetch('/users/register', {
         method: 'POST',
