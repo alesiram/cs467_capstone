@@ -2,6 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import 'dotenv/config';
 import * as auth from './controllers/auth_controller.mjs'
+import * as contact from './controllers/contact_controller.mjs';
 import { authMiddleware } from './middleware/auth_middleware.mjs';
 
 // Express middleware to parse incoming requests with JSON payloads
@@ -34,6 +35,13 @@ app.get('/users/user-info', authMiddleware, auth.userDetail);
 // Routes to update and delete user (protected routes - must be auth'd)
 app.put('/users/update', authMiddleware, auth.updateUser);
 app.delete('/users/delete', authMiddleware, auth.deleteUser);
+
+// Routes to create/get/update/delete a user's contact (protected routes - must be auth'd)
+app.post('/contacts', authMiddleware, contact.createContact);
+app.get('/contacts', authMiddleware, contact.getContacts);
+app.get('/contacts/:id', authMiddleware, contact.getContact);
+app.put('/contacts/:id', authMiddleware, contact.updateContact);
+app.delete('/contacts/:id', authMiddleware, contact.deleteContact);
 
 /* ROUTES END */
 

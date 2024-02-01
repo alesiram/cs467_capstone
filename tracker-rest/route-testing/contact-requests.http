@@ -1,0 +1,275 @@
+### Request 1: Create contact without token (should fail - "Please authenticate")
+POST http://localhost:3000/contacts HTTP/1.1
+content-type: application/json
+Authorization: NO_TOKEN_PROVIDED
+
+{
+    "name": "Jane Doe",
+    "company": "XYZ Corp",
+    "email": "jane.doe@example.com",
+    "contactType": "Peer"
+}
+
+### Request 2: Get contacts without token (should fail - "Please authenticate")
+GET http://localhost:3000/contacts HTTP/1.1
+content-type: application/json
+Authorization: NO_TOKEN_PROVIDED
+
+{
+    
+}
+
+### Request 3: Register a new user: testuser1
+POST http://localhost:3000/users/register HTTP/1.1
+content-type: application/json
+
+{
+    "username": "testuser1",
+    "password": "Test@1234"
+}
+
+### Request 4: Login to get the token for testuser1
+POST http://localhost:3000/users/login HTTP/1.1
+content-type: application/json
+
+{
+    "username": "testuser1",
+    "password": "Test@1234"
+}
+
+### Request 5: Create a new contact for testuser1 (using token for testuser1 from login above)
+POST http://localhost:3000/contacts HTTP/1.1
+content-type: application/json
+Authorization: REPLACE_WITH_TOKEN
+
+{
+    "name": "John Doe",
+    "company": "ABC Corp",
+    "email": "john.doe@example.com",
+    "phoneNumbers": [
+        {
+            "number": "123-456-7890",
+            "type": "Mobile"
+        },
+        {
+            "number": "098-765-4321",
+            "type": "Work"
+        }
+    ],
+    "notes": "Met at a conference.",
+    "contactType": "Recruiter",
+    "interactionType": "In-person",
+    "sourceOfContact": "Networking Event",
+    "statusOfInteraction": "In Discussion",
+    "strengthOfConnection": 4,
+    "referralPotential": true,
+    "preferredContactMethod": "Email",
+    "dateAdded": "2022-08-15T00:00:00.000Z",
+    "followUpDate": "2023-09-01T00:00:00.000Z",
+    "lastContactedDate": "2023-08-01T00:00:00.000Z"
+}
+
+### Request 6: Create another contact for testuser1 (using token for testuser1)
+POST http://localhost:3000/contacts HTTP/1.1
+content-type: application/json
+Authorization: REPLACE_WITH_TOKEN
+
+{
+    "name": "Jane Doe",
+    "company": "Coder Corp",
+    "email": "jane.doe@example.com",
+    "notes": "Met at a networking event.",
+    "phoneNumbers": [
+        {
+            "number": "012-345-6789",
+            "type": "Work"
+        }
+    ],
+    "contactType": "Alumni",
+    "interactionType": "Online event",
+    "sourceOfContact": "Networking Event",
+    "statusOfInteraction": "Awaiting Response",
+    "strengthOfConnection": 2,
+    "referralPotential": false,
+    "preferredContactMethod": "Other",
+    "followUpDate": "2023-09-01T00:00:00.000Z",
+    "lastContactedDate": "2023-08-01T00:00:00.000Z"
+}
+
+### Request 7: Get all contacts for testuser1 (using token for testuser1)
+GET http://localhost:3000/contacts HTTP/1.1
+content-type: application/json
+Authorization: REPLACE_WITH_TOKEN
+
+{
+
+}
+
+### Request 8: Update a testuser1 contact (using token for testuser1 and the contact _id [obtained from the get route above])
+PUT http://localhost:3000/contacts/REPLACE_WITH_CONTACT_id_TO_UPDATE HTTP/1.1
+content-type: application/json
+Authorization: REPLACE_WITH_TOKEN
+
+{
+    "name": "John Updated",
+    "company": "XYZ Updated",
+    "email": "john.updated@example.com"
+}
+
+### Reqeuest 9: Get all contacts for testuser1 (using token for testuser1) to confirm contact update
+GET http://localhost:3000/contacts HTTP/1.1
+content-type: application/json
+Authorization: REPLACE_WITH_TOKEN
+
+{
+
+}
+
+### Request 10: Update a particular contact phonenumber for testuser1 (using token for testuser1, the contact _id & phoneNumber _id [obtained from the get route above]. To avoid losing data, send complete phonenumber array - updating 1 number and leaving other as is)
+PUT http://localhost:3000/contacts/REPLACE_WITH_CONTACT_id_TO_UPDATE HTTP/1.1
+content-type: application/json
+Authorization: REPLACE_WITH_TOKEN
+
+{
+    "name": "John Updated Again",
+    "phoneNumbers": [
+        {
+            "_id": "REPLACE_WITH_PHONENUMBER_id",
+            "number": "999-999-9999",
+            "type": "Other"
+        },
+        {
+            "_id": "REPLACE_WITH_PHONENUMBER_id",
+            "number": "098-765-4321",
+            "type": "Work"
+        }
+    ]
+}
+
+### Request 11: Get all contacts for testuser1 (using token for testuser1) to confirm the contact was updated
+GET http://localhost:3000/contacts HTTP/1.1
+content-type: application/json
+Authorization: REPLACE_WITH_TOKEN
+
+{
+
+}
+
+### Request 12: Delete contact for testuser1 (using token for testuser1, the contact _id [obtained from the get route above])
+DELETE http://localhost:3000/contacts/REPLACE_WITH_CONTACT_id_TO_DELETE HTTP/1.1
+content-type: application/json
+Authorization: REPLACE_WITH_TOKEN
+
+{
+
+}
+
+### Request 13: Get all contacts for testuser1 (using token for testuser1) to confirm the contact was deleted
+GET http://localhost:3000/contacts HTTP/1.1
+content-type: application/json
+Authorization: REPLACE_WITH_TOKEN
+
+{
+
+}
+
+### Request 14: Update non-existant contact (using token for testuser1 - should fail given the invalid _id)
+PUT http://localhost:3000/contacts/65bbf226c8ba59cf6861deca HTTP/1.1
+content-type: application/json
+Authorization: REPLACE_WITH_TOKEN
+
+{
+    "name": "Non Existent",
+    "company": "None",
+    "email": "nonexistent@example.com"
+}
+
+### Request 15: Delete non-existant contact (using token for testuser1 - should fail given the invalid _id)
+DELETE http://localhost:3000/contacts/65bbf226c8ba59cf6861deca HTTP/1.1
+content-type: application/json
+Authorization: REPLACE_WITH_TOKEN
+
+{
+
+}
+
+### Request 16: Register a new user: testuser2 (to check that this new user can't see the other users contacts)
+POST http://localhost:3000/users/register HTTP/1.1
+content-type: application/json
+
+{
+    "username": "testuser2",
+    "password": "Test@54321"
+}
+
+### Request 17: Login to get the token for testuser2
+POST http://localhost:3000/users/login HTTP/1.1
+content-type: application/json
+
+{
+    "username": "testuser2",
+    "password": "Test@54321"
+}
+
+### Request 18: Get all contacts for testuser2 (using token for testuser2 - there should be no contacts for this new user)
+GET http://localhost:3000/contacts HTTP/1.1
+content-type: application/json
+Authorization: REPLACE_WITH_TOKEN
+
+{
+
+}
+
+### Request 19: Create a new contact for testuser2 (using token for testuser2 - from login above)
+POST http://localhost:3000/contacts HTTP/1.1
+content-type: application/json
+Authorization: REPLACE_WITH_TOKEN
+
+{
+    "name": "Bob Roberts",
+    "company": "AI Co",
+    "email": "bob.b@example.com",
+    "phoneNumbers": [
+        {
+            "number": "000-111-1234",
+            "type": "Other"
+        }
+    ],
+    "notes": "Met through a friend.",
+    "contactType": "Peer",
+    "interactionType": "Email",
+    "sourceOfContact": "Referral",
+    "statusOfInteraction": "Closed",
+    "strengthOfConnection": 5,
+    "referralPotential": true,
+    "preferredContactMethod": "Phone",
+    "followUpDate": "2023-10-08T00:00:00.000Z",
+    "lastContactedDate": "2024-01-05T00:00:00.000Z"
+}
+
+### Request 20: Get all contacts for testuser2 (using token for testuser2 - should only see new user's contact and not testuser1 contacts)
+GET http://localhost:3000/contacts HTTP/1.1
+content-type: application/json
+Authorization: REPLACE_WITH_TOKEN
+
+{
+
+}
+
+### Request 21: Get specific contact for testuser2 (using token for testuser2, contact _id [obtained from get route above])
+GET http://localhost:3000/contacts/REPLACE_WITH_CONTACT_id_TO_GET HTTP/1.1
+content-type: application/json
+Authorization: REPLACE_WITH_TOKEN
+
+{
+
+}
+
+### Request 22: Get specific contact that doesn't exist for testuser2 (using token for testuser2)
+GET http://localhost:3000/contacts/65bbf226c8ba59cf6861deca HTTP/1.1
+content-type: application/json
+Authorization: REPLACE_WITH_TOKEN
+
+{
+
+}
