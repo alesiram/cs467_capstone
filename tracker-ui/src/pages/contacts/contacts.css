@@ -1,0 +1,832 @@
+/* STYLING FOR THE CONTACTS PAGE */
+
+.contacts-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  min-height: 100vh; /* Ensure full-height layout */
+  background-color: #ffffff; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.2); 
+  border-radius: 8px; 
+  margin: 10px auto; 
+  width: 100%; 
+  max-width: 1200px; /* Ensures the div doesn't get too wide on larger screens */
+  transition: transform 0.3s ease; 
+}
+
+.contacts-page:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1), 0 15px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* Controls container styling */
+.contacts-page-controls-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.contacts-page-controls-container button {
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-bottom: 10px; /* Add spacing for mobile responsiveness */
+}
+
+.contacts-page-toggle-dashboard-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #FFF; /* Assuming white text initially */
+  background-color: #007BFF; /* Assuming blue background initially */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s; /* Smooth transition for color and background-color */
+}
+
+/* Hover styles for the buttons */
+.contacts-page-toggle-dashboard-button:hover, .contacts-page-add-new-contact-button:hover {
+  color: black; /* Text color changes to black */
+  background-color: white; /* Background color changes to white */
+}
+
+.contacts-page-toggle-theme-button {
+  background: linear-gradient(-45deg, white, black);
+  background-size: 400% 400%;
+  animation: contactsGradientShift 15s ease infinite; /* Adjust time for faster/slower shifts */
+  transition: background 0.3s ease; /* Smooth transition for background changes */
+}
+
+.contacts-page-view-toggle {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.contacts-page-view-mode-checkbox {
+  visibility: hidden; /* Hide the checkbox visually */
+}
+
+.contacts-page-view-mode-label {
+  background-color: #f2f2f2;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.contacts-page-view-mode-label::before {
+  content: "";
+  display: block;
+  width: 15px;
+  height: 15px;
+  background-color: #fff;
+  border-radius: 50%;
+  transition: transform 0.2s ease-in-out;
+}
+
+.contacts-page-view-mode-text {
+  margin-bottom: 8px; /* Adjust as needed */
+  font-size: 16px; /* Adjust as needed */
+  font-weight: bold;
+}
+
+
+@keyframes contactsGradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.contacts-page-view-mode-checkbox:checked + .contacts-page-view-mode-label {
+  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+  background-size: 400% 400%;
+  animation: contactsGradientShift 15s ease infinite; /* Adjust time for faster/slower shifts */
+  transition: background 0.3s ease; /* Smooth transition for background changes */
+}
+
+.contacts-page-view-mode-checkbox:checked + .contacts-page-view-mode-label::before {
+  transform: translateX(0px);
+}
+
+/* Loading message styling */
+.contacts-page-loading-message {
+  text-align: center;
+  font-size: 16px;
+  color: #333;
+  margin-top: 50px; /* Adjust as needed */
+}
+
+/* Add a loading animation for visual feedback */
+.contacts-page-loading-message span {
+  animation: loading-spin 1s linear infinite;
+}
+
+@keyframes loading-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Error message styling */
+.contacts-page-error-message {
+  text-align: center;
+  font-size: 16px;
+  color: #dc3545; /* Reddish color for emphasis */
+  margin-top: 20px; /* Adjust as needed */
+}
+
+.contacts-page-light-mode {
+  background-color: white;
+  color: black;
+}
+
+.contacts-page-dark-mode {
+  background-color: rgb(8, 8, 8);
+  color: white !important;
+}
+
+.contacts-page-dark-mode tr {
+  color: black !important;
+}
+
+.theme-toggle-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+/* Button styling */
+.theme-toggle-container button {
+  /* padding: 10px 20px; */
+  font-size: 16px;
+  font-weight: bold;
+  color: #FFF;
+  background-color: #007BFF;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  outline: none;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+theme-toggle-container button:hover, theme-toggle-container button:focus {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+theme-toggle-container button:active {
+  background-color: #00408b;
+  transform: scale(0.95);
+}
+
+.under-construction-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 10px;
+  background-color: yellow;
+  padding: 10px;
+  border: 2px dashed orange;
+  border-radius: 5px;
+}
+
+.under-construction-text {
+  color: black;
+  font-family: 'Arial', sans-serif;
+  font-weight: bold;
+  text-transform: uppercase;
+  background-color: rgba(255, 255, 255, 0.5);
+  padding: 5px;
+  border-radius: 5px;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+
+/* STYLING FOR ADD CONTACT MODAL (BARD) */
+
+/* Base modal styles */
+.add-contact-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent backdrop */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100; /* Ensure modal is displayed above other content */
+}
+
+/* Modal content styling */
+.add-contact-modal-content {
+  background-color: #fff;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  width: 400px; /* Adjust as needed */
+}
+
+/* Close button styling */
+.add-contact-modal-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+}
+
+/* Form styling */
+.add-contact-modal h2 {
+  margin-top: 0;
+  font-size: 24px;
+  font-weight: 500;
+  margin-bottom: 20px;
+  text-align: center; /* Center the heading */
+}
+
+.add-contact-modal label {
+  font-weight: bold;
+  font-size: 14px;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.add-contact-modal input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  margin-bottom: 15px;
+}
+
+.add-contact-modal button[type="submit"] {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: block; /* Full width button */
+  margin-top: 20px; /* Add some spacing */
+}
+
+/* Unique styling tricks */
+.add-contact-modal-content {
+  position: relative; /* Enable positioning of pseudo-elements */
+}
+
+/* Create a subtle top border using a pseudo-element */
+.add-contact-modal-content::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background-color: #007bff; /* Match button color */
+  border-radius: 10px 10px 0 0;
+}
+
+/* STYLING FOR CONTACTS CARD (CHATGPT) */
+
+/* Base styling for the contact card */
+.contact-card {
+    font-family: 'Arial', sans-serif;
+    max-width: 340px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 20px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.contact-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.contact-card-content {
+    padding: 20px;
+}
+
+.contact-card-content h3 {
+    margin-top: 0;
+    color: #333;
+}
+
+.contact-card-content p {
+    color: #666;
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+/* Styling for the action buttons */
+.contact-card-actions {
+    display: flex;
+    justify-content: flex-start;
+    padding-top: 15px;
+}
+
+.contact-card-actions button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    margin-right: 10px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.contact-card-actions button:hover {
+    background-color: #0056b3;
+}
+
+.contact-card-actions button:nth-child(3) {
+    background-color: #dc3545; /* Delete button */
+}
+
+.contact-card-actions button:nth-child(2) {
+    background-color: #ffc107; /* Edit button */
+}
+
+.contact-card-actions button:nth-child(1) {
+    background-color: #28a745; /* View button */
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 400px) {
+    .contact-card {
+        max-width: 100%;
+    }
+
+    .contact-card-content {
+        padding: 15px;
+    }
+
+    .contact-card-actions button {
+        padding: 8px 10px;
+        font-size: 0.8rem;
+    }
+}
+
+/* STYLING FOR CONTACTS TABLE (CHATGPT) */
+
+/* Container and table base styling */
+.contact-table-container {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    overflow-x: auto;
+}
+
+.contact-table {
+    width: 100%;
+    border-collapse: collapse;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* Table headers */
+.contact-table th {
+    background-color: #007bff;
+    color: #ffffff;
+    font-weight: normal;
+    padding: 15px;
+    text-align: left;
+}
+
+/* Table rows and cells */
+.contact-table td {
+    padding: 10px;
+    border-bottom: 1px solid #eeeeee;
+}
+
+.contact-table tr:nth-child(even) {
+    background-color: #f8f8f8;
+}
+
+/* Hover effect for rows */
+.contact-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Styling for phone numbers */
+.contact-phone-number {
+    display: block;
+    margin-bottom: 5px;
+}
+
+/* Action buttons */
+.contact-action-buttons button {
+    border: none;
+    border-radius: 5px;
+    padding: 8px 12px;
+    margin-right: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.contact-action-buttons button:hover {
+    opacity: 0.8;
+}
+
+.contact-action-buttons button:nth-child(1) {
+    background-color: #4CAF50; /* View button */
+    color: white;
+}
+
+.contact-action-buttons button:nth-child(2) {
+    background-color: #ffc107; /* Edit button */
+    color: white;
+}
+
+.contact-action-buttons button:nth-child(3) {
+    background-color: #f44336; /* Delete button */
+    color: white;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 600px) {
+    .contact-table, .contact-table-container {
+        width: 100%;
+        margin: 10px 0;
+    }
+
+    .contact-table th, .contact-table td {
+        padding: 12px;
+    }
+}
+
+/* STYLING FOR DASHBOARD METRICS (BING) */
+
+.contact-metrics-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.contact-metric {
+    width: 250px;
+    height: 150px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.contact-metric:hover {
+    transform: scale(1.05);
+    transition: all 0.3s;
+}
+
+.contact-metric h3 {
+    margin: 0;
+    padding: 10px;
+    background: linear-gradient(to right, #f0f0f0, #e6e6e6);
+    color: #333;
+}
+
+.contact-metric p {
+    margin: 0;
+    padding: 10px;
+    display: grid;
+    place-items: center;
+    font-size: 2em;
+    color: #666;
+}
+
+/* STYLING FOR DELETE CONTACT MODAL (BARD) */
+
+/* Base modal styles */
+.delete-contact-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent backdrop */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100; /* Ensure modal is displayed above other content */
+}
+
+/* Modal content styling */
+.delete-contact-modal-content {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  width: 350px; /* Adjust as needed */
+}
+
+/* Body content styling */
+.delete-contact-modal-body {
+  text-align: center;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Footer styling */
+.delete-contact-modal-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.delete-contact-modal-footer button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+}
+
+/* Delete button styling */
+.delete-contact-modal-delete-button {
+  background-color: #dc3545; /* Reddish color for emphasis */
+  color: #fff;
+}
+
+.delete-contact-modal-delete-button:hover {
+  background-color: #c82333; /* Darker hover state */
+  cursor: pointer;
+}
+
+/* Cancel button styling */
+.delete-contact-modal-cancel-button {
+  background-color: #f2f2f2;
+  color: #333;
+}
+
+.delete-contact-modal-cancel-button:hover {
+  background-color: #e0e0e0;
+  cursor: pointer;
+}
+
+/* Unique styling tricks */
+.delete-contact-modal-content {
+  position: relative; /* Enable positioning of pseudo-elements */
+}
+
+/* Create a subtle warning triangle using a pseudo-element */
+.delete-contact-modal-content::before {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-bottom: 20px solid #dc3545; /* Match delete button color */
+}
+
+/* STYLING FOR EDIT CONTACT MODAL (BARD) */
+
+/* Base modal styles */
+.edit-contact-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent backdrop */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100; /* Ensure modal is displayed above other content */
+}
+
+/* Modal content styling */
+.edit-contact-modal-content {
+  background-color: #fff;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  width: 450px; /* Adjust as needed */
+}
+
+/* Close button styling */
+.edit-contact-modal-close-button {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+}
+
+/* Form styling */
+.edit-contact-modal-form {
+  margin-top: 20px;
+}
+
+.edit-contact-modal-form-row {
+  margin-bottom: 15px;
+}
+
+.edit-contact-modal-form-row label {
+  font-weight: bold;
+  font-size: 14px;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.edit-contact-modal-form-row input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  color: #333;
+}
+
+.edit-contact-modal-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.edit-contact-modal-form-actions button {
+  background-color: #54a0ff;
+  color: #fff;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.edit-contact-modal-form-actions button:first-of-type {
+  background-color: #007bff; /* Differentiate primary action */
+}
+
+/* Unique styling tricks */
+.edit-contact-modal-content {
+  position: relative; /* Enable positioning of pseudo-elements */
+}
+
+/* Create a subtle top border using a pseudo-element */
+.edit-contact-modal-content::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background-color: #54a0ff;
+  border-radius: 10px 10px 0 0;
+}
+
+/* STYLING FOR SEARCH BAR (BING) */
+
+/* css code for a react component that is a search bar */
+.contact-search-bar {
+    width: 80%;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+}
+
+.contact-search-bar input {
+    width: 100%;
+    height: 40px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+    outline: none;
+}
+
+.contact-search-bar input:hover {
+    border-color: #999;
+    transition: all 0.3s;
+}
+
+.contact-search-bar input:focus {
+    border-color: #2196f3;
+    box-shadow: inset 0 0 10px rgba(33, 150, 243, 0.2);
+    transform: scale(1.05);
+    transition: all 0.3s;
+}
+
+.contact-search-bar input::placeholder {
+    color: #666;
+}
+
+/* STYLING FOR VIEW CONTACT MODAL (BARD) */
+
+/* Base modal styles */
+.view-contact-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent backdrop */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100; /* Ensure modal is displayed above other content */
+}
+
+/* Modal content styling */
+.view-contact-modal-content {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  width: 400px; /* Adjust as needed */
+}
+
+/* Close button styling */
+.view-contact-modal-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+}
+
+/* Content styling */
+.view-contact-modal-content h3 {
+  margin-top: 0;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.view-contact-modal-content p {
+  font-size: 15px;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+/* Footer styling */
+.view-contact-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.view-contact-modal-footer button {
+  background-color: #54a0ff;
+  color: #fff;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Unique styling tricks */
+.view-contact-modal-content {
+  position: relative; /* Enable positioning of pseudo-elements */
+}
+
+/* Create a subtle top border using a pseudo-element */
+.view-contact-modal-content::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: #54a0ff;
+  border-radius: 10px 10px 0 0;
+}

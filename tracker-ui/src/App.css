@@ -36,3 +36,34 @@
     transform: rotate(360deg);
   }
 }
+
+nav {
+    width: 100vw; /* Full viewport width */
+    position: relative; /* Relative positioning */
+    left: 50%; /* Move to the center */
+    right: 50%;
+    margin-left: -50vw; /* Pull to the left edge */
+    margin-right: -50vw; /* Pull to the right edge */
+    background-color: #333; /* Example background color */
+    padding: 10px 0; /* Padding on top and bottom */
+    text-align: center;
+    box-sizing: border-box; /* Include padding in the width calculation */
+    margin-bottom: 5px;
+}
+
+nav a {
+    color: white;
+    margin: 0 10px;
+    text-decoration: none;
+    padding: 5px 10px;
+    /* other link styles */
+}
+
+nav button {
+    background-color: #444;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    /* other button styles */
+}
