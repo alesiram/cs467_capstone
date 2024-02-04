@@ -73,41 +73,43 @@ const SkillsPage = () => {
   };
 
   return (
-    <div className="skills-page">
+    <div>
       <NavBar />
-      <h1>Skills</h1>
-      <button onClick={() => setShowAddModal(true)}>Add New Skill</button>
-      <SkillTable
-        skills={skills}
-        onEdit={(skill) => {
-          setCurrentSkill(skill);
-          setShowEditModal(true);
-        }}
-        onDelete={(skill) => {
-          setCurrentSkill(skill);
-          setShowDeleteModal(true);
-        }}
-      />
-      {showAddModal && (
-        <AddSkillModal
-          onClose={() => setShowAddModal(false)}
-          onSave={addSkill}
+      <div className="skills-page">
+        <h1>Skills</h1>
+        <button onClick={() => setShowAddModal(true)}>Add New Skill</button>
+        <SkillTable
+            skills={skills}
+            onEdit={(skill) => {
+            setCurrentSkill(skill);
+            setShowEditModal(true);
+            }}
+            onDelete={(skill) => {
+            setCurrentSkill(skill);
+            setShowDeleteModal(true);
+            }}
         />
-      )}
-      {showEditModal && currentSkill && (
-        <EditSkillModal
-          skill={currentSkill}
-          onClose={() => setShowEditModal(false)}
-          onSave={editSkill}
-        />
-      )}
-      {showDeleteModal && currentSkill && (
-        <DeleteSkillModal
-          skill={currentSkill}
-          onClose={() => setShowDeleteModal(false)}
-          onDelete={deleteSkill}
-        />
-      )}
+        {showAddModal && (
+            <AddSkillModal
+            onClose={() => setShowAddModal(false)}
+            onSave={addSkill}
+            />
+        )}
+        {showEditModal && currentSkill && (
+            <EditSkillModal
+            skill={currentSkill}
+            onClose={() => setShowEditModal(false)}
+            onSave={editSkill}
+            />
+        )}
+        {showDeleteModal && currentSkill && (
+            <DeleteSkillModal
+            skill={currentSkill}
+            onClose={() => setShowDeleteModal(false)}
+            onDelete={deleteSkill}
+            />
+        )}
+        </div>
     </div>
   );
 };

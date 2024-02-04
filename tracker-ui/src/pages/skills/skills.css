@@ -2,12 +2,13 @@
 
 /* STYLING FOR THE SKILLS PAGE */
 /* Skills page styling */
-  .skills-page {
+.skills-page {
     background-color: #ffffff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.2);
     border-radius: 8px;
     max-width: 1200px;
-    margin: auto; /* Center the skills page */
+    margin: 40px auto; /* Increased top and bottom margin */
+    padding: 20px; /* Added padding for internal spacing */
     transition: transform 0.3s ease;
   }
   
@@ -16,9 +17,9 @@
     box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1), 0 15px 25px rgba(0, 0, 0, 0.2);
   }
   
-  /* Container for content below navbar */
-  .skills-content-container {
-    padding-top: 150px; /* Add padding to the top */
+  /* Header styles */
+  .skills-header {
+    margin-bottom: 30px; /* Add more space above the table */
   }
   
   /* Controls container */
@@ -26,16 +27,16 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 30px; /* Increased spacing above the button */
   }
   
   /* Buttons styling */
   button {
     border: none;
-    padding: 10px 20px;
+    padding: 15px 30px; /* Increased padding for a larger button */
     border-radius: 4px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 18px; /* Slightly larger text */
     transition: background-color 0.3s, color 0.3s;
   }
   
@@ -48,57 +49,20 @@
   .add-new-skill-button {
     background-color: #28a745;
     color: white;
-  }
-  
-  /* Modal styles */
-  .modal {
-    display: none; /* Hidden by default, will be displayed when active */
-    position: fixed;
-    z-index: 2;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0,0,0,0.4);
-  }
-  
-  .modal-content {
-    background-color: #fefefe;
-    margin: 15% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-    max-width: 600px;
-    border-radius: 5px;
-  }
-  
-  .close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-  }
-  
-  .close:hover,
-  .close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
+    margin-bottom: 30px; /* Add space below the button */
   }
   
   /* Table styles */
   table {
-    padding-top: 150px;
     width: 100%;
-    margin-top: 20px;
     border-collapse: collapse;
+    margin-top: 30px; /* Space between button and table */
   }
   
   th, td {
     text-align: left;
-    padding: 12px 15px;
-    border-bottom: 1px solid #ddd;
+    padding: 20px; /* Increased padding inside cells for better spacing */
+    border-bottom: 2px solid #ddd; /* Slightly thicker border for separation */
   }
   
   th {
@@ -114,8 +78,8 @@
   .edit-button, .delete-button {
     border: none;
     color: white;
-    padding: 5px 10px;
-    margin: 0 5px;
+    padding: 10px 20px; /* Increased padding for bigger buttons */
+    margin: 5px; /* Add slight spacing between buttons */
     border-radius: 4px;
     cursor: pointer;
   }
@@ -128,27 +92,19 @@
     background-color: #dc3545;
   }
   
-  /* Input styles */
-  input[type="text"], input[type="number"], select {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    margin-bottom: 20px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-  }
-  
   /* Responsive design */
   @media (max-width: 768px) {
     .skills-page-controls-container {
       flex-direction: column;
+      align-items: stretch; /* Stretch buttons to full width */
     }
   
     .skills-page-controls-container button {
       width: 100%;
-      margin-bottom: 10px
+      margin-bottom: 15px; /* Increase spacing between stacked buttons */
     }
-}
+  }
+  
    
   
   
