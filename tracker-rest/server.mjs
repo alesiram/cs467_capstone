@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import 'dotenv/config';
 import * as auth from './controllers/auth_controller.mjs'
 import * as contact from './controllers/contact_controller.mjs';
+import * as skill from './controllers/skill_controller.mjs'; // Import the skill controller
 import { authMiddleware } from './middleware/auth_middleware.mjs';
 
 // Express middleware to parse incoming requests with JSON payloads
@@ -42,6 +43,13 @@ app.get('/contacts', authMiddleware, contact.getContacts);
 app.get('/contacts/:id', authMiddleware, contact.getContact);
 app.put('/contacts/:id', authMiddleware, contact.updateContact);
 app.delete('/contacts/:id', authMiddleware, contact.deleteContact);
+
+// Routes for skills (protected routes - must be auth'd)
+app.post('/skills', authMiddleware, skill.createSkill);
+app.get('/skills', authMiddleware, skill.getSkills);
+app.get('/skills/:id', authMiddleware, skill.getSkill);
+app.put('/skills/:id', authMiddleware, skill.updateSkill);
+app.delete('/skills/:id', authMiddleware, skill.deleteSkill);
 
 /* ROUTES END */
 

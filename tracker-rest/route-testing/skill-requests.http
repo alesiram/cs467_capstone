@@ -1,110 +1,56 @@
 ### CREATED BY GPT 4.0
 
-### Request 1: Create Skill Without Authorization (Should fail - "Please authenticate")
-POST http://localhost:3000/skills HTTP/1.1
-content-type: application/json
-Authorization: NO_TOKEN_PROVIDED
-
-{
-    "title": "JavaScript",
-    "rating": 5,
-    "reference": "REPLACE_WITH_CONTACT_ID"
-}
-
-### Request 2: Get All Skills Without Authorization (Should fail - "Please authenticate")
-GET http://localhost:3000/skills HTTP/1.1
-content-type: application/json
-Authorization: NO_TOKEN_PROVIDED
-
-### Request 3: Register a New User: skilluser1
+### Request 0: Register a New User 'skilluser'
 POST http://localhost:3000/users/register HTTP/1.1
-content-type: application/json
+Content-Type: application/json
 
 {
-    "username": "skilluser1",
-    "password": "SkillPass123"
+  "username": "skilluser",
+  "password": "Password123"
 }
 
-### Request 4: Login to Get Token for skilluser1
+### Request 0.1: Login as 'skilluser'
 POST http://localhost:3000/users/login HTTP/1.1
-content-type: application/json
+Content-Type: application/json
 
 {
-    "username": "skilluser1",
-    "password": "SkillPass123"
+  "username": "skilluser",
+  "password": "Password123"
 }
 
-### Request 5: Create a New Skill for skilluser1 (Using Token for skilluser1)
+### Use the token provided from the login response in the Authorization header for the following requests.
+
+### Request 1: Create a New Skill for 'skilluser' with a Reference
 POST http://localhost:3000/skills HTTP/1.1
-content-type: application/json
-Authorization: REPLACE_WITH_TOKEN
+Content-Type: application/json
+Authorization: Bearer <Token>
 
 {
-    "title": "React",
-    "rating": 4,
-    "reference": "REPLACE_WITH_CONTACT_ID"
+  "name": "JavaScript",
+  "rating": 5,
+  "reference": "John Doe"
 }
 
-### Request 6: Get All Skills for skilluser1 (Using Token for skilluser1)
+### Request 2: Retrieve All Skills for 'skilluser'
 GET http://localhost:3000/skills HTTP/1.1
-content-type: application/json
-Authorization: REPLACE_WITH_TOKEN
+Authorization: Bearer <Token>
 
-### Request 7: Update a Skill for skilluser1 (Using Token for skilluser1 and Skill ID)
-PUT http://localhost:3000/skills/REPLACE_WITH_SKILL_ID HTTP/1.1
-content-type: application/json
-Authorization: REPLACE_WITH_TOKEN
+### Request 3: Retrieve a Specific Skill for 'skilluser'
+GET http://localhost:3000/skills/<Skill_ID> HTTP/1.1
+Authorization: Bearer <Token>
 
-{
-    "title": "React Native",
-    "rating": 5
-}
-
-### Request 8: Delete a Skill for skilluser1 (Using Token for skilluser1 and Skill ID)
-DELETE http://localhost:3000/skills/REPLACE_WITH_SKILL_ID HTTP/1.1
-content-type: application/json
-Authorization: REPLACE_WITH_TOKEN
-
-### Request 9: Try to Access Skills of skilluser1 After Deletion (Using Token for skilluser1)
-GET http://localhost:3000/skills HTTP/1.1
-content-type: application/json
-Authorization: REPLACE_WITH_TOKEN
-
-### Request 10: Register a New User: skilluser2 (To Test Isolation Between Users)
-POST http://localhost:3000/users/register HTTP/1.1
-content-type: application/json
+### Request 4: Update a Specific Skill for 'skilluser'
+PUT http://localhost:3000/skills/<Skill_ID> HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer <Token>
 
 {
-    "username": "skilluser2",
-    "password": "AnotherSkillPass456"
+  "name": "Advanced JavaScript",
+  "rating": 5,
+  "reference": "Jane Smith"
 }
 
-### Request 11: Login to Get Token for skilluser2
-POST http://localhost:3000/users/login HTTP/1.1
-content-type: application/json
+### Request 5: Delete a Specific Skill for 'skilluser'
+DELETE http://localhost:3000/skills/<Skill_ID> HTTP/1.1
+Authorization: Bearer <Token>
 
-{
-    "username": "skilluser2",
-    "password": "AnotherSkillPass456"
-}
-
-### Request 12: Get All Skills for skilluser2 (Using Token for skilluser2 - Should Show No Skills Initially)
-GET http://localhost:3000/skills HTTP/1.1
-content-type: application/json
-Authorization: REPLACE_WITH_TOKEN
-
-### Request 13: Create a New Skill for skilluser2 (Using Token for skilluser2)
-POST http://localhost:3000/skills HTTP/1.1
-content-type: application/json
-Authorization: REPLACE_WITH_TOKEN
-
-{
-    "title": "Vue.js",
-    "rating": 4,
-    "reference": "REPLACE_WITH_CONTACT_ID"
-}
-
-### Request 14: Get All Skills for skilluser2 (Using Token for skilluser2 - Should Now Show Vue.js Skill)
-GET http://localhost:3000/skills HTTP/1.1
-content-type: application/json
-Authorization: REPLACE_WITH_TOKEN

@@ -1,12 +1,25 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const skillSchema = new mongoose.Schema({
-  title: { type: String, required: true },
-  rating: { type: Number, min: 1, max: 5, required: true },
-  reference: { type: mongoose.Schema.Types.ObjectId, ref: 'Contact' },
-  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true } // New field
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    },
+    name: {
+        type: String,
+        required: true
+    },
+    rating: {
+        type: Number,
+        min: 1,
+        max: 5,
+        required: true
+    },
+    reference: { // Changed from 'contact' to a simple string 'reference'
+        type: String,
+        required: true
+    }
 });
 
-const Skill = mongoose.model('Skill', skillSchema);
-
-module.exports = Skill;
+export default mongoose.model('Skill', skillSchema);
