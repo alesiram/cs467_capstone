@@ -1,0 +1,56 @@
+### CREATED BY GPT 4.0
+
+### Request 0: Register a New User 'skilluser'
+POST http://localhost:3000/users/register HTTP/1.1
+Content-Type: application/json
+
+{
+  "username": "skilluser",
+  "password": "Password123"
+}
+
+### Request 0.1: Login as 'skilluser'
+POST http://localhost:3000/users/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "username": "skilluser",
+  "password": "Password123"
+}
+
+### Use the token provided from the login response in the Authorization header for the following requests.
+
+### Request 1: Create a New Skill for 'skilluser' with a Reference
+POST http://localhost:3000/skills HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer <Token>
+
+{
+  "name": "JavaScript",
+  "rating": 5,
+  "reference": "John Doe"
+}
+
+### Request 2: Retrieve All Skills for 'skilluser'
+GET http://localhost:3000/skills HTTP/1.1
+Authorization: Bearer <Token>
+
+### Request 3: Retrieve a Specific Skill for 'skilluser'
+GET http://localhost:3000/skills/<Skill_ID> HTTP/1.1
+Authorization: Bearer <Token>
+
+### Request 4: Update a Specific Skill for 'skilluser'
+PUT http://localhost:3000/skills/<Skill_ID> HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer <Token>
+
+{
+  "name": "Advanced JavaScript",
+  "rating": 5,
+  "reference": "Jane Smith"
+}
+
+### Request 5: Delete a Specific Skill for 'skilluser'
+DELETE http://localhost:3000/skills/<Skill_ID> HTTP/1.1
+Authorization: Bearer <Token>
+

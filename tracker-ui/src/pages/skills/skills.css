@@ -1,0 +1,114 @@
+/* CREATED BY GPT 4.0 */
+
+/* STYLING FOR THE SKILLS PAGE */
+/* Skills page styling */
+.skills-page {
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    max-width: 1200px;
+    margin: 40px auto; /* Increased top and bottom margin */
+    padding: 20px; /* Added padding for internal spacing */
+    transition: transform 0.3s ease;
+  }
+  
+  .skills-page:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1), 0 15px 25px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Header styles */
+  .skills-header {
+    margin-bottom: 30px; /* Add more space above the table */
+  }
+  
+  /* Controls container */
+  .skills-page-controls-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px; /* Increased spacing above the button */
+  }
+  
+  /* Buttons styling */
+  button {
+    border: none;
+    padding: 15px 30px; /* Increased padding for a larger button */
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 18px; /* Slightly larger text */
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+    color: white;
+  }
+  
+  /* Add new skill button */
+  .add-new-skill-button {
+    background-color: #28a745;
+    color: white;
+    margin-bottom: 30px; /* Add space below the button */
+  }
+  
+  /* Table styles */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 30px; /* Space between button and table */
+  }
+  
+  th, td {
+    text-align: left;
+    padding: 20px; /* Increased padding inside cells for better spacing */
+    border-bottom: 2px solid #ddd; /* Slightly thicker border for separation */
+  }
+  
+  th {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
+  /* Action buttons within table */
+  .edit-button, .delete-button {
+    border: none;
+    color: white;
+    padding: 10px 20px; /* Increased padding for bigger buttons */
+    margin: 5px; /* Add slight spacing between buttons */
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .edit-button {
+    background-color: #ffc107;
+  }
+  
+  .delete-button {
+    background-color: #dc3545;
+  }
+  
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .skills-page-controls-container {
+      flex-direction: column;
+      align-items: stretch; /* Stretch buttons to full width */
+    }
+  
+    .skills-page-controls-container button {
+      width: 100%;
+      margin-bottom: 15px; /* Increase spacing between stacked buttons */
+    }
+  }
+  
+   
+  
+  
+  
+  
+
+  
