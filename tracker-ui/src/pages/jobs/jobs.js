@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import './jobs.css';
 import AddJobPage from './AddJobPage';
+import NavBar from '../../components/NavBar';
 
 const JobStatusPage = () => {
   const history = useHistory();
@@ -74,19 +75,10 @@ const JobStatusPage = () => {
   };
 
   return (
+    <div>
+    <NavBar />
     <div className="job-status-container">
-      {/* Navigation Bar */}
-      <div className="navbar">
-        <button onClick={() => history.push('./')}>Home</button>
-        <button onClick={() => history.push('/pages/skills')}>Skills</button>
-        <button onClick={() => history.push('/pages/contacts')}>Contacts</button>
-        <button className="logout-button" onClick={handleLogout}>
-          Logout
-        </button>
-      </div>
-
       <h1>Job Application Status</h1>
-
       {/* Add Job button */}
       <div className="add-button-container">
         <button className="add-button" onClick={handleOpenModal}>
@@ -167,6 +159,7 @@ const JobStatusPage = () => {
           </div>
         </div>
       )}
+    </div>
     </div>
   );
 };
