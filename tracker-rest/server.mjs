@@ -4,6 +4,7 @@ import 'dotenv/config';
 import * as auth from './controllers/auth_controller.mjs'
 import * as contact from './controllers/contact_controller.mjs';
 import * as skill from './controllers/skill_controller.mjs'; // Import the skill controller
+import * as jobs from './controllers/jobs_controller.mjs';
 import { authMiddleware } from './middleware/auth_middleware.mjs';
 
 // Express middleware to parse incoming requests with JSON payloads
@@ -50,6 +51,14 @@ app.get('/skills', authMiddleware, skill.getSkills);
 app.get('/skills/:id', authMiddleware, skill.getSkill);
 app.put('/skills/:id', authMiddleware, skill.updateSkill);
 app.delete('/skills/:id', authMiddleware, skill.deleteSkill);
+
+// Routes to create/get/update/delete a user's jobs
+app.post('/jobs/create', authMiddleware, jobs.createJob);
+app.get('/jobs', authMiddleware, jobs.getJob);
+app.put('/jobs/:id', authMiddleware, jobs.updateJob);
+app.delete('/jobs/:id', authMiddleware, jobs.deleteJob);
+
+
 
 /* ROUTES END */
 
