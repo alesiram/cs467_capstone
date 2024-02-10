@@ -82,7 +82,7 @@ const SkillsPage = () => {
       // This ensures that the local state matches the server state, including any transformations or additional data (like an ID) added by the server
       setSkills((prevSkills) => [...prevSkills, addedSkill]);
       
-      alert("Skill added successfully!"); // Provide user feedback
+      //alert("Skill added successfully!"); // Provide user feedback
   
     } catch (error) {
       setError(error.message); // Assuming you have an error state to display error messages
@@ -92,15 +92,76 @@ const SkillsPage = () => {
     }
   };  
 
-  const editSkill = (updatedSkill) => {
-    // Perform update operation
-    setSkills(skills.map(skill => skill._id === updatedSkill._id ? updatedSkill : skill));
+  const editSkill = async (skill) => {
+    // Assuming `skill` is the object you've mentioned, which includes `_id` and other details.
+    const skillId = skill._id; // Extract the _id from the skill object.
+    const updatedSkillDetails = {
+      name: skill.name,
+      rating: skill.rating,
+      reference: skill.reference,
+      // Include any other fields you expect to update
+    };
+  
+    setIsLoading(true); // Assuming you have an isLoading state
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`/skills/${skillId}`, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updatedSkillDetails),
+      });
+  
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to update the skill');
+      }
+  
+      const updatedSkill = await response.json();
+      // Assuming you want to update the local state with the new skill details
+      setSkills(skills.map((item) => item._id === skillId ? updatedSkill : item));
+  
+      //alert("Skill updated successfully!");
+    } catch (error) {
+      setError(error.message); // Assuming you have an error state
+      alert(`An error occurred: ${error.message}`);
+    } finally {
+      setIsLoading(false);
+    }
   };
+  
 
-  const deleteSkill = (skillId) => {
-    // Perform delete operation
-    setSkills(skills.filter(skill => skill._id !== skillId));
+  const deleteSkill = async (skillId) => {
+    setIsLoading(true);
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`/skills/${skillId}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+  
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to delete the skill');
+      }
+  
+      // Update the local state to remove the deleted skill
+      setSkills(skills.filter(skill => skill._id !== skillId));
+  
+      //alert("Skill deleted successfully!");
+    } catch (error) {
+      setError(error.message);
+      alert(`An error occurred: ${error.message}`);
+    } finally {
+      setIsLoading(false);
+    }
   };
+  
 
   return (
     <div>
@@ -114,9 +175,11 @@ const SkillsPage = () => {
             setCurrentSkill(skill);
             setShowEditModal(true);
             }}
-            onDelete={(skill) => {
-            setCurrentSkill(skill);
-            setShowDeleteModal(true);
+            onDelete={(skillId) => {
+              // Find the skill object in the 'skills' array by its ID
+              const skillToDelete = skills.find(skill => skill._id === skillId);
+              setCurrentSkill(skillToDelete); // Set the found skill object as 'currentSkill'
+              setShowDeleteModal(true); // Show the delete modal
             }}
         />
         {showAddModal && (
