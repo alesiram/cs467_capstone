@@ -13,9 +13,6 @@ import ViewContactModal from '../../components/ContactComponents/ViewContactModa
 import ContactsMetrics from '../../components/ContactComponents/ContactsMetrics';
 import ContactsSearchBar from '../../components/ContactComponents/ContactsSearchBar';
 
-// Method to generate random contacts if none (FOR TESTING - DISCONNECT WHEN FRONTEND + BACKEND IMPLEMENTED)
-import generateRandomContacts from './generateRandomContacts';
-
 // Styling for the contacts page and components
 import './contacts.css';
 
@@ -30,9 +27,9 @@ const ContactsPage = () => {
     // Handle the toggle views
     const [viewMode, setViewMode] = useState('table'); // 'table', 'cards', or 'dashboard'
 
-    // Handle the search (not yet implemented)
+    // Handle the search
     const [searchQuery, setSearchQuery] = useState('');
-    
+
     // Handle contacts (i.e. users contacts)
     const [contacts, setContacts] = useState([]);
 
@@ -71,59 +68,118 @@ const ContactsPage = () => {
     };
 
     // Handler to get all contacts for the user
-    const handleGetContacts = () => {
-        const fetchContacts = async () => {
-            setIsLoading(true);
-            try {
-                const token = localStorage.getItem('token');
-                const response = await fetch('/contacts', {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json'
-                    }
-                });
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
+    const handleGetContacts = async () => {
+        // Set is loading as true
+        setIsLoading(true);
+        // Try to get all contacts with auth'd token
+        try {
+            const token = localStorage.getItem('token');
+            const response = await fetch('/contacts', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
                 }
-                let data = await response.json();
-                // PLACEHOLDER - GENERATE RANDOM DUMMY CONTACTS IF USER HAS NONE
-                if (data.length === 0) {
-                    data = generateRandomContacts();
-                }
-                setContacts(data);
-            } catch (error) {
-                setError(error.message);
-            } finally {
-                setIsLoading(false);
+            });
+            // If response is not 200, throw an error
+            if (response.status !== 200) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            } else {
+                // Await all contacts data
+                const contactsData = await response.json();
+                // Set contacts data
+                setContacts(contactsData);
             }
-        };
-        fetchContacts();
+        } catch (error) {
+            // Catch the error
+            setError(error.message)
+        } finally {
+            // Set is loading as false
+            setIsLoading(false);
+        }
     }
 
-    // Handle saving/creating a new contact (not yet implemented)
-    const handleSaveContact = (contactData) => {
-        // PLACEHOLDER - connect to backed to add contact (fetch)
-        // PLACEHOLDER - On successful save, close modal & refresh page
-        console.log(contactData);
-        setShowAddModal(false);
+    // Handle creating a new contact
+    const handleCreateContact = async (newContact) => {
+        // Try to create the new contact with auth'd token
+        try {
+            const token = localStorage.getItem('token');
+            const response = await fetch('/contacts', {
+                method: 'POST',
+                body: JSON.stringify(newContact),
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            })
+            // If response is not 201, throw an error
+            if (response.status !== 201) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            } else {
+                // Await and returned the saved contact in db
+                const savedContact = await response.json();
+                return savedContact;
+            }
+        } catch (error) {
+            // Catch the error
+            setError(error.message)
+        }
     };
 
-    // Handle updating/editing contact (not yet implemented)
-    const handleUpdateContact = async (updatedContact) => {
-        // PLACEHOLDER - connect to backend to update contact (fetch)
-        // PLACEHOLDER - On successful update, update contacts state and close modal (refresh page)
-        setShowEditModal(false);
+    // Handle updating/editing contact
+    const handleUpdateContact = async (updatedContact, contactId) => {
+        // Try to update the contact with auth'd token
+        try {
+            const token = localStorage.getItem('token');
+            const response = await fetch(`/contacts/${contactId}`, {
+                method: 'PUT',
+                body: JSON.stringify(updatedContact),
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            })
+            // If response is not 200, throw an error
+            if (response.status !== 200) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            } else {
+                // Await and return the updated contact in db
+                const updatedContact = await response.json();
+                return updatedContact;
+            }
+        } catch (error) {
+            // Catch the error
+            setError(error.message)
+        }
     };
 
-    // Handle deleting/removing contact (not yet implemented)
-    const handleDeleteContact = async () => {
-        // PLACEHOLDER - connect to backend to delete contact (fetch)
-        // PLACEHOLDER - On successful deletion, remove contact from contacts state and close modal (refresh page)
-        setShowDeleteModal(false);
+    // Handle deleting/removing contact
+    const handleDeleteContact = async (contactId) => {
+        // Try to delete the contact with auth'd token
+        try {
+            const token = localStorage.getItem('token');
+            const response = await fetch(`/contacts/${contactId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            })
+            // If response is not 200, throw an error
+            if (response.status !== 200) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            } else {
+                // Await and return the deleted response from db
+                const deletedResponse = await response.json();
+                return deletedResponse
+            }
+        } catch (error) {
+            // Catch the error
+            setError(error.message)
+        }
     };
 
-    // Placeholder to handle search search handler (not yet implemented)
+    // Placeholder to handle search search handler
     const handleSearch = (query) => {
         setSearchQuery(query);
         console.log("Search query:", searchQuery);
@@ -137,6 +193,7 @@ const ContactsPage = () => {
         handleGetContacts();
     }, []);
 
+    // Toggle between light and dark mode
     const toggleTheme = () => {
         setTheme(theme === 'contacts-page-light-mode' ? 'contacts-page-dark-mode' : 'contacts-page-light-mode');
     };
@@ -180,7 +237,7 @@ const ContactsPage = () => {
 
     return (
         <>
-        <NavBar />
+            <NavBar />
             <div className={`${theme} contacts-page`}>
                 <div className="contacts-page-controls-container">
                     <button className="contacts-page-toggle-theme-button" onClick={toggleTheme}>{theme === 'contacts-page-light-mode' ? 'Light Mode is On' : 'Dark Mode Is On'}</button>
@@ -193,13 +250,55 @@ const ContactsPage = () => {
                         checked={viewMode === 'cards'} onChange={() => setViewMode(viewMode === 'table' ? 'cards' : 'table')} />
                     <label htmlFor="contacts-page-viewModeToggle" className="contacts-page-view-mode-label"></label>
                 </div>
-                {(viewMode === 'table' || viewMode === 'cards') && <ContactsSearchBar onSearch={handleSearch} />}
-                {renderView()}
+                {/* If no contacts then display message */}
+                {contacts.length === 0 ? (
+                    <>
+                        <div className="contacts-page-banner">
+                            <p className="contacts-page-banner-text">
+                                Looks like you don't have any contacts! Get started by adding new ones.
+                            </p>
+                        </div>
+                    </>
+                ) : (
+                    <>
+                        {/* Render the views for contacts */}
+                        {(viewMode === 'table' || viewMode === 'cards') && <ContactsSearchBar onSearch={handleSearch} />}
+                        {renderView()}
+                    </>
+                )}
             </div>
-            <AddContactModal show={showAddModal} onClose={() => setShowAddModal(false)} onSave={handleSaveContact}/>
-            {currentContact && <EditContactModal show={showEditModal} onClose={handleCloseModal} contact={currentContact} updateContact={handleUpdateContact} />}
-            {currentContact && <DeleteContactModal show={showDeleteModal} onClose={handleCloseModal} confirmDeletion={handleDeleteContact} />}
-            {currentContact && <ViewContactModal show={showViewModal} onClose={handleCloseModal} contact={currentContact}/>}
+            {/* Add Contact Modal */}
+            <AddContactModal
+                show={showAddModal}
+                onClose={handleCloseModal}
+                createContact={handleCreateContact}
+                contacts={contacts}
+                setContacts={setContacts}
+            />
+            {/* Edit Contact Modal for Current Contact */}
+            {currentContact && <EditContactModal
+                show={showEditModal}
+                onClose={handleCloseModal}
+                contact={currentContact}
+                updateContact={handleUpdateContact}
+                contacts={contacts}
+                setContacts={setContacts}
+            />}
+            {/* Delete Contact Modal for Current Contact */}
+            {currentContact && <DeleteContactModal
+                show={showDeleteModal}
+                onClose={handleCloseModal}
+                deleteContact={handleDeleteContact}
+                contact={currentContact}
+                contacts={contacts}
+                setContacts={setContacts}
+            />}
+            {/* View Contact Modal for Current Contact */}
+            {currentContact && <ViewContactModal
+                show={showViewModal}
+                onClose={handleCloseModal}
+                contact={currentContact}
+            />}
         </>
     );
 };

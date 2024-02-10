@@ -10,7 +10,7 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.2); 
   border-radius: 8px; 
   margin: 10px auto; 
-  width: 100%; 
+  width: 100vw; 
   max-width: 1200px; /* Ensures the div doesn't get too wide on larger screens */
   transition: transform 0.3s ease; 
 }
@@ -169,36 +169,16 @@
   color: black !important;
 }
 
-.theme-toggle-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0;
-  padding: 0;
-}
-
-/* Button styling */
-.theme-toggle-container button {
-  /* padding: 10px 20px; */
-  font-size: 16px;
-  font-weight: bold;
-  color: #FFF;
-  background-color: #007BFF;
-  border: none;
+.contacts-page-banner {
+  background-color: #f0f0f0;
+  padding: 1rem;
   border-radius: 5px;
-  cursor: pointer;
-  outline: none;
-  transition: background-color 0.3s, transform 0.2s;
+  margin-bottom: 1rem;
 }
 
-theme-toggle-container button:hover, theme-toggle-container button:focus {
-  background-color: #0056b3;
-  transform: scale(1.05);
-}
-
-theme-toggle-container button:active {
-  background-color: #00408b;
-  transform: scale(0.95);
+.contacts-page-banner-text {
+  text-align: center;
+  margin-bottom: 0.5rem;
 }
 
 .under-construction-container {
@@ -225,10 +205,12 @@ theme-toggle-container button:active {
 }
 
 
-/* STYLING FOR ADD CONTACT MODAL (BARD) */
+/* STYLING FOR ADD/EDIT/VIEW CONTACT MODALS (BARD) */
 
 /* Base modal styles */
-.add-contact-modal {
+.add-contact-modal,
+.edit-contact-modal,
+.view-contact-modal {
   position: fixed;
   top: 0;
   left: 0;
@@ -242,16 +224,18 @@ theme-toggle-container button:active {
 }
 
 /* Modal content styling */
-.add-contact-modal-content {
+.add-contact-modal-content,
+.edit-contact-modal-content,
+.view-contact-modal-content {
   background-color: #fff;
   padding: 40px;
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  width: 400px; /* Adjust as needed */
+  width: 75%; /* Adjust as needed */
 }
 
 /* Close button styling */
-.add-contact-modal-close {
+.contact-form-modal-close {
   position: absolute;
   top: 15px;
   right: 15px;
@@ -262,48 +246,313 @@ theme-toggle-container button:active {
 }
 
 /* Form styling */
-.add-contact-modal h2 {
-  margin-top: 0;
-  font-size: 24px;
-  font-weight: 500;
-  margin-bottom: 20px;
-  text-align: center; /* Center the heading */
+.contact-add-edit-view-form {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
 }
 
-.add-contact-modal label {
-  font-weight: bold;
-  font-size: 14px;
-  margin-bottom: 5px;
-  display: block;
+.contact-add-edit-view-form-input-left-section, .contact-add-edit-view-form-input-right-section {
+    display: flex;
+    flex-direction: column;
 }
 
-.add-contact-modal input {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 16px;
-  margin-bottom: 15px;
+/* Base styles for input fields */
+.contact-add-edit-view-form-input {
+    width: 100%; /* Full width to match the layout */
+    padding: 10px 15px; /* Adequate padding for text alignment and comfort */
+    border: 1px solid #ccc; /* Subtle border for a refined look */
+    border-radius: 5px; /* Rounded corners for a modern aesthetic */
+    font-size: 16px; 
+    line-height: 1.5; /* Line height for text input */
+    box-sizing: border-box; /* Include padding and border in the element's total dimensions */
+    background-color: #fff; /* Background color for visibility */
+    cursor: text; /* Cursor indication for text input */
+    transition: border-color 0.3s, box-shadow 0.3s; /* Smooth transition for focus and hover effects */
 }
 
-.add-contact-modal button[type="submit"] {
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 4px;
+/* Hover effect for input fields */
+.contact-add-edit-view-form-input:hover {
+    border-color: #999; /* Darken border slightly on hover */
+}
+
+/* Focus effect for input fields */
+.contact-add-edit-view-form-input:focus {
+    outline: none; /* Remove default focus outline */
+    border-color: #007bff; /* Highlight with a stronger color on focus */
+    box-shadow: 0 0 0 2px rgba(0,123,255,.25); /* Soft glow effect */
+}
+
+/* Placeholder styling */
+::placeholder {
+    color: #aaa; /* Lighter text color for placeholders */
+}
+
+.contact-add-edit-view-form-phoneNumber-div {
+    display: flex;
+    gap: 10px;
+}
+
+.contact-add-edit-view-form-phoneNumber-div button {
+    margin-left: auto; /* Pushes the remove button to the right */
+}
+
+/* Styling for the textarea */
+.contact-add-edit-view-form-notes-textarea {
+    width: 100%; /* Full width to match the form layout */
+    height: 150px; /* Adequate height for entering notes */
+    padding: 15px; /* Comfortable padding for text entry */
+    border: 1px solid #ccc; /* Subtle border for a refined look */
+    border-radius: 8px; /* Rounded corners for a modern aesthetic */
+    font-size: 16px; /* Legible font size */
+    line-height: 1.5; /* Improve readability of multiline text */
+    box-sizing: border-box; /* Include padding and border in the total dimensions */
+    resize: vertical; /* Allow vertical resizing only */
+    background-color: #fafafa; /* Slightly off-white background for a soft look */
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1); /* Inner shadow for depth */
+    transition: border-color 0.3s, box-shadow 0.3s; /* Smooth transition for focus effect */
+}
+
+/* Focus effect for textarea */
+.contact-add-edit-view-form-notes-textarea:focus {
+    outline: none; /* Remove the default focus outline */
+    border-color: #66afe9; /* Highlight border color on focus */
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1), 0 0 8px rgba(102, 175, 233, 0.6); /* Enhanced focus with outer glow */
+}
+
+/* Placeholder styling for consistency */
+.contact-add-edit-view-form-notes-textarea::placeholder {
+    color: #aaa; /* Lighter color for the placeholder text */
+}
+
+.contact-add-edit-view-form-strength-of-connection-slider-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.contact-add-edit-view-form-strength-of-connection-slider-container input[type=range] {
+    flex-grow: 1;
+}
+
+.contact-add-edit-view-form-label-referral-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.contact-add-edit-view-form-footer {
+    grid-column: 1 / -1; /* Span the footer across both columns */
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Ensure consistent box-sizing */
+.contact-add-edit-view-form-phoneNumber-div select,
+.contact-add-edit-view-form-phoneNumber-div input[type="text"],
+.contact-add-edit-view-form-phoneNumber-div button {
+    box-sizing: border-box; /* Ensure padding and border are included in the total height */
+}
+
+/* Uniform styling for select, input, and button */
+.contact-add-edit-view-form-phoneNumber-div select,
+.contact-add-edit-view-form-phoneNumber-div input[type="text"],
+.contact-add-edit-view-form-phoneNumber-div button {
+    height: 38px; /* Adjust based on actual match */
+    padding: 6px 12px; /* Adjust padding to match */
+    border: 1px solid #ccc; /* Match border styles */
+    border-radius: 4px; /* Optional: Adjust for rounded corners */
+    font-size: 16px; /* Adjust font size for alignment */
+}
+
+/* Additional alignment and styling adjustments */
+.contact-add-edit-view-form-phoneNumber-div select {
+    -webkit-appearance: none; /* Remove default styling for WebKit browsers */
+    -moz-appearance: none;    /* Remove default styling for Mozilla browsers */
+    appearance: none;         /* Standard way to remove default styling */
+    background-position: right 10px center; /* Adjust if using a custom arrow icon */
+    background-repeat: no-repeat;
+}
+
+.contact-add-edit-view-form-phoneNumber-div button {
+    padding: 0 12px; /* Adjust padding to ensure button text is centered */
+    background-color: #dc3545; /* Red */
+    color: white;
+    border-color: #dc3545; /* Adjust border color to match background */
+}
+
+.contact-add-edit-view-form-phoneNumber-div button:hover {
+    background-color: #c82333; /* Lighter red on hover */
+}
+
+/* Base styling for select dropdowns */
+.contact-add-edit-view-form-select {
+    margin-bottom: 15px;
+    width: 100%; /* Full width to match the layout */
+    padding: 10px 15px; /* Padding for comfort and alignment */
+    border: 1px solid #ccc; /* Subtle, refined border */
+    border-radius: 5px; /* Rounded corners for a modern look */
+    font-size: 16px; /* Readable text size */
+    line-height: 1.5; /* Adequate line height */
+    box-sizing: border-box; /* Include padding and border in the box model */
+    background-color: #fff; /* White background for visibility */
+    cursor: pointer; /* Indicate it's selectable */
+    appearance: none; /* Remove native appearance to customize */
+    -moz-appearance: none; /* For Firefox */
+    -webkit-appearance: none; /* For Chrome, Safari, and newer Edge */
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>'); /* Custom dropdown arrow */
+    background-repeat: no-repeat;
+    background-position: right 15px center; /* Position the arrow icon */
+    background-size: 20px 20px; /* Size of the arrow icon */
+}
+
+/* Focus and hover effects for select */
+.contact-add-edit-view-form-select:focus,
+.contact-add-edit-view-form-select:hover {
+    border-color: #999; /* Darker border for focus/hover */
+    outline: none; /* Remove focus outline */
+    box-shadow: 0 0 0 2px rgba(0,123,255,.25); /* Soft glow effect for focus */
+}
+
+/* For browsers that don't support `appearance` property */
+.contact-add-edit-view-form-select::-ms-expand {
+    display: none; /* Hide the default arrow in IE11 */
+}
+
+/* Base styling for the slider */
+.contact-add-edit-view-form-strength-of-connection-slider {
+    -webkit-appearance: none; /* Removes default webkit styles */
+    width: 100%; /* Full width to match the layout */
+    height: 8px; /* Height of the track */
+    background: #ddd; /* Background color of the track */
+    outline: none; /* Remove the outline on focus */
+    opacity: 0.7; /* Slightly transparent */
+    -webkit-transition: .2s; /* Transition for smooth color change */
+    transition: opacity .2s;
+    border-radius: 5px; /* Rounded corners for the track */
+}
+
+/* Hover effect for the slider */
+.contact-add-edit-view-form-strength-of-connection-slider:hover {
+    opacity: 1; /* Fully opaque on hover */
+}
+
+/* The slider handle (thumb) */
+.contact-add-edit-view-form-strength-of-connection-slider::-webkit-slider-thumb {
+    -webkit-appearance: none; /* Removes default webkit styles */
+    appearance: none;
+    width: 20px; /* Width of the thumb */
+    height: 20px; /* Height of the thumb */
+    background: #007bff; /* Background color of the thumb */
+    cursor: pointer; /* Cursor on hover */
+    border-radius: 50%; /* Round shape */
+    border: 2px solid #fff; /* White border for the thumb */
+}
+
+.contact-add-edit-view-form-strength-of-connection-slider::-moz-range-thumb {
+    width: 20px; /* Width of the thumb */
+    height: 20px; /* Height of the thumb */
+    background: #007bff; /* Background color of the thumb */
+    cursor: pointer; /* Cursor on hover */
+    border-radius: 50%; /* Round shape */
+    border: 2px solid #fff; /* White border for the thumb */
+}
+
+/* Focus styles for the thumb */
+.contact-add-edit-view-form-strength-of-connection-slider:focus::-webkit-slider-thumb {
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5); /* Focus indicator */
+}
+
+.contact-add-edit-view-form-strength-of-connection-slider:focus::-moz-range-thumb {
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5); /* Focus indicator */
+}
+
+.contact-add-edit-view-form-input-referral-checkbox {
   cursor: pointer;
-  display: block; /* Full width button */
-  margin-top: 20px; /* Add some spacing */
+  height: 50px;
+}
+
+/* Styling when the checkbox is checked */
+.contact-add-edit-view-form-input-referral-checkbox:checked ~ .contact-checkbox-custom {
+    background-color: #007bff; /* Background color for checked state */
+    border-color: #007bff; /* Border color for checked state */
+}
+
+/* Show the checkmark icon when the checkbox is checked */
+.contact-add-edit-view-form-input-referral-checkbox:checked ~ .contact-checkbox-custom::after {
+    display: block;
+}
+
+/* Focus indicator for accessibility */
+.contact-add-edit-view-form-input-referral-checkbox:focus + .contact-checkbox-custom {
+    box-shadow: 0 0 0 2px rgba(0,123,255,.25);
+}
+
+.contact-add-edit-view-form-date-group {
+    display: flex;
+    justify-content: space-between; /* Distribute space evenly between the inputs */
+    gap: 10px; /* Provide some space between the inputs */
+}
+
+/* Optional: Adjustments for smaller screens */
+@media (max-width: 600px) {
+    .contact-add-edit-view-form-date-group {
+        flex-direction: column; /* Stack them vertically on small screens */
+        gap: 15px; /* Adjust gap for vertical stacking */
+    }
+}
+
+.contact-add-edit-view-form-div-attributes-group {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px; /* Adjust based on your design */
+    margin-top: 5%;
+    /* margin: 15%; */
+}
+
+.contact-add-edit-view-form-div-attribute {
+    display: flex;
+    flex-direction: column;
+    width: calc(50% - 10px); /* Adjust the width so both items can fit side by side */
+}
+
+.contact-add-edit-view-form-strenght-of-connection-description {
+    margin-top: 8px; 
+    text-align: center; 
+}
+
+.contact-add-edit-view-form-required-input-label {
+  color: blue;
+}
+
+.contact-add-edit-view-form-div-select {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px; /* Add some space between each field */
+}
+
+.contact-add-edit-view-form-div-select label, 
+.contact-add-edit-view-form-div-select select {
+    flex: 1; /* Each takes up half the space of the container */
+    margin-right: 5px; /* Add some space between the label and the select */
+}
+
+.contact-add-edit-view-form-div-select select {
+    margin-right: 0; /* Remove margin on the right side of the select */
 }
 
 /* Unique styling tricks */
-.add-contact-modal-content {
+.add-contact-modal-content,
+.edit-contact-modal-content,
+.view-contact-modal-content {
   position: relative; /* Enable positioning of pseudo-elements */
 }
 
 /* Create a subtle top border using a pseudo-element */
-.add-contact-modal-content::before {
+.add-contact-modal-content::before,
+.edit-contact-modal-content::before,
+.view-contact-modal-content::before {
   content: "";
   position: absolute;
   top: -10px;
@@ -312,6 +561,42 @@ theme-toggle-container button:active {
   height: 4px;
   background-color: #007bff; /* Match button color */
   border-radius: 10px 10px 0 0;
+}
+
+.contact-form-success-message {
+    /* Style for the success message */
+    color: #28a745;
+    text-align: center;
+}
+
+/* Adjustments for the Clear button */
+.add-contact-form-clear-inputs-button {
+    background-color: #ffc107; /* Yellow */
+    color: black;
+    border-color: #ffc107; /* Adjust border color to match background */
+}
+
+.add-contact-form-clear-inputs-button:hover {
+    background-color: #e0a800; /* Lighter yellow on hover */
+}
+
+/* Adjustments for the Clear button */
+.view-contact-form-close-button {
+    background-color: darkgray; /* Yellow */
+    color: black;
+    border-color: darkgray; /* Adjust border color to match background */
+}
+
+.view-contact-form-close-button:hover {
+    background-color: lightgray; /* Lighter yellow on hover */
+}
+
+.view-contact-show-summary-detail-button {
+  background-color: blue;
+}
+
+.view-contact-show-summary-detail-button:hover {
+  opacity: 85%;
 }
 
 /* STYLING FOR CONTACTS CARD (CHATGPT) */
@@ -461,7 +746,7 @@ theme-toggle-container button:active {
 }
 
 .contact-action-buttons button:nth-child(1) {
-    background-color: #4CAF50; /* View button */
+    background-color: blue; /* View button */
     color: white;
 }
 
@@ -538,11 +823,11 @@ theme-toggle-container button:active {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent backdrop */
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 100; /* Ensure modal is displayed above other content */
+  z-index: 100; 
 }
 
 /* Modal content styling */
@@ -551,7 +836,7 @@ theme-toggle-container button:active {
   padding: 30px;
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  width: 350px; /* Adjust as needed */
+  width: 350px;
 }
 
 /* Body content styling */
@@ -615,102 +900,8 @@ theme-toggle-container button:active {
   border-bottom: 20px solid #dc3545; /* Match delete button color */
 }
 
-/* STYLING FOR EDIT CONTACT MODAL (BARD) */
-
-/* Base modal styles */
-.edit-contact-modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent backdrop */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 100; /* Ensure modal is displayed above other content */
-}
-
-/* Modal content styling */
-.edit-contact-modal-content {
-  background-color: #fff;
-  padding: 40px;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  width: 450px; /* Adjust as needed */
-}
-
-/* Close button styling */
-.edit-contact-modal-close-button {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  font-size: 20px;
-  font-weight: bold;
-  color: #333;
-  cursor: pointer;
-}
-
-/* Form styling */
-.edit-contact-modal-form {
-  margin-top: 20px;
-}
-
-.edit-contact-modal-form-row {
-  margin-bottom: 15px;
-}
-
-.edit-contact-modal-form-row label {
-  font-weight: bold;
-  font-size: 14px;
-  margin-bottom: 5px;
-  display: block;
-}
-
-.edit-contact-modal-form-row input {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 16px;
-  color: #333;
-}
-
-.edit-contact-modal-form-actions {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 20px;
-}
-
-.edit-contact-modal-form-actions button {
-  background-color: #54a0ff;
-  color: #fff;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 4px;
-  cursor: pointer;
-  margin-left: 10px;
-}
-
-.edit-contact-modal-form-actions button:first-of-type {
-  background-color: #007bff; /* Differentiate primary action */
-}
-
-/* Unique styling tricks */
-.edit-contact-modal-content {
-  position: relative; /* Enable positioning of pseudo-elements */
-}
-
-/* Create a subtle top border using a pseudo-element */
-.edit-contact-modal-content::before {
-  content: "";
-  position: absolute;
-  top: -10px;
-  left: 0;
-  width: 100%;
-  height: 5px;
-  background-color: #54a0ff;
-  border-radius: 10px 10px 0 0;
+.delete-contact-modal-name-span {
+  color: red;
 }
 
 /* STYLING FOR SEARCH BAR (BING) */
@@ -746,87 +937,4 @@ theme-toggle-container button:active {
 
 .contact-search-bar input::placeholder {
     color: #666;
-}
-
-/* STYLING FOR VIEW CONTACT MODAL (BARD) */
-
-/* Base modal styles */
-.view-contact-modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent backdrop */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 100; /* Ensure modal is displayed above other content */
-}
-
-/* Modal content styling */
-.view-contact-modal-content {
-  background-color: #fff;
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  width: 400px; /* Adjust as needed */
-}
-
-/* Close button styling */
-.view-contact-modal-close {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  font-size: 20px;
-  font-weight: bold;
-  color: #333;
-  cursor: pointer;
-}
-
-/* Content styling */
-.view-contact-modal-content h3 {
-  margin-top: 0;
-  font-size: 18px;
-  font-weight: 600;
-  margin-bottom: 15px;
-}
-
-.view-contact-modal-content p {
-  font-size: 15px;
-  color: #666;
-  margin-bottom: 10px;
-}
-
-/* Footer styling */
-.view-contact-modal-footer {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 20px;
-}
-
-.view-contact-modal-footer button {
-  background-color: #54a0ff;
-  color: #fff;
-  border: none;
-  padding: 8px 15px;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-/* Unique styling tricks */
-.view-contact-modal-content {
-  position: relative; /* Enable positioning of pseudo-elements */
-}
-
-/* Create a subtle top border using a pseudo-element */
-.view-contact-modal-content::before {
-  content: "";
-  position: absolute;
-  top: -10px;
-  left: 0;
-  width: 100%;
-  height: 3px;
-  background-color: #54a0ff;
-  border-radius: 10px 10px 0 0;
 }
