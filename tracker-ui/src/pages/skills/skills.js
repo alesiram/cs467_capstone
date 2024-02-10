@@ -56,11 +56,41 @@ const SkillsPage = () => {
     handleGetSkills();
   }, []);
 
-
-  const addSkill = (skill) => {
-    // Perform add operation
-    setSkills([...skills, skill]);
-  };
+  // CREATED WITH GPT4
+  const addSkill = async (skill) => {
+    setIsLoading(true); // Assuming you have an isLoading state to show loading indicators
+    try {
+      const token = localStorage.getItem('token'); // Retrieve the authentication token
+      const response = await fetch('/skills', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(skill),
+      });
+  
+      if (!response.ok) {
+        // If the server response is not OK, throw an error with the status text
+        const errorData = await response.json(); // Assuming the server sends back a detailed error message
+        throw new Error(errorData.message || 'Failed to add the skill');
+      }
+  
+      const addedSkill = await response.json(); // Assuming the server returns the added skill with an ID
+  
+      // Update local state to include the new skill returned by the server
+      // This ensures that the local state matches the server state, including any transformations or additional data (like an ID) added by the server
+      setSkills((prevSkills) => [...prevSkills, addedSkill]);
+      
+      alert("Skill added successfully!"); // Provide user feedback
+  
+    } catch (error) {
+      setError(error.message); // Assuming you have an error state to display error messages
+      alert(`An error occurred: ${error.message}`);
+    } finally {
+      setIsLoading(false); // Hide loading indicator
+    }
+  };  
 
   const editSkill = (updatedSkill) => {
     // Perform update operation
