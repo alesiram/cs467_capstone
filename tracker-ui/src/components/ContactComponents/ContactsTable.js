@@ -20,7 +20,14 @@ const ContactsTable = ({ contacts, onEditClick, onDeleteClick, onViewClick }) =>
                             <td>{contact.name}</td>
                             <td>{contact.company}</td>
                             <td>{contact.email}</td>
-                            <td>{contact.phoneNumbers.map(phone => <span key={phone.number} className="contact-phone-number">{phone.type}: {phone.number}<br></br></span>)}</td>
+                            <td>
+                                {/* Iterate through each phone number and type */}
+                                {contact.phoneNumbers.map((phone, index) => (
+                                    <span key={`${contact._id}-${index}`} className="contact-phone-number">
+                                        {phone.type}: {phone.number}<br />
+                                    </span>
+                                ))}
+                            </td>
                             <td>{contact.contactType}</td>
                             <td className="contact-action-buttons">
                                 <button onClick={() => onViewClick(contact)}>View</button>
