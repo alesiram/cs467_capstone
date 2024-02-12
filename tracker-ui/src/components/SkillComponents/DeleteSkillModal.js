@@ -9,17 +9,17 @@ const DeleteSkillModal = ({ skill, onClose, onDelete }) => {
   };
 
   return (
-    <div className="skills-modal delete-skills-modal">
-      <div className="skills-modal-content">
-        <h2>Delete Skill</h2>
-        <p>Are you sure you want to delete the skill "{skill.name}"?</p>
-        <div className="skills-modal-actions">
-          <button className="skills-modal-button delete" onClick={handleDelete}>Delete</button>
-          <button className="skills-modal-button cancel" onClick={onClose}>Cancel</button>
+    <div className="modal-backdrop">
+      <div className="modal" id="deleteSkillModal" role="dialog" aria-modal="true" aria-labelledby="deleteModalTitle">
+        <h2 id="deleteModalTitle">Delete Skill</h2>
+        <p>Are you sure you want to delete the {skill.name} skill?</p>
+        <div className="modal-footer">
+          <button type="button" className="button delete" onClick={handleDelete}>Delete</button>
+          <button type="button" className="button cancel" onClick={onClose}>Cancel</button>
         </div>
       </div>
     </div>
-  );
+  );  
 };
 
 export default DeleteSkillModal;

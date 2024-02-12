@@ -164,11 +164,13 @@ const SkillsPage = () => {
   
 
   return (
-    <div>
+    <div id="skillsPage"> {/* Use an ID for specific page styling */}
       <NavBar />
-      <div className="skills-page">
-        <h1>Skills</h1>
-        <button onClick={() => setShowAddModal(true)}>Add New Skill</button>
+      <div className="skills-container"> {/* Use a more descriptive class name if needed */}
+        <h1 id="skillsHeader">Skills</h1> {/* ID for unique styling of the header */}
+        <button id="addSkillButton" className="skill-action-button" onClick={() => setShowAddModal(true)}>
+          Add New Skill
+        </button> {/* ID for unique button styling and class for common button styling */}
         <SkillTable
             skills={skills}
             onEdit={(skill) => {
@@ -202,9 +204,9 @@ const SkillsPage = () => {
             onDelete={deleteSkill}
             />
         )}
-        </div>
+      </div>
     </div>
-  );
+  );  
 };
 
 export default SkillsPage;

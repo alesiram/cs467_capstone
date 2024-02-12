@@ -3,107 +3,506 @@
 /* STYLING FOR THE SKILLS PAGE */
 /* Skills page styling */
 .skills-page {
-    background-color: #ffffff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.2);
-    border-radius: 8px;
-    max-width: 1200px;
-    margin: 40px auto; /* Increased top and bottom margin */
-    padding: 20px; /* Added padding for internal spacing */
-    transition: transform 0.3s ease;
-  }
-  
-  .skills-page:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1), 0 15px 25px rgba(0, 0, 0, 0.2);
-  }
-  
-  /* Header styles */
-  .skills-header {
-    margin-bottom: 30px; /* Add more space above the table */
-  }
-  
-  /* Controls container */
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  max-width: 1200px;
+  margin: 40px auto; /* Centering in the viewport with increased top and bottom margin */
+  padding: 20px; /* Internal spacing */
+  transition: transform 0.3s ease;
+}
+
+.skills-page:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1), 0 15px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* Header styles */
+.skills-header {
+  margin-bottom: 30px;
+}
+
+/* Controls container */
+.skills-page-controls-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+/* Buttons styling */
+button {
+  border: none;
+  padding: 15px 30px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 18px;
+  transition: background-color 0.3s, color 0.3s;
+  color: white; /* Ensuring text is white for contrast */
+}
+
+button:hover {
+  opacity: 0.8; /* Subtle hover effect instead of color change */
+}
+
+/* Add new skill button, adapting to new color scheme */
+.add-new-skill-button {
+  background-color: rgb(255, 96, 6); /* Orange */
+  margin-bottom: 30px;
+}
+
+/* Table styles */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 30px;
+}
+
+th, td {
+  text-align: left;
+  padding: 20px;
+  border-bottom: 2px solid #ddd;
+}
+
+th {
+  background-color: #333; /* Dark grey for contrast with white text */
+  color: white;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+/* Action buttons within table, using the specified color scheme */
+.edit-button {
+  background-color: #ffc107; /* Keeping as is for distinctiveness */
+}
+
+.delete-button {
+  background-color: #d35400; /* Keeping as is for cautionary action indication */
+}
+
+/* Responsive design adjustments */
+@media (max-width: 768px) {
   .skills-page-controls-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 30px; /* Increased spacing above the button */
+    flex-direction: column;
+    align-items: stretch;
   }
-  
-  /* Buttons styling */
-  button {
-    border: none;
-    padding: 15px 30px; /* Increased padding for a larger button */
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 18px; /* Slightly larger text */
-    transition: background-color 0.3s, color 0.3s;
-  }
-  
-  button:hover {
-    background-color: #0056b3;
-    color: white;
-  }
-  
-  /* Add new skill button */
-  .add-new-skill-button {
-    background-color: #28a745;
-    color: white;
-    margin-bottom: 30px; /* Add space below the button */
-  }
-  
-  /* Table styles */
-  table {
+
+  .skills-page-controls-container button {
     width: 100%;
-    border-collapse: collapse;
-    margin-top: 30px; /* Space between button and table */
+    margin-bottom: 15px;
   }
-  
-  th, td {
-    text-align: left;
-    padding: 20px; /* Increased padding inside cells for better spacing */
-    border-bottom: 2px solid #ddd; /* Slightly thicker border for separation */
-  }
-  
-  th {
-    background-color: #007bff;
-    color: white;
-  }
-  
-  tr:nth-child(even) {
-    background-color: #f2f2f2;
-  }
-  
-  /* Action buttons within table */
-  .edit-button, .delete-button {
-    border: none;
-    color: white;
-    padding: 10px 20px; /* Increased padding for bigger buttons */
-    margin: 5px; /* Add slight spacing between buttons */
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .edit-button {
-    background-color: #ffc107;
-  }
-  
-  .delete-button {
-    background-color: #dc3545;
-  }
-  
-  /* Responsive design */
-  @media (max-width: 768px) {
-    .skills-page-controls-container {
-      flex-direction: column;
-      align-items: stretch; /* Stretch buttons to full width */
-    }
-  
-    .skills-page-controls-container button {
-      width: 100%;
-      margin-bottom: 15px; /* Increase spacing between stacked buttons */
-    }
-  }
+}
+
+/* Modal styling adjustments for uniformity and contrast */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  max-width: 500px;
+}
+
+.modal-header h2,
+.modal-form label,
+.modal-form input,
+.modal-close-button {
+  color: #333; /* Consistent text color for contrast */
+}
+
+.modal-footer {
+  text-align: center; /* Centered footer buttons */
+}
+
+.cancel {
+  background-color: #757575; /* Adjusted for consistent contrast */
+}
+
+/* General backdrop styling */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Dimmed backdrop */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Styling specific to AddSkillModal */
+#addSkillModal {
+  background-color: white; /* White background for contrast */
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#addSkillModal .modal-header {
+  width: 100%;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #ccc; /* Light grey line to separate header */
+  text-align: center;
+}
+
+#addSkillModal .modal-header h2 {
+  margin: 0; /* Remove default margin */
+  color: #333; /* Dark grey for text to ensure contrast */
+}
+
+#addSkillModal .modal-body {
+  width: 100%;
+  padding-top: 20px; /* Space between header and body */
+}
+
+#addSkillModal .modal-body label {
+  display: block;
+  margin-bottom: 10px;
+  color: #333; /* Dark grey for readability */
+}
+
+#addSkillModal .modal-body input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 20px; /* Space between input fields */
+  border: 1px solid #ccc; /* Light grey border */
+  border-radius: 4px;
+  background-color: #fff; /* White background for input fields */
+  color: #333; /* Dark text for contrast */
+}
+
+#addSkillModal .modal-footer {
+  width: 100%;
+  padding-top: 20px; /* Space above buttons */
+  text-align: center; /* Center buttons */
+}
+
+#addSkillModal .button {
+  padding: 10px 20px;
+  margin: 0 5px; /* Space between buttons */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold; /* Make button text bold */
+  color: white; /* White text for contrast */
+}
+
+#addSkillModal .button.add {
+  background-color: rgb(255, 96, 6); /* Specific orange color */
+}
+
+#addSkillModal .button.cancel {
+  background-color: #757575; /* Specific grey color */
+}
+
+/* Hover effects for buttons */
+#addSkillModal .button:hover {
+  opacity: 0.8;
+}
+
+/* SkillTable specific styling */
+#skillTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+#skillTable th, #skillTable td {
+  text-align: left;
+  padding: 8px;
+  border-bottom: 1px solid #ccc;
+}
+
+#skillTable th {
+  background-color: #333; /* Dark grey for contrast */
+  color: white;
+}
+
+#skillTable tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.edit-button, .delete-button {
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  color: white;
+  font-size: 14px;
+  margin-right: 5px;
+}
+
+.edit-button {
+  background-color: rgb(255, 165, 0); /* Orange color for edit */
+}
+
+.delete-button {
+  background-color: #d35400; /* Red color for delete */
+}
+
+.edit-button:hover, .delete-button:hover {
+  opacity: 0.8;
+}
+
+/* Skills Page General Styles */
+#skillsPage {
+  background-color: #fff; /* White background for the page */
+  color: #333; /* Dark grey text for readability */
+}
+
+#skillsHeader {
+  color: #333; /* Dark grey for the header for contrast */
+  text-align: center; /* Center the header */
+  margin-bottom: 30px; /* Space below the header */
+}
+
+/* Styles for the Add New Skill Button */
+#addSkillButton {
+  background-color: rgb(255, 96, 6); /* Orange background */
+  color: white; /* White text */
+  padding: 10px 20px; /* Padding inside the button */
+  border: none; /* Remove border */
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor on hover */
+  font-weight: bold; /* Bold text */
+  transition: background-color 0.3s, transform 0.2s; /* Smooth transition for hover effects */
+}
+
+#addSkillButton:hover {
+  background-color: rgb(230, 85, 5); /* Slightly darker orange on hover */
+  transform: translateY(-2px); /* Lift button slightly on hover */
+}
+
+/* Common Styles for All Action Buttons within SkillTable */
+.skill-action-button {
+  border: none; /* Remove border */
+  padding: 5px 10px; /* Padding inside the button */
+  border-radius: 4px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: background-color 0.3s, opacity 0.2s; /* Smooth transition for hover effects */
+  margin-left: 5px; /* Space between buttons */
+}
+
+.skill-action-button:hover {
+  opacity: 0.8; /* Slightly fade button on hover for a subtle effect */
+}
+
+/* Specific Styles for Edit and Delete Buttons within SkillTable */
+.edit-button {
+  background-color: rgb(255, 96, 6); /* Orange color for edit button */
+  color: white; /* White text */
+}
+
+.delete-button {
+  background-color: #d35400; /* Red color for delete button */
+  color: white; /* White text */
+}
+
+/* Table Styles */
+#skillTable {
+  width: 100%; /* Full width */
+  border-collapse: collapse; /* Collapse borders */
+  margin-top: 20px; /* Space above the table */
+}
+
+#skillTable th, #skillTable td {
+  padding: 8px; /* Padding inside table cells */
+  text-align: left; /* Align text to the left */
+  border-bottom: 1px solid #ddd; /* Light grey border for separating rows */
+}
+
+#skillTable th {
+  background-color: #333; /* Dark grey background for table headers */
+  color: white; /* White text for contrast */
+}
+
+#skillTable tr:nth-child(even) {
+  background-color: #f2f2f2; /* Light grey background for even rows */
+}
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1050; /* Ensure it's above other content */
+}
+
+.modal {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#editSkillModal .modal-form {
+  width: 100%;
+}
+
+.modal-body {
+  width: 100%;
+}
+
+.modal-body label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.modal-body input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 20px; /* Space between input fields */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  margin: 5px;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.button.save {
+  background-color: rgb(255, 96, 6); /* Orange */
+  color: white;
+}
+
+.button.save:hover {
+  background-color: rgb(230, 85, 5); /* Darker Orange */
+  transform: translateY(-2px);
+}
+
+.button.cancel {
+  background-color: #757575; /* Grey */
+  color: white;
+}
+
+.button.cancel:hover {
+  background-color: #5a5a5a; /* Darker Grey */
+  transform: translateY(-2px);
+}
+/* Assuming general modal styles are already defined, focusing on specific button styling */
+.button.delete {
+  background-color: #d35400; /* Red color for delete action */
+  color: white; /* White text for contrast */
+  padding: 10px 20px; /* Adequate padding */
+  border: none; /* No border */
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor */
+  font-weight: bold; /* Bold text */
+  transition: background-color 0.3s, transform 0.2s; /* Transition for visual feedback */
+}
+
+.button.delete:hover {
+  background-color: #d35400; /* A slightly darker red on hover */
+  transform: translateY(-2px); /* Lift button effect */
+}
+
+.button.cancel {
+  background-color: #757575; /* Grey for a neutral cancel action */
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.button.cancel:hover {
+  background-color: #5a5a5a; /* Darker grey on hover */
+  transform: translateY(-2px);
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: center; /* Center buttons within the modal */
+  gap: 10px; /* Provide some space between buttons */
+}
+
+#skillTable {
+  width: 100%;
+  border-collapse: collapse; /* Ensure borders between cells are collapsed into a single border */
+  margin-top: 20px;
+  border: 1px solid #ccc; /* 1px solid grey border */
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+#skillTable th, #skillTable td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+#skillTable th {
+  background-color: #333;
+  color: white;
+}
+
+#skillTable tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+#skillTable .edit-button:hover {
+  opacity: 0.8;
+  background-color: #ffc107 !important; /* Ensure this color applies on hover */
+  color: white !important;
+}
+
+#skillTable .delete-button:hover {
+  opacity: 0.8;
+  background-color: #d35400 !important; /* Ensure this color applies on hover */
+  color: white !important;
+}
+
+#skillTable thead th:first-child {
+  border-top-left-radius: 8px; /* Top left corner */
+}
+
+#skillTable thead th:last-child {
+  border-top-right-radius: 8px; /* Top right corner */
+}
+
+
   
    
   

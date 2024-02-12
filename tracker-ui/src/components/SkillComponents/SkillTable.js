@@ -4,7 +4,7 @@ import React from 'react';
 
 const SkillTable = ({ skills, onEdit, onDelete }) => {
   return (
-    <table>
+    <table id="skillTable">
       <thead>
         <tr>
           <th>Name</th>
@@ -20,14 +20,14 @@ const SkillTable = ({ skills, onEdit, onDelete }) => {
             <td>{skill.rating}</td>
             <td>{skill.reference}</td>
             <td>
-              <button onClick={() => onEdit(skill)}>Edit</button>
-              <button onClick={() => onDelete(skill._id)}>Delete</button>
+              <button className="button edit-button" onClick={() => onEdit(skill)}>Edit</button>
+              <button className="button delete-button" onClick={() => onDelete(skill._id)}>Delete</button>
             </td>
           </tr>
         ))}
       </tbody>
     </table>
-  );
+  );  
 };
 
 export default SkillTable;

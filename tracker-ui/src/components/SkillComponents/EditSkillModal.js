@@ -21,31 +21,28 @@ const EditSkillModal = ({ skill, onClose, onSave }) => {
   };
 
   return (
-    <div className="skills-modal edit-skills-modal">
-      <div className="skills-modal-content">
-        <h2>Edit Skill</h2>
-        <span className="skills-modal-close" onClick={onClose}>&times;</span>
-        <form onSubmit={handleSubmit}>
-          <label>
-            Name:
-            <input type="text" name="name" value={editSkill.name} onChange={handleChange} required />
-          </label>
-          <label>
-            Rating:
-            <input type="number" name="rating" min="1" max="5" value={editSkill.rating} onChange={handleChange} required />
-          </label>
-          <label>
-            Reference:
-            <input type="text" name="reference" value={editSkill.reference} onChange={handleChange} required />
-          </label>
-          <div className="skills-modal-actions">
-            <button type="submit" className="skills-modal-button edit">Save Changes</button>
-            <button type="button" className="skills-modal-button cancel" onClick={onClose}>Cancel</button>
+    <div className="modal-backdrop">
+      <div className="modal" id="editSkillModal" role="dialog" aria-modal="true" aria-labelledby="editModalTitle">
+        <h2 id="editModalTitle">Edit Skill</h2>
+        <form onSubmit={handleSubmit} className="modal-form">
+          <div className="modal-body">
+            <label htmlFor="editName">Name:</label>
+            <input id="editName" type="text" name="name" value={editSkill.name} onChange={handleChange} required />
+            
+            <label htmlFor="editRating">Rating:</label>
+            <input id="editRating" type="number" name="rating" min="1" max="5" value={editSkill.rating} onChange={handleChange} required />
+            
+            <label htmlFor="editReference">Reference:</label>
+            <input id="editReference" type="text" name="reference" value={editSkill.reference} onChange={handleChange} required />
+          </div>
+          <div className="modal-footer">
+            <button type="submit" className="button save">Save Changes</button>
+            <button type="button" className="button cancel" onClick={onClose}>Cancel</button>
           </div>
         </form>
       </div>
     </div>
-  );
+  );    
 };
 
 export default EditSkillModal;
