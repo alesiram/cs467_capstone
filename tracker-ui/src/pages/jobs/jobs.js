@@ -1,167 +1,179 @@
-// Jobs.js
-import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import './jobs.css';
-import AddJobPage from './AddJobPage';
+import React, { useState, useEffect } from 'react';
 import NavBar from '../../components/NavBar';
+import JobsTable from '../../components/JobsComponents/JobsTable';
+import AddJobModal from '../../components/JobsComponents/AddJobModal';
+import EditJobModal from '../../components/JobsComponents/EditJobModal';
+import DeleteJobModal from '../../components/JobsComponents/DeleteJobModal';
 
-const JobStatusPage = () => {
-  const history = useHistory();
+import './jobs.css';
 
-  // Sample job applications data
-  const [jobApplications, setJobApplications] = useState([
-    {
-      company: 'Walmart',
-      title: 'Software Engineer Intern',
-      type: 'Internship',
-      location: 'San Diego, CA',
-      jobPostingLink: 'https://sample-link.com',
-      pay: '$100,000',
-      applyDate: '2023-01-31',
-      status: 'Open',
-      interviewed: 'Yes',
-      interviewDate: '2023-02-15',
-      decision: 'Pending',
-      requiredSkills: ['React', 'Node.js', 'JavaScript'],
-      notes: 'This is a sample note for the job application.',
-    },
-    // ... (other existing job applications)
-  ]);
+const JobsPage = () => {
+  const [jobs, setJobs] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [selectedJob, setSelectedJob] = useState(null);
 
-  // State for handling the modal
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const handleGetJobs = () => {
+    const fetchJobs = async () => {
+        setIsLoading(true);
+        try {
+            const token = localStorage.getItem('token');
+            const response = await fetch('/jobs', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            let data = await response.json();
+            setJobs(data);
+        } catch (error) {
+            setError(error.message);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+    fetchJobs();
+};
 
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    history.push('/login');
-  };
 
-  const handleOpenModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
+  useEffect(() => {
+    handleGetJobs();
+  }, []);
 
   const handleAddJob = async (newJob) => {
-    // Update the jobApplications state with the new job
-    setJobApplications((prevJobApplications) => [...prevJobApplications, newJob]);
-    handleCloseModal(); // Close the modal after adding a new job
+    setIsLoading(true);
     try {
-      const response = await fetch('/jobs/create', {
-        method: 'POST',
+      const token = localStorage.getItem('token');
+      const response = await fetch('/jobs', {
+          method: 'POST',
+          headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(newJob)
+      });
+      if (!response.ok) {
+          throw new Error('Network response was not ok');
+      }
+      let data = await response.json();
+      // Placeholder - Generate random dummy jobs if user has none
+    
+      setJobs(data);
+  } catch (error) {
+      setError(error.message);
+  } finally {
+      setIsLoading(false);
+  }
+    // Handle adding a new job
+    // Update jobs state with the new job
+    setJobs([...jobs, newJob]);
+    // Close the add modal
+    setShowAddModal(false);
+  };
+
+
+
+  const handleEditJob = async (updatedJob) => {
+    // Handle editing a job
+    // Find the index of the job to be updated
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`/jobs/${updatedJob._id}`, {
+        method: 'PUT',
         headers: {
+          'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(newJob),
+        body: JSON.stringify(updatedJob)
       });
-      // If response is 200 ok, set the JWT token in local storage and go to home page
-      if (response.ok) {
-        const data = await response.json();
-        console.log(data)
-      } else {
-        // Handle error message in modal
-        const errorResponse = await response.json();
-        console.log(errorResponse)
+  
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to Update the job');
       }
+  
+      const index = jobs.findIndex(job => job.id === updatedJob.id);
+      if (index !== -1) {
+        // Update the job in the jobs state
+        const updatedJobs = [...jobs];
+        updatedJobs[index] = updatedJob;
+        setJobs(updatedJobs);
+      }
+      // Close the edit modal
+      setShowEditModal(false);
+  
+      setIsLoading(true);
+  
+      // Alert the user that the job was deleted successfully
+      alert("Job Updated successfully!");
     } catch (error) {
-      
+      setError(error.message);
+      alert(`An error occurred: ${error.message}`);
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const handleCancel = () => {
-    handleCloseModal(); // Close the modal when cancel is clicked
+  const handleDeleteJob = async (jobId) => {
+    setIsLoading(true);
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`/jobs/${jobId}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+  
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to delete the job');
+      }
+  
+      // Update the local state to remove the deleted job
+      setJobs(jobs.filter(job => job._id !== jobId));
+  
+      // Alert the user that the job was deleted successfully
+      alert("Job deleted successfully!");
+    } catch (error) {
+      setError(error.message);
+      alert(`An error occurred: ${error.message}`);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
     <div>
-    <NavBar />
-    <div className="job-status-container">
-      <h1>Job Application Status</h1>
-      {/* Add Job button */}
-      <div className="add-button-container">
-        <button className="add-button" onClick={handleOpenModal}>
-          Add Job
-        </button>
+      <NavBar />
+      <div className="jobs-page">
+        <h1>Job Applications</h1>
+        <button onClick={() => setShowAddModal(true)}>Add Job</button>
+        <JobsTable
+          jobs={jobs}
+          onEdit={(job) => {
+            setSelectedJob(job);
+            setShowEditModal(true);
+          }}
+          onDelete={(jobId) => {
+            setSelectedJob(jobId);
+            setShowDeleteModal(true);
+          }}
+        />
+        {showAddModal && <AddJobModal onClose={() => setShowAddModal(false)} onSave={handleAddJob} />}
+        {showEditModal && selectedJob && <EditJobModal onClose={() => setShowEditModal(false)} onUpdate={handleEditJob} job={selectedJob} onSave={handleEditJob}  />}
+        {showDeleteModal && selectedJob && <DeleteJobModal onClose={() => setShowDeleteModal(false)} onDelete={(id) => handleDeleteJob(id)} job={selectedJob} />}
       </div>
-
-      {/* Table of job applications */}
-      <table className="custom-table">
-        <thead>
-          <tr>
-            <th>Company</th>
-            <th>Title</th>
-            <th>Type</th>
-            <th>Location</th>
-            <th>Job Posting Link</th>
-            <th>Pay</th>
-            <th>Apply Date</th>
-            <th>Status</th>
-            <th>Interviewed</th>
-            <th>Interview Date</th>
-            <th>Decision</th>
-            <th>Required Skills</th>
-            <th>Notes</th>
-          </tr>
-        </thead>
-        <tbody>
-          {jobApplications.map((job, index) => (
-            <tr key={index}>
-              <td>{job.company}</td>
-              <td>{job.title}</td>
-              <td>
-                <select value={job.type} className="dropdown">
-                  <option value="Full Time">Full Time</option>
-                  <option value="Part-time">Part-time</option>
-                  <option value="Internship">Internship</option>
-                </select>
-              </td>
-              <td>{job.location}</td>
-              <td>{job.jobPostingLink}</td>
-              <td>{job.pay}</td>
-              <td>{job.applyDate}</td>
-              <td>{job.status}</td>
-              <td>
-                <select value={job.interviewed} className="dropdown">
-                  <option value="Yes">Yes</option>
-                  <option value="No">No</option>
-                </select>
-              </td>
-              <td>{job.interviewDate}</td>
-              <td>
-                <select value={job.decision} className="dropdown">
-                  <option value="Pending">Pending</option>
-                  <option value="Rejected">Rejected</option>
-                  <option value="Hired">Hired</option>
-                </select>
-              </td>
-
-            
-              <td>{job.requiredSkills}</td>
-
-              <td>{job.notes}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-
-      {/* Pop-up Modal */}
-      {isModalOpen && (
-        <div className="modal">
-          <div className="modal-content">
-            {/* Render the AddJobPage component inside the modal */}
-            <AddJobPage
-              onAddJob={handleAddJob}
-              onSaveAndClose={handleCloseModal}
-              onCancel={handleCancel} // Pass the cancel callback
-            />
-          </div>
-        </div>
-      )}
-    </div>
     </div>
   );
 };
 
-export default JobStatusPage;
+export default JobsPage;

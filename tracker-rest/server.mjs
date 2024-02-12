@@ -53,8 +53,9 @@ app.put('/skills/:id', authMiddleware, skill.updateSkill);
 app.delete('/skills/:id', authMiddleware, skill.deleteSkill);
 
 // Routes to create/get/update/delete a user's jobs
-app.post('/jobs/create', authMiddleware, jobs.createJob);
-app.get('/jobs', authMiddleware, jobs.getJob);
+app.post('/jobs', authMiddleware, jobs.createJob);
+app.get('/jobs', authMiddleware, jobs.getJobs);
+app.get('jobs/:id', authMiddleware, jobs.getJob);
 app.put('/jobs/:id', authMiddleware, jobs.updateJob);
 app.delete('/jobs/:id', authMiddleware, jobs.deleteJob);
 

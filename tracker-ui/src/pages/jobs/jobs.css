@@ -172,3 +172,70 @@
   border-radius: 15px;
   margin-top: 5px;
 }
+
+
+
+
+/* Edit model css */
+.two-column-form {
+  display: flex;
+  justify-content: space-between;
+}
+
+.form-column {
+  flex: 1;
+}
+
+.form-column label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.form-column input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.job-modal-content {
+  max-width: 800px; /* Adjust as needed */
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.job-modal-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+}
+
+.job-modal-button {
+  padding: 10px 20px;
+  margin-right: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.job-modal-button.edit {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.job-modal-button.cancel {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+.job-modal-button.delete {
+  background-color: #dc3545;
+  color: #fff;
+}
