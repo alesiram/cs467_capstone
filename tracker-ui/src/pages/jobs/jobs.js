@@ -63,17 +63,12 @@ const JobsPage = () => {
           throw new Error('Network response was not ok');
       }
       let data = await response.json();
-      // Placeholder - Generate random dummy jobs if user has none
-    
-      setJobs(data);
+      setJobs([...jobs, data])
   } catch (error) {
       setError(error.message);
   } finally {
       setIsLoading(false);
   }
-    // Handle adding a new job
-    // Update jobs state with the new job
-    setJobs([...jobs, newJob]);
     // Close the add modal
     setShowAddModal(false);
   };
@@ -98,14 +93,8 @@ const JobsPage = () => {
         const errorData = await response.json();
         throw new Error(errorData.message || 'Failed to Update the job');
       }
-  
-      const index = jobs.findIndex(job => job.id === updatedJob.id);
-      if (index !== -1) {
-        // Update the job in the jobs state
-        const updatedJobs = [...jobs];
-        updatedJobs[index] = updatedJob;
-        setJobs(updatedJobs);
-      }
+      // Fetch the list of jobs from BE
+      handleGetJobs()
       // Close the edit modal
       setShowEditModal(false);
   
