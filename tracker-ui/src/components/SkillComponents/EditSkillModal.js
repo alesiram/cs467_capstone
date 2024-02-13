@@ -2,21 +2,31 @@
 
 import React, { useState, useEffect } from 'react';
 
-const EditSkillModal = ({ skill, onClose, onSave }) => {
+const EditSkillModal = ({ skill, onClose, onSave, contacts }) => {
   const [editSkill, setEditSkill] = useState(skill);
 
   useEffect(() => {
-    setEditSkill(skill); // This will reset the form with the new skill when the skill prop changes
+    setEditSkill(skill); // Reset the form with the new skill when the skill prop changes
   }, [skill]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setEditSkill({ ...editSkill, [name]: value });
-  };
+    // If the "N/A" option is selected for the reference, set it to null or an empty string, depending on backend requirements
+    if (name === 'reference' && value === '') {
+        setEditSkill({ ...editSkill, [name]: null }); // or use '' if your backend expects an empty string
+    } else {
+        setEditSkill({ ...editSkill, [name]: value });
+    }
+};
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSave(editSkill);
+    onSave({
+      ...editSkill,
+      // Convert reference back to ObjectId or keep as is if already in correct format
+      reference: editSkill.reference || undefined, // Handle "N/A" or similar value if necessary
+    });
     onClose(); // Close the modal after save
   };
 
@@ -27,13 +37,26 @@ const EditSkillModal = ({ skill, onClose, onSave }) => {
         <form onSubmit={handleSubmit} className="modal-form">
           <div className="modal-body">
             <label htmlFor="editName">Name:</label>
-            <input id="editName" type="text" name="name" value={editSkill.name} onChange={handleChange} required />
+            <input id="editName" type="text" name="name" value={editSkill.name || ''} onChange={handleChange} required />
             
             <label htmlFor="editRating">Rating:</label>
-            <input id="editRating" type="number" name="rating" min="1" max="5" value={editSkill.rating} onChange={handleChange} required />
+            <input id="editRating" type="number" name="rating" min="1" max="5" value={editSkill.rating || ''} onChange={handleChange} required />
             
             <label htmlFor="editReference">Reference:</label>
-            <input id="editReference" type="text" name="reference" value={editSkill.reference} onChange={handleChange} required />
+            <select 
+              id="editReference" 
+              name="reference" 
+              value={editSkill.reference || ''} 
+              onChange={handleChange} 
+              required
+            >
+              <option value="">N/A</option>
+              {contacts.map(contact => (
+                <option key={contact._id} value={contact._id}>
+                  {contact.name}
+                </option>
+              ))}
+            </select>
           </div>
           <div className="modal-footer">
             <button type="submit" className="button save">Save Changes</button>

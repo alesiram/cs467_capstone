@@ -4,21 +4,22 @@ const skillSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
-        required: true
+        required: true, // Every skill must be linked to a user.
     },
     name: {
         type: String,
-        required: true
+        required: true, // Name of the skill is required.
     },
     rating: {
         type: Number,
         min: 1,
         max: 5,
-        required: true
+        required: true, // Rating is required, must be between 1 and 5.
     },
-    reference: { // Changed from 'contact' to a simple string 'reference'
-        type: String,
-        required: true
+    reference: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Contacts',
+        required: false, // Reference to a Contact is optional.
     }
 });
 

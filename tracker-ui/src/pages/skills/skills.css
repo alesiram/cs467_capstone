@@ -502,6 +502,34 @@ tr:nth-child(even) {
   border-top-right-radius: 8px; /* Top right corner */
 }
 
+#addSkillModal .modal-body select {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 20px; /* Aligns with the space between input fields */
+  border: 1px solid #ccc; /* Light grey border, similar to input fields */
+  border-radius: 4px; /* Rounded corners, matching input fields */
+  background-color: #fff; /* White background for consistency */
+  color: #333; /* Dark text for contrast, similar to input fields */
+  -webkit-appearance: none; /* Removes default styling on WebKit browsers */
+  -moz-appearance: none; /* Removes default styling on Firefox browsers */
+  appearance: none; /* Standard way to remove default styling */
+}
+
+#editSkillModal .modal-body select {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 20px; /* Aligns with the space between input fields */
+  border: 1px solid #ccc; /* Light grey border, similar to input fields */
+  border-radius: 4px; /* Rounded corners, matching input fields */
+  background-color: #fff; /* White background for consistency */
+  color: #333; /* Dark text for contrast, similar to input fields */
+  -webkit-appearance: none; /* Removes default styling on WebKit browsers */
+  -moz-appearance: none; /* Removes default styling on Firefox browsers */
+  appearance: none; /* Standard way to remove default styling */
+}
+
+
+
 
   
    

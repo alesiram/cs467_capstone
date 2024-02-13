@@ -2,11 +2,11 @@
 
 import React, { useState } from 'react';
 
-const AddSkillModal = ({ onClose, onSave }) => {
+const AddSkillModal = ({ onClose, onSave, contacts }) => {
   const [newSkill, setNewSkill] = useState({
     name: '',
     rating: '',
-    reference: ''
+    reference: '' // Initially no contact is selected
   });
 
   const handleChange = (e) => {
@@ -16,11 +16,14 @@ const AddSkillModal = ({ onClose, onSave }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSave(newSkill);
+    onSave({
+      ...newSkill,
+      // Ensure the reference is sent as null if "N/A" is selected
+      reference: newSkill.reference || null
+    });
     onClose(); // Close the modal after save
   };
 
-  // Added an ID to the modal for specific styling
   return (
     <div className="modal-backdrop">
       <div className="modal" id="addSkillModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
@@ -31,12 +34,24 @@ const AddSkillModal = ({ onClose, onSave }) => {
           <div className="modal-body">
             <label htmlFor="name">Name:</label>
             <input id="name" type="text" name="name" value={newSkill.name} onChange={handleChange} required />
-
+  
             <label htmlFor="rating">Rating:</label>
             <input id="rating" type="number" name="rating" min="1" max="5" value={newSkill.rating} onChange={handleChange} required />
-
+  
             <label htmlFor="reference">Reference:</label>
-            <input id="reference" type="text" name="reference" value={newSkill.reference} onChange={handleChange} required />
+            <select 
+              id="reference" 
+              name="reference" 
+              value={newSkill.reference} 
+              onChange={handleChange}
+            >
+              <option value=""></option> {/* Ensures option for no reference */}
+              {contacts.map(contact => (
+                <option key={contact._id} value={contact._id}>
+                  {contact.name}
+                </option>
+              ))}
+            </select>
           </div>
           <div className="modal-footer">
             <button type="submit" className="button add">Add</button>
@@ -49,6 +64,7 @@ const AddSkillModal = ({ onClose, onSave }) => {
 };
 
 export default AddSkillModal;
+
 
 
 
