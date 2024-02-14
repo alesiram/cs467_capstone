@@ -24,7 +24,7 @@ const JobTableModal = ({ jobs, onEdit, onDelete }) => {
         </thead>
         <tbody>
           {jobs.map((job) => (
-            <tr key={job.id}>
+            <tr key={job._id}>
               <td>{job.company}</td>
               <td>{job.title}</td>
               <td>{job.type}</td>
