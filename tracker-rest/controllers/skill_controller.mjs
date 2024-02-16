@@ -100,3 +100,27 @@ export const deleteSkill = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
+// Aggregate most overall skill data to share
+export const getMostPopularSkill = async (req, res) => {
+    try {
+      const mostPopularSkill = await Skill.aggregate([
+        // Step 1: Group by skill name and count occurrences
+        { $group: { _id: "$name", count: { $sum: 1 }, averageRating: { $avg: "$rating" } } },
+        // Step 2: Sort by count in descending order to get the most popular skill first
+        { $sort: { count: -1 } },
+        // Step 3: Optionally, limit to a certain number of top skills, e.g., top 1
+        { $limit: 1 }
+      ]);
+  
+      if (!mostPopularSkill.length) {
+        return res.status(404).json({ message: 'No skills found' });
+      }
+  
+      res.json(mostPopularSkill[0]);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: error.message });
+    }
+  };
+  

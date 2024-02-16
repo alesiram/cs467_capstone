@@ -45,7 +45,7 @@ const AddSkillModal = ({ onClose, onSave, contacts }) => {
               value={newSkill.reference} 
               onChange={handleChange}
             >
-              <option value=""></option> {/* Ensures option for no reference */}
+              <option value="">N/A</option> {/* Ensures option for no reference */}
               {contacts.map(contact => (
                 <option key={contact._id} value={contact._id}>
                   {contact.name}

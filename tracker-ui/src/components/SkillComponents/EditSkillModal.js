@@ -20,15 +20,20 @@ const EditSkillModal = ({ skill, onClose, onSave, contacts }) => {
 };
 
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onSave({
-      ...editSkill,
-      // Convert reference back to ObjectId or keep as is if already in correct format
-      reference: editSkill.reference || undefined, // Handle "N/A" or similar value if necessary
-    });
-    onClose(); // Close the modal after save
+const handleSubmit = (e) => {
+  //e.preventDefault();
+  console.log(typeof e, e)
+
+  // Prepare the skill object for submission
+  let submissionSkill = {
+    ...editSkill,
+    // Conditionally set reference to null if "N/A" is selected
+    reference: editSkill.reference === '' ? null : editSkill.reference,
   };
+
+  onSave(submissionSkill);
+  onClose(); // Close the modal after save
+};
 
   return (
     <div className="modal-backdrop">
@@ -43,18 +48,10 @@ const EditSkillModal = ({ skill, onClose, onSave, contacts }) => {
             <input id="editRating" type="number" name="rating" min="1" max="5" value={editSkill.rating || ''} onChange={handleChange} required />
             
             <label htmlFor="editReference">Reference:</label>
-            <select 
-              id="editReference" 
-              name="reference" 
-              value={editSkill.reference || ''} 
-              onChange={handleChange} 
-              required
-            >
+            <select id="editReference" name="reference" value={editSkill.reference || ''} onChange={handleChange} required>
               <option value="">N/A</option>
               {contacts.map(contact => (
-                <option key={contact._id} value={contact._id}>
-                  {contact.name}
-                </option>
+                <option key={contact._id} value={contact._id}>{contact.name}</option>
               ))}
             </select>
           </div>

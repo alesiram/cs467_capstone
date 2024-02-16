@@ -19,6 +19,8 @@ const SkillsPage = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [currentSkill, setCurrentSkill] = useState(null);
+  const [mostPopularSkill, setMostPopularSkill] = useState(null);
+
 
   // Combined fetch function for skills and contacts
   const fetchData = async () => {
@@ -49,8 +51,27 @@ const SkillsPage = () => {
     }
   };
 
+  // Correctly define fetchMostPopularSkill within SkillsPage component
+  const fetchMostPopularSkill = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch('/skills/popular', {
+        method: 'GET',
+        headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+      });
+
+      if (!response.ok) throw new Error('Failed to fetch the most popular skill');
+
+      const data = await response.json();
+      setMostPopularSkill(data);
+    } catch (error) {
+      setError('Failed to load the most popular skill: ' + error.message);
+    }
+  };
+
   useEffect(() => {
     fetchData();
+    fetchMostPopularSkill();
   }, []);
 
   // Add skill
@@ -144,6 +165,15 @@ const deleteSkill = async (skillId) => {
         <h1 id="skillsHeader">Skills</h1>
         {isLoading && <p>Loading...</p>}
         {error && <p className="error">{error}</p>}
+        {/* Displaying the most popular skill summary */}
+        {mostPopularSkill ? (
+        <div className="most-popular-skill-summary">
+          <p>Most Popular Skill: {mostPopularSkill._id}</p>
+          <p>Average Rating: {mostPopularSkill.averageRating.toFixed(1)}</p>
+        </div>
+      ) : isLoading ? (
+        <p>Loading most popular skill...</p>
+      ) : null}
         <button id="addSkillButton" onClick={() => setShowAddModal(true)}>Add New Skill</button>
         <SkillTable skills={skills} onEdit={setCurrentSkillAndShowEditModal} onDelete={setCurrentSkillAndShowDeleteModal} />
         {showAddModal && <AddSkillModal onClose={() => setShowAddModal(false)} onSave={addSkill} contacts={contacts} />}
