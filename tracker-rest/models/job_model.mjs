@@ -13,50 +13,50 @@ const jobSchema = new mongoose.Schema({
   },
   title: {
     type: String,
-    required: true,
+    required: false,
   },
   type: {
     type: String,
     enum: ['Full Time', 'Part-time', 'Internship'],
-    required: true,
+    required: false,
   },
   location: {
     type: String,
-    required: true,
+    required: false,
   },
   jobPostingLink: {
     type: String,
-    required: true,
+    required: false,
   },
   pay: {
     type: String,
-    required: true,
+    required: false,
   },
   applyDate: {
-    type: Date,
-    required: true,
+    type: String,
+    required: false,
   },
   status: {
     type: String,
-    required: true,
+    required: false,
     enum: ['Open', 'Closed', 'Other'],
   },
   interviewed: {
     type: String,
-    required: true,
+    required: false,
     enum: ['Yes', 'No'],
   },
   interviewDate: {
-    type: Date,
+    type: String,
   },
   decision: {
     type: String,
-    required: true,
+    required: false,
     enum: ['Pending', 'Rejected', 'Hired', 'Other'],
   },
   requiredSkills: [{
     type: String,
-    required: true,
+    required: false,
   }],
   notes: {
     type: String,
