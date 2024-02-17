@@ -22,7 +22,6 @@ const ContactsPage = () => {
     // Handle when screen is loading
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [theme, setTheme] = useState('contacts-page-light-mode'); // Default to contacts-page-light-mode
 
     // Handle the toggle views
     const [viewMode, setViewMode] = useState('table'); // 'table', 'cards', or 'dashboard'
@@ -193,11 +192,6 @@ const ContactsPage = () => {
         handleGetContacts();
     }, []);
 
-    // Toggle between light and dark mode
-    const toggleTheme = () => {
-        setTheme(theme === 'contacts-page-light-mode' ? 'contacts-page-dark-mode' : 'contacts-page-light-mode');
-    };
-
     // Render the view as either table listing, cards, or the dasboard
     const renderView = () => {
         switch (viewMode) {
@@ -225,7 +219,7 @@ const ContactsPage = () => {
                 </div>
             // Display the dashboard metrics
             case 'dashboard':
-                return <ContactsMetrics />;
+                return <ContactsMetrics contacts={contacts} />;
             default:
                 return null;
         }
@@ -238,18 +232,23 @@ const ContactsPage = () => {
     return (
         <>
             <NavBar />
-            <div className={`${theme} contacts-page`}>
+            <div className={`contacts-page`}>
                 <div className="contacts-page-controls-container">
-                    <button className="contacts-page-toggle-theme-button" onClick={toggleTheme}>{theme === 'contacts-page-light-mode' ? 'Light Mode is On' : 'Dark Mode Is On'}</button>
                     <button className="contacts-page-add-new-contact-button" onClick={() => setShowAddModal(true)}>Add New Contact</button>
-                    <button className="contacts-page-toggle-dashboard-button" onClick={() => setViewMode('dashboard')}>Dashboard</button>
+                    <button className="contacts-page-toggle-dashboard-button" onClick={() => viewMode !== 'dashboard' ? setViewMode('dashboard') : setViewMode('table')}>{viewMode === 'dashboard' ? 'Contacts Table View' : 'Dashboard Metrics'}</button>
                 </div>
-                <span className="contacts-page-view-mode-text">{viewMode === 'cards' ? 'Card View' : 'Table View'}</span>
-                <div className="contacts-page-view-toggle">
-                    <input type="checkbox" id="contacts-page-viewModeToggle" className="contacts-page-view-mode-checkbox" hidden
-                        checked={viewMode === 'cards'} onChange={() => setViewMode(viewMode === 'table' ? 'cards' : 'table')} />
-                    <label htmlFor="contacts-page-viewModeToggle" className="contacts-page-view-mode-label"></label>
-                </div>
+                {viewMode !== 'dashboard' ? (
+                    <>
+                        <span className="contacts-page-view-mode-text">{viewMode === 'cards' ? 'Card View' : 'Table View'}</span>
+                        <div className="contacts-page-view-toggle">
+                            <input type="checkbox" id="contacts-page-viewModeToggle" className="contacts-page-view-mode-checkbox" hidden
+                                checked={viewMode === 'cards'} onChange={() => setViewMode(viewMode === 'table' ? 'cards' : 'table')} />
+                            <label htmlFor="contacts-page-viewModeToggle" className="contacts-page-view-mode-label"></label>
+                        </div>
+                    </>
+                ) : (
+                    <></>
+                )}
                 {/* If no contacts then display message */}
                 {contacts.length === 0 ? (
                     <>
