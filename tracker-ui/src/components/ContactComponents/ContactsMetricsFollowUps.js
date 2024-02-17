@@ -45,6 +45,18 @@ const ContactsMetricsFollowUps = ({ contacts }) => {
     // Change page
     const paginate = pageNumber => setCurrentPage(pageNumber);
 
+    const formatDate = (dateString) => {
+        // Split the date string into its components
+        const [year, month, day] = dateString.split('-').map(num => parseInt(num, 10));
+
+        // Create a new date object using the local time zone
+        // Note: Months are 0-indexed in JavaScript Date objects, hence the `month - 1`
+        const date = new Date(year, month - 1, day);
+
+        // Format the date to a locale-specific date string without converting time zones
+        return date.toLocaleDateString();
+    }
+
     return (
         <div className="contacts-metrics-follow-up-reminders-div">
             {/* Display All Follow Up Dates if Valid Contacts */}
@@ -57,7 +69,7 @@ const ContactsMetricsFollowUps = ({ contacts }) => {
                             <li key={contact._id} className="contacts-metrics-follow-up-item">
                                 <p>{contact.name}</p>
                                 <p>{contact.email}</p>
-                                <p>{new Date(contact.followUpDate).toLocaleDateString()}</p>
+                                <p>{formatDate(contact.followUpDate)}</p>
                             </li>
                         ))}
                     </ul>
