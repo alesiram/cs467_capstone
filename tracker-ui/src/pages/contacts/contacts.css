@@ -906,35 +906,8 @@
     height: 100%; /* Fill the parent container */
 }
 
-/* Pagination Styles */
-.contacts-metrics-pagination-list {
-    display: flex;
-    list-style: none;
-    padding: 0;
-    width: 100%; /* Ensure full width within the container */
-    justify-content: center;
-    gap: 10px;
-    margin-top: 20px; /* Space from the list to the pagination */
-}
-
 .contacts-metrics-no-followups-msg {
   margin-top: 15%;
-}
-
-.contacts-metrics-pagination-page-item a {
-    border: 1px solid black;
-    border-radius: 5px;
-    padding: 5px 10px;
-    color: white;
-    text-decoration: none;
-    transition: all 0.2s ease-in-out;
-    background-color: black;
-}
-
-.contacts-metrics-pagination-page-item a:hover {
-    background-color: white;
-    border-color: white;
-    color: black;
 }
 
 .contacts-metrics-strength-referral-container {

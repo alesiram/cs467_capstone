@@ -1,28 +1,30 @@
 import React, { useState, useMemo } from 'react';
 
 // Pagination component to navigate through contacts in metric div
-const ContactsMetricsPagination = ({ itemsPerPage, totalItems, paginate }) => {
-    // Empty list to store page numbers
-    const pageNumbers = [];
-    // Determine the page numbers based on total items and items per page
-    for (let i = 1; i <= Math.ceil(totalItems / itemsPerPage); i++) {
-        pageNumbers.push(i);
+const ContactsMetricsPagination = ({ currentPage, itemsPerPage, totalItems, paginate }) => {
+    // If there are no items to show
+    if (totalItems === 0) {
+        return null;
     }
+    // Total Pages
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
+    // Go to the next page
+    const goToNextPage = () => {
+        const nextPage = currentPage + 1;
+        if (nextPage <= totalPages) paginate(nextPage);
+    };
+    // Go to the previous page
+    const goToPreviousPage = () => {
+        const prevPage = currentPage - 1;
+        if (prevPage >= 1) paginate(prevPage);
+    };
     // Return the pagination navigation
     return (
         <nav className='contacts-metrics-pagination-nav'>
-            <ul className='contacts-metrics-pagination-list'>
-                {pageNumbers.map(number => (
-                    <li key={number} className='contacts-metrics-pagination-page-item'>
-                        <a href='#!' onClick={(e) => {
-                            e.preventDefault(); // Prevent the default anchor link behavior
-                            paginate(number);
-                        }}>
-                            {number}
-                        </a>
-                    </li>
-                ))}
-            </ul>
+            <button onClick={goToPreviousPage} disabled={currentPage === 1}>Back</button>
+            {/* Display current page and total pages */}
+            <span>Page {currentPage} of {totalPages}</span>
+            <button onClick={goToNextPage} disabled={currentPage === totalPages}>Forward</button>
         </nav>
     );
 };
@@ -79,7 +81,8 @@ const ContactsMetricsFollowUps = ({ contacts }) => {
                 // No Valid contacts so display message to user
                 <p className="contacts-metrics-no-followups-msg">No upcoming follow-ups. You're all caught up!</p>
             )}
-            <ContactsMetricsPagination 
+            <ContactsMetricsPagination
+                currentPage={currentPage}
                 itemsPerPage={contactsPerPage} 
                 totalItems={validContacts.length} 
                 paginate={paginate} 
