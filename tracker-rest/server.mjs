@@ -45,12 +45,15 @@ app.get('/contacts/:id', authMiddleware, contact.getContact);
 app.put('/contacts/:id', authMiddleware, contact.updateContact);
 app.delete('/contacts/:id', authMiddleware, contact.deleteContact);
 
+// Route to get the most popular skills
+app.get('/skills/popular', authMiddleware, skill.getMostPopularSkill);
 // Routes for skills (protected routes - must be auth'd)
 app.post('/skills', authMiddleware, skill.createSkill);
 app.get('/skills', authMiddleware, skill.getSkills);
 app.get('/skills/:id', authMiddleware, skill.getSkill);
 app.put('/skills/:id', authMiddleware, skill.updateSkill);
 app.delete('/skills/:id', authMiddleware, skill.deleteSkill);
+
 
 // Routes to create/get/update/delete a user's jobs
 app.post('/jobs', authMiddleware, jobs.createJob);

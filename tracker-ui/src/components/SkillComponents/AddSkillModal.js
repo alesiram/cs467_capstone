@@ -2,11 +2,11 @@
 
 import React, { useState } from 'react';
 
-const AddSkillModal = ({ onClose, onSave }) => {
+const AddSkillModal = ({ onClose, onSave, contacts }) => {
   const [newSkill, setNewSkill] = useState({
     name: '',
     rating: '',
-    reference: ''
+    reference: '' // Initially no contact is selected
   });
 
   const handleChange = (e) => {
@@ -16,31 +16,46 @@ const AddSkillModal = ({ onClose, onSave }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSave(newSkill);
+    onSave({
+      ...newSkill,
+      // Ensure the reference is sent as null if "N/A" is selected
+      reference: newSkill.reference || null
+    });
     onClose(); // Close the modal after save
   };
 
   return (
-    <div className="skills-modal add-skills-modal">
-      <div className="skills-modal-content">
-        <h2>Add New Skill</h2>
-        <span className="skills-modal-close" onClick={onClose}>&times;</span>
-        <form onSubmit={handleSubmit}>
-          <label>
-            Name:
-            <input type="text" name="name" value={newSkill.name} onChange={handleChange} required />
-          </label>
-          <label>
-            Rating:
-            <input type="number" name="rating" min="1" max="5" value={newSkill.rating} onChange={handleChange} required />
-          </label>
-          <label>
-            Reference:
-            <input type="text" name="reference" value={newSkill.reference} onChange={handleChange} required />
-          </label>
-          <div className="skills-modal-actions">
-            <button type="submit" className="skills-modal-button add">Add</button>
-            <button type="button" className="skills-modal-button cancel" onClick={onClose}>Cancel</button>
+    <div className="modal-backdrop">
+      <div className="modal" id="addSkillModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <form onSubmit={handleSubmit} className="modal-form">
+          <div className="modal-header">
+            <h2 id="modalTitle">Add New Skill</h2>
+          </div>
+          <div className="modal-body">
+            <label htmlFor="name">Name:</label>
+            <input id="name" type="text" name="name" value={newSkill.name} onChange={handleChange} required />
+  
+            <label htmlFor="rating">Rating:</label>
+            <input id="rating" type="number" name="rating" min="1" max="5" value={newSkill.rating} onChange={handleChange} required />
+  
+            <label htmlFor="reference">Reference:</label>
+            <select 
+              id="reference" 
+              name="reference" 
+              value={newSkill.reference} 
+              onChange={handleChange}
+            >
+              <option value="">N/A</option> {/* Ensures option for no reference */}
+              {contacts.map(contact => (
+                <option key={contact._id} value={contact._id}>
+                  {contact.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="modal-footer">
+            <button type="submit" className="button add">Add</button>
+            <button type="button" className="button cancel" onClick={onClose}>Cancel</button>
           </div>
         </form>
       </div>
@@ -49,4 +64,7 @@ const AddSkillModal = ({ onClose, onSave }) => {
 };
 
 export default AddSkillModal;
+
+
+
 

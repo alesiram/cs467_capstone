@@ -6,205 +6,200 @@ import SkillTable from '../../components/SkillComponents/SkillTable';
 import AddSkillModal from '../../components/SkillComponents/AddSkillModal';
 import EditSkillModal from '../../components/SkillComponents/EditSkillModal';
 import DeleteSkillModal from '../../components/SkillComponents/DeleteSkillModal';
-import generateRandomSkills from './generateRandomSkills'; // Import your skill generation function
 
-// Styling for the skills page
-//import '../contacts/contacts.css'
-import './skills.css'
+// Assuming './skills.css' and NavBar, SkillTable, AddSkillModal, EditSkillModal, DeleteSkillModal are correctly implemented
+import './skills.css';
 
 const SkillsPage = () => {
   const [skills, setSkills] = useState([]);
+  const [contacts, setContacts] = useState([]); // Assuming contacts are needed for reference in Add/Edit Modals
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState('');
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [currentSkill, setCurrentSkill] = useState(null);
+  const [mostPopularSkill, setMostPopularSkill] = useState(null);
 
-  // Handler to get all skills for the user
-  const handleGetSkills = () => {
-    const fetchSkills = async () => {
-      setIsLoading(true);
-      try {
-        const token = localStorage.getItem('token');
-        const response = await fetch('/skills', {
-          method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          }
-        });
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        let data = await response.json();
-        // PLACEHOLDER - GENERATE RANDOM DUMMY SKILLS IF USER HAS NONE
-        if (data.length === 0) {
-          data = generateRandomSkills();
-        }
-        setSkills(data);
-      } catch (error) {
-        setError(error.message);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchSkills();
+
+  // Combined fetch function for skills and contacts
+  const fetchData = async () => {
+    setIsLoading(true);
+    try {
+      // Simultaneous fetching of skills and contacts if needed
+      const token = localStorage.getItem('token');
+      const skillsPromise = fetch('/skills', {
+        method: 'GET',
+        headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+      });
+      const contactsPromise = fetch('/contacts', {
+        method: 'GET',
+        headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+      });
+
+      // Await both promises
+      const [skillsResponse, contactsResponse] = await Promise.all([skillsPromise, contactsPromise]);
+      if (!skillsResponse.ok || !contactsResponse.ok) throw new Error('Failed to fetch data');
+
+      const [skillsData, contactsData] = await Promise.all([skillsResponse.json(), contactsResponse.json()]);
+      setSkills(skillsData);
+      setContacts(contactsData);
+    } catch (error) {
+      setError('Failed to load data: ' + error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Correctly define fetchMostPopularSkill within SkillsPage component
+  const fetchMostPopularSkill = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch('/skills/popular', {
+        method: 'GET',
+        headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+      });
+
+      if (!response.ok) throw new Error('Failed to fetch the most popular skill');
+
+      const data = await response.json();
+      setMostPopularSkill(data);
+    } catch (error) {
+      setError('Failed to load the most popular skill: ' + error.message);
+    }
   };
 
   useEffect(() => {
-    handleGetSkills();
+    fetchData();
+    fetchMostPopularSkill();
   }, []);
 
-  // CREATED WITH GPT4
-  const addSkill = async (skill) => {
-    setIsLoading(true); // Assuming you have an isLoading state to show loading indicators
-    try {
-      const token = localStorage.getItem('token'); // Retrieve the authentication token
-      const response = await fetch('/skills', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(skill),
-      });
-  
-      if (!response.ok) {
-        // If the server response is not OK, throw an error with the status text
-        const errorData = await response.json(); // Assuming the server sends back a detailed error message
-        throw new Error(errorData.message || 'Failed to add the skill');
-      }
-  
-      const addedSkill = await response.json(); // Assuming the server returns the added skill with an ID
-  
-      // Update local state to include the new skill returned by the server
-      // This ensures that the local state matches the server state, including any transformations or additional data (like an ID) added by the server
-      setSkills((prevSkills) => [...prevSkills, addedSkill]);
-      
-      //alert("Skill added successfully!"); // Provide user feedback
-  
-    } catch (error) {
-      setError(error.message); // Assuming you have an error state to display error messages
-      alert(`An error occurred: ${error.message}`);
-    } finally {
-      setIsLoading(false); // Hide loading indicator
-    }
-  };  
+  // Add skill
+const addSkill = async (skill) => {
+  setIsLoading(true);
+  try {
+    const token = localStorage.getItem('token');
+    const response = await fetch('/skills', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(skill),
+    });
 
-  const editSkill = async (skill) => {
-    // Assuming `skill` is the object you've mentioned, which includes `_id` and other details.
-    const skillId = skill._id; // Extract the _id from the skill object.
-    const updatedSkillDetails = {
-      name: skill.name,
-      rating: skill.rating,
-      reference: skill.reference,
-      // Include any other fields you expect to update
-    };
-  
-    setIsLoading(true); // Assuming you have an isLoading state
-    try {
-      const token = localStorage.getItem('token');
-      const response = await fetch(`/skills/${skillId}`, {
-        method: 'PUT',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(updatedSkillDetails),
-      });
-  
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to update the skill');
-      }
-  
-      const updatedSkill = await response.json();
-      // Assuming you want to update the local state with the new skill details
-      setSkills(skills.map((item) => item._id === skillId ? updatedSkill : item));
-  
-      //alert("Skill updated successfully!");
-    } catch (error) {
-      setError(error.message); // Assuming you have an error state
-      alert(`An error occurred: ${error.message}`);
-    } finally {
-      setIsLoading(false);
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Failed to add the skill');
     }
-  };
-  
 
-  const deleteSkill = async (skillId) => {
-    setIsLoading(true);
-    try {
-      const token = localStorage.getItem('token');
-      const response = await fetch(`/skills/${skillId}`, {
-        method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-      });
-  
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to delete the skill');
-      }
-  
-      // Update the local state to remove the deleted skill
-      setSkills(skills.filter(skill => skill._id !== skillId));
-  
-      //alert("Skill deleted successfully!");
-    } catch (error) {
-      setError(error.message);
-      alert(`An error occurred: ${error.message}`);
-    } finally {
-      setIsLoading(false);
+    // Refetch skills to update the list
+    fetchData();
+  } catch (error) {
+    setError(error.message);
+  } finally {
+    setIsLoading(false);
+  }
+};
+
+// Edit skill
+const editSkill = async (skill) => {
+  setIsLoading(true);
+  try {
+    const token = localStorage.getItem('token');
+    const response = await fetch(`/skills/${skill._id}`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(skill),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Failed to update the skill');
     }
-  };
-  
 
+    // Refetch skills to update the list
+    fetchData();
+  } catch (error) {
+    setError(error.message);
+  } finally {
+    setIsLoading(false);
+  }
+};
+
+// Delete skill
+const deleteSkill = async (skillId) => {
+  setIsLoading(true);
+  try {
+    const token = localStorage.getItem('token');
+    const response = await fetch(`/skills/${skillId}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Failed to delete the skill');
+    }
+
+    // Refetch skills to update the list
+    fetchData();
+  } catch (error) {
+    setError(error.message);
+  } finally {
+    setIsLoading(false);
+  }
+};
+
+  // Render part remains largely unchanged
   return (
-    <div>
+    <div id="skillsPage">
       <NavBar />
-      <div className="skills-page">
-        <h1>Skills</h1>
-        <button onClick={() => setShowAddModal(true)}>Add New Skill</button>
-        <SkillTable
-            skills={skills}
-            onEdit={(skill) => {
-            setCurrentSkill(skill);
-            setShowEditModal(true);
-            }}
-            onDelete={(skillId) => {
-              // Find the skill object in the 'skills' array by its ID
-              const skillToDelete = skills.find(skill => skill._id === skillId);
-              setCurrentSkill(skillToDelete); // Set the found skill object as 'currentSkill'
-              setShowDeleteModal(true); // Show the delete modal
-            }}
-        />
-        {showAddModal && (
-            <AddSkillModal
-            onClose={() => setShowAddModal(false)}
-            onSave={addSkill}
-            />
-        )}
-        {showEditModal && currentSkill && (
-            <EditSkillModal
-            skill={currentSkill}
-            onClose={() => setShowEditModal(false)}
-            onSave={editSkill}
-            />
-        )}
-        {showDeleteModal && currentSkill && (
-            <DeleteSkillModal
-            skill={currentSkill}
-            onClose={() => setShowDeleteModal(false)}
-            onDelete={deleteSkill}
-            />
-        )}
+      <div className="skills-container">
+        <h1 id="skillsHeader">Skills</h1>
+        {isLoading && <p>Loading...</p>}
+        {error && <p className="error">{error}</p>}
+        {/* Displaying the most popular skill summary */}
+        {mostPopularSkill ? (
+        <div className="most-popular-skill-summary">
+          <p>Most Popular Skill: {mostPopularSkill._id}</p>
+          <p>Average Rating: {mostPopularSkill.averageRating.toFixed(1)}</p>
         </div>
+      ) : isLoading ? (
+        <p>Loading most popular skill...</p>
+      ) : null}
+        <button id="addSkillButton" onClick={() => setShowAddModal(true)}>Add New Skill</button>
+        <SkillTable skills={skills} onEdit={setCurrentSkillAndShowEditModal} onDelete={setCurrentSkillAndShowDeleteModal} />
+        {showAddModal && <AddSkillModal onClose={() => setShowAddModal(false)} onSave={addSkill} contacts={contacts} />}
+        {showEditModal && currentSkill && <EditSkillModal skill={currentSkill} onClose={() => setShowEditModal(false)} onSave={editSkill} contacts={contacts} />}
+        {showDeleteModal && currentSkill && <DeleteSkillModal skill={currentSkill} onClose={() => setShowDeleteModal(false)} onDelete={deleteSkill} />}
+      </div>
     </div>
   );
+
+  // Helper function to set current skill and show edit modal
+  function setCurrentSkillAndShowEditModal(skill) {
+    setCurrentSkill(skill);
+    setShowEditModal(true);
+  }
+
+  // Function to set current skill and show delete modal
+  function setCurrentSkillAndShowDeleteModal(skillId) {
+    // Find the skill object from the skills array using the skillId
+    const skillToDelete = skills.find(skill => skill._id === skillId);
+    if (skillToDelete) {
+      setCurrentSkill(skillToDelete); // Set this skill as the currentSkill state
+      setShowDeleteModal(true); // Set showDeleteModal state to true to show the modal
+    }
+}
+
 };
 
 export default SkillsPage;
+
