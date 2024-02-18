@@ -33,21 +33,24 @@ const jobSchema = new mongoose.Schema({
     required: false,
   },
   applyDate: {
-    type: String,
+    type: Date,
+    default: Date.now,
     required: false,
+    // get: v => v ? v.toISOString().split('T')[0] : null // Format applyDate to ISO string without time part
   },
-  status: {
+  jobStatus: {
     type: String,
     required: false,
-    enum: ['Open', 'Closed', 'Other'],
+    enum: ['Open', 'Closed', 'Pending'],
   },
   interviewed: {
     type: String,
     required: false,
-    enum: ['Yes', 'No'],
+    enum: ['Yes', 'No', 'Pending'],
   },
   interviewDate: {
-    type: String,
+    type: Date,
+    required: false,
   },
   decision: {
     type: String,
@@ -60,10 +63,6 @@ const jobSchema = new mongoose.Schema({
   }],
   notes: {
     type: String,
-  },
-  dateAdded: {
-    type: Date,
-    default: Date.now,
   },
 });
 

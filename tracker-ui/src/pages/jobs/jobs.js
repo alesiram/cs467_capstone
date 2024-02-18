@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios'; 
 import NavBar from '../../components/NavBar';
 import JobsTable from '../../components/JobsComponents/JobsTable';
 import AddJobModal from '../../components/JobsComponents/AddJobModal';
 import EditJobModal from '../../components/JobsComponents/EditJobModal';
 import DeleteJobModal from '../../components/JobsComponents/DeleteJobModal';
-
 import './jobs.css';
 
 const JobsPage = () => {
@@ -15,6 +15,9 @@ const JobsPage = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedJob, setSelectedJob] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+
 
   const handleGetJobs = () => {
     const fetchJobs = async () => {
@@ -42,10 +45,23 @@ const JobsPage = () => {
     fetchJobs();
 };
 
-
   useEffect(() => {
     handleGetJobs();
   }, []);
+
+  {/* search */}
+  useEffect(() => {
+    const filteredJobs = jobs.filter(job => {
+      const searchTerm = searchQuery.toLowerCase().trim();
+      if (searchTerm === '') {
+        return true; // Show all jobs if search is empty
+      } else {
+        return job.name && job.name.toLowerCase().includes(searchTerm);
+      }
+    });
+    setSearchResults(filteredJobs);
+  }, [jobs, searchQuery]);
+
 
   const handleAddJob = async (newJob) => {
     setIsLoading(true);
@@ -144,10 +160,11 @@ const JobsPage = () => {
     <div>
       <NavBar />
       <div className="jobs-page">
-        <h1>Job Applications</h1>
+        {/* <h1>Job Applications</h1> */}
         <button onClick={() => setShowAddModal(true)}>Add Job</button>
         <JobsTable
-          jobs={jobs}
+          // jobs={jobs}
+          jobs={searchResults}
           onEdit={(job) => {
             setSelectedJob(job);
             setShowEditModal(true);
