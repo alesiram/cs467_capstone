@@ -6,18 +6,6 @@
   align-items: center;
   padding: 20px;
   min-height: 100vh; /* Ensure full-height layout */
-  background-color: #ffffff; 
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.2); 
-  border-radius: 8px; 
-  margin: 10px auto; 
-  width: 100vw; 
-  max-width: 1200px; /* Ensures the div doesn't get too wide on larger screens */
-  transition: transform 0.3s ease; 
-}
-
-.contacts-page:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1), 0 15px 25px rgba(0, 0, 0, 0.2);
 }
 
 /* Controls container styling */
@@ -772,7 +760,7 @@
     }
 }
 
-/* STYLING FOR DASHBOARD METRICS (BING) */
+/* STYLING FOR DASHBOARD METRICS (BING + ChatGPT) */
 
 .contact-metrics-container {
     display: flex;
@@ -785,34 +773,263 @@
 }
 
 .contact-metric {
-    width: 250px;
-    height: 150px;
+    width: 400px; /* Adjusted to fit the canvas */
+    height: 450px; /* Increased height to accommodate title and canvas */
     border: 1px solid #ccc;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around; /* Align items to start to keep the title at the top */
     overflow: hidden;
+    position: relative; /* For potential absolute positioning inside */
+    padding-top: 40px; /* Added padding to avoid title overlap */
+    padding: 20px; /* Ensure padding for inner content */
+    background-color: #fff;
 }
 
 .contact-metric:hover {
     transform: scale(1.05);
-    transition: all 0.3s;
+    transition: all 0.3s ease-in-out;
 }
 
 .contact-metric h3 {
+    position: absolute; /* Make the title stick to the top */
+    top: 0;
+    width: 100%;
     margin: 0;
     padding: 10px;
     background: linear-gradient(to right, #f0f0f0, #e6e6e6);
+    text-align: center; /* Ensure title is centered */
+    color: #007bff; 
+    margin-bottom: 15px; /* Space between title and details */
+}
+
+.contacts-metrics-pie-chart {
+    width: auto; /* Make canvas responsive */
+    height: auto; /* Adjust height automatically */
+    max-width: 350px; /* Limit max width to fit inside .contact-metric */
+    aspect-ratio: 1 / 1; /* Maintain a square aspect ratio */
+}
+
+.contacts-metrics-pie-chart:hover {
+  transform: scale(1.05);
+  transition: all 0.1s ease-in-out;
+  cursor: pointer;
+}
+
+.contacts-metrics-pie-chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.contacts-metrics-pie-chart-legend-item {
+  display: flex;
+  align-items: center;
+  margin: 10px;
+  padding: 2px;
+}
+
+.contacts-metrics-pie-chart-legend-item:hover {
+  transform: scale(1.05);
+  transition: all 0.1s ease-in-out;
+  color: red;
+  cursor: pointer;
+}
+
+.contacts-metrics-pie-chart-legend-color {
+  width: 20px;
+  height: 20px;
+  display: block;
+  border-radius: 50%;
+  margin-right: 5px;
+}
+
+.contacts-metrics-pie-chart-legend-label {
+  font-size: 14px;
+}
+
+.contacts-metrics-follow-up-reminders-div {
+  margin: 0; /* Remove margins to fit within the contact-metric padding */
+  width: 100%;
+}
+
+/* List and Item Styles */
+.contacts-metrics-follow-up-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    overflow-y: auto; /* Allow scrolling within the list */
+    max-height: 300px; 
+    width: 100%; /* Use the full width of the parent */
+}
+
+.contacts-metrics-follow-up-item {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #eee; /* Slightly more defined border */
+  border-radius: 8px; /* Rounded corners for a softer look */
+  padding: 15px; /* Increased padding for more space around the content */
+  margin-bottom: 10px; /* Space between items */
+  background-color: #fff; /* Base background to stand out against a potential container bg */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Subtle shadow for depth */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions for hover effects */
+  align-items: center; /* Align items for a cleaner look */
+  justify-content: space-between; /* Space content nicely */
+}
+
+.contacts-metrics-follow-up-item:hover {
+  background-color: #f7f7f7;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  cursor: pointer;
+  background-color: grey;
+  color: white;
+}
+
+.contacts-metrics-current-date {
+  margin-top: 15%;
+  color: #0056b3;
+  font-weight: bold;
+}
+
+.contacts-metrics-pagination-nav {
+  background-color: lightgray;
+}
+
+.contacts-metrics-follow-up-reminders-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Distributes space between content and pagination */
+    height: 100%; /* Fill the parent container */
+}
+
+.contacts-metrics-no-followups-msg {
+  margin-top: 15%;
+}
+
+.contacts-metrics-strength-referral-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    padding: 20px;
+    justify-content: center;
+    align-items: start;
+    margin-top: 15%;
+
+}
+
+.contacts-metrics-strength-box-div {
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 5px;
+}
+
+/* Color coding for strength levels */
+.contacts-metrics-strength-1 { background-color: #FFC1C1; } /* Very Low - Red */
+.contacts-metrics-strength-2 { background-color: #FFDCA2; } /* Low - Lighter Red/Orange */
+.contacts-metrics-strength-3 { background-color: #FFFACD; } /* Moderate - Yellow */
+.contacts-metrics-strength-4 { background-color: #BFDCAE; } /* High - Light Green */
+.contacts-metrics-strength-5 { background-color: #90EE90; } /* Very High - Green */
+
+.contacts-metrics-strength-box-div:hover {
+    transform: translateY(-5px);
+    cursor: pointer;
+}
+
+.contacts-metrics-strength-box-div p {
+    margin: 5px 0;
+    font-size: 16px;
     color: #333;
 }
 
-.contact-metric p {
-    margin: 0;
-    padding: 10px;
-    display: grid;
-    place-items: center;
-    font-size: 2em;
-    color: #666;
+.contacts-metrics-strength-box-div span {
+    font-weight: bold;
 }
+
+.contacts-strength-metrics-box-level {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+/* Adjust button size and grid */
+.contacts-metrics-table-toggle-buttons-div {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 buttons per row */
+  gap: 10px; /* Space between buttons */
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+.contacts-metrics-table-toggle-buttons-div button {
+  padding: 5px 10px; /* Reduce padding for smaller buttons */
+  font-size: 0.8rem; /* Smaller font size */
+  border: none;
+  border-radius: 5px;
+  background-color: black;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.contacts-metrics-table-toggle-buttons-div button:hover {
+  background-color: #0056b3;
+}
+
+.contacts-metrics-table-toggle-buttons-div button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0,123,255,.25);
+}
+
+/* Container for the entire ContactsTable component */
+.contacts-metrics-table-component-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* Use the full height of the parent .contact-metric */
+}
+
+/* Container for the toggle buttons */
+.contacts-metrics-table-toggle-buttons-container {
+  margin-bottom: 10px; /* Space between buttons and table */
+  margin-top: 15%;
+}
+
+/* Scrollable container for the table */
+.contacts-metrics-table-container {
+  overflow-y: auto; /* Enable vertical scrolling */
+  flex-grow: 1; /* Allow the table container to expand and fill available space */
+}
+
+/* Update for table to fit within .contact-metric */
+.contacts-metrics-table {
+  width: 100%;
+  max-height: 200px; 
+  overflow-y: auto; /* Allow scrolling within the table */
+  border-collapse: collapse;
+  font-size: 0.9rem; /* Adjust font size for space */
+}
+
+.contacts-metrics-table th,
+.contacts-metrics-table td {
+  padding: 8px;
+  text-align: center;
+}
+
+.contacts-metrics-table th {
+  background-color: darkgray;
+  color: white;
+}
+
+.contacts-metrics-table tr:nth-child(even) {background-color: #f2f2f2;}
+.contacts-metrics-table tr:hover {background-color: #ddd;}
 
 /* STYLING FOR DELETE CONTACT MODAL (BARD) */
 
