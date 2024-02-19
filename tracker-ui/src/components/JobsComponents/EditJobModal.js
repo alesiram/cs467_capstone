@@ -19,8 +19,8 @@ const EditJobModal = ({ show, onClose, job, onSave }) => {
   };
 
   return (
-    <div className="job-modal edit-job-modal">
-      <div className="job-modal-content">
+    <div className="modal-background">
+      <div className="modal-content">
         <h2>Edit Job</h2>
         <span className="job-modal-close" onClick={onClose}>&times;</span>
         <form onSubmit={handleSubmit} className="two-column-form">
@@ -60,11 +60,13 @@ const EditJobModal = ({ show, onClose, job, onSave }) => {
             </label>
             <label>
               Apply Date:
-              <input type="text" name="applyDate" value={editedJob.applyDate} onChange={handleChange} />
+   
+              <input type="date" name="applyDate" value={editedJob.applyDate ? editedJob.applyDate.split('T')[0] : ''} onChange={handleChange} />
+
             </label>
             <label>
               Status:
-              <select name="status" value={editedJob.status} onChange={handleChange}>
+              <select name="status" value={editedJob.jobStatus} onChange={handleChange}>
               <option value="Open">Open</option>
               <option value="Closed">Closed</option>
             </select>
@@ -75,12 +77,13 @@ const EditJobModal = ({ show, onClose, job, onSave }) => {
               <select name="interviewed" value={editedJob.interviewed} onChange={handleChange}>
               <option value="Yes">Yes</option>
               <option value="No">No</option>
+              <option value="Pending">Pending</option>
             </select>
 
             </label>
             <label>
               Interview Date:
-              <input type="text" name="interviewDate" value={editedJob.interviewDate} onChange={handleChange} />
+              <input type="date" name="interviewDate" value={editedJob.interviewDate ? editedJob.interviewDate.split('T')[0] : ''} onChange={handleChange} />
             </label>
             <label>
               Decision:

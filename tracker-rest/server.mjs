@@ -62,8 +62,6 @@ app.get('jobs/:id', authMiddleware, jobs.getJob);
 app.put('/jobs/:id', authMiddleware, jobs.updateJob);
 app.delete('/jobs/:id', authMiddleware, jobs.deleteJob);
 
-
-
 /* ROUTES END */
 
 // Listen on the PORT

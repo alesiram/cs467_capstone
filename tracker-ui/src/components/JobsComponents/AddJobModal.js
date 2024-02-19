@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 
+
 const AddJobsModal = ({ onClose, onSave }) => {
+ // Get current date in local timezone and format it
+ const today = new Date();
+ const formattedToday = today.getFullYear() + '-' + (today.getMonth() + 1).toString().padStart(2, '0') + '-' + today.getDate().toString().padStart(2, '0');
+
   const [newJob, setNewJob] = useState({
     company: '',
     title: '',
@@ -8,10 +13,11 @@ const AddJobsModal = ({ onClose, onSave }) => {
     location: '',
     jobPostingLink: '',
     pay: '',
-    applyDate: '',
-    status: 'Open',
+    applyDate: formattedToday, 
+
+    jobStatus: 'Open',
     interviewed: 'No',
-    interviewDate: '',
+    interviewDate: null,
     decision: 'Pending',
     requiredSkills: '', 
     notes: '',
@@ -19,22 +25,38 @@ const AddJobsModal = ({ onClose, onSave }) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setNewJob({ ...newJob, [name]: value });
+    const updatedValue = name === 'interviewDate' && value === '' ? null : value;
+    setNewJob({ ...newJob, [name]: updatedValue });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSave(newJob);
+    const updatedNewJob = {
+      company: newJob.company,
+      title: newJob.title,
+      type: newJob.type,
+      location: newJob.location,
+      jobPostingLink: newJob.jobPostingLink,
+      pay: newJob.pay,
+      applyDate: newJob.applyDate ? new Date(newJob.applyDate).toISOString().split('T')[0] : new Date().toISOString().split('T')[0],
+      jobStatus: newJob.jobStatus,
+      interviewed: newJob.interviewed,
+      interviewDate: newJob.interviewDate ? new Date(newJob.interviewDate).toISOString().split('T')[0] : null,
+      decision: newJob.decision,
+      requiredSkills: newJob.requiredSkills,
+      notes: newJob.notes
+    };
+    onSave(updatedNewJob);
     onClose(); // Close the modal after save
   };
 
   return (
-    <div className="jobs-modal add-jobs-modal">
-      <div className="jobs-modal-content">
+    <div className="modal-background">
+      <div className="modal-content">
         <h2>Add New Job</h2>
-        <span className="jobs-modal-close" onClick={onClose}>&times;</span>
-        <form onSubmit={handleSubmit} className="form-two-columns">
-          <div className="column">
+        <span className="jobb-modal-close" onClick={onClose}>&times;</span>
+        <form onSubmit={handleSubmit} className="two-column-form">
+          <div className="form-column">
             <label>
               Company:
               <input type="text" name="company" value={newJob.company} onChange={handleChange} required />
@@ -66,12 +88,17 @@ const AddJobsModal = ({ onClose, onSave }) => {
           </div>
           <div className="column">
             <label>
-              Apply Date:
-              <input type="text" name="applyDate" value={newJob.applyDate} onChange={handleChange}  />
+              Apply Date: 
+              <input 
+                type="date" 
+                name="applyDate" 
+                value={newJob.applyDate} 
+                onChange={handleChange} 
+              />
             </label>
             <label>
-              Status:
-              <select name="status" value={newJob.status} onChange={handleChange}>
+              jobStatus:
+              <select name="jobStatus" value={newJob.jobStatus} onChange={handleChange}>
                 <option value="Open">Open</option>
                 <option value="Closed">Closed</option>
               </select>
@@ -81,11 +108,17 @@ const AddJobsModal = ({ onClose, onSave }) => {
               <select name="interviewed" value={newJob.interviewed} onChange={handleChange}>
                 <option value="Yes">Yes</option>
                 <option value="No">No</option>
+                <option value="Pending">Pending</option>
               </select>
             </label>
             <label>
               Interview Date:
-              <input type="text" name="interviewDate" value={newJob.interviewDate} onChange={handleChange} />
+              <input 
+                type="date" 
+                name="interviewDate" 
+                value={newJob.interviewDate || ''} 
+                onChange={handleChange} 
+              />
             </label>
             <label>
               Decision:
@@ -105,8 +138,8 @@ const AddJobsModal = ({ onClose, onSave }) => {
             </label>
           </div>
           <div className="jobs-modal-actions">
-            <button type="submit" className="jobs-modal-button add">Add</button>
-            <button type="button" className="jobs-modal-button cancel" onClick={onClose}>Cancel</button>
+            <button type="submit" className="job-modal-button add">Add</button>
+            <button type="button" className="job-modal-button cancel" onClick={onClose}>Cancel</button>
           </div>
         </form>
       </div>

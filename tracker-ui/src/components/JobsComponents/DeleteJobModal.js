@@ -7,13 +7,13 @@ const DeleteJobModal = ({ job, onClose, onDelete }) => {
   };
 
   return (
-    <div className="job-modal delete-job-modal">
-      <div className="job-modal-content">
+    <div className="delete-modal-background">
+      <div className="delete-modal-content">
         <h2>Delete Job</h2>
         <p>Are you sure you want to delete the job "{job.title}" at {job.company}?</p>
-        <div className="job-modal-actions">
-          <button className="job-modal-button delete" onClick={handleDelete}>Delete</button>
-          <button className="job-modal-button cancel" onClick={onClose}>Cancel</button>
+        <div className="delete-modal-actions">
+          <button className="delete-modal-button delete" onClick={handleDelete}>Delete</button>
+          <button className="delete-modal-button cancel" onClick={onClose}>Cancel</button>
         </div>
       </div>
     </div>

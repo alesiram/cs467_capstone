@@ -37,6 +37,7 @@ export const getJob = async (req, res) => {
 // Get all jobs for the authenticated user
 export const getJobs = async (req, res) => {
   try {
+    
     // Find all jobs
     const jobs = await Job.find({ user: req.user._id });
     // Send all jobs
