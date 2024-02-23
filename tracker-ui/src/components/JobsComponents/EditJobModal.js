@@ -1,10 +1,27 @@
 import React, { useState, useEffect } from 'react';
+import Select from 'react-select';
 
-const EditJobModal = ({ show, onClose, job, onSave }) => {
-  const [editedJob, setEditedJob] = useState(job);
+const EditJobModal = ({ show, onClose, job, onSave, skills }) => {
+
+  const transformJob = (job) => {
+    // We are transforming the job object here into 
+    // something that can be used and read by react-select
+    let editedRequiredSkills = job.requiredSkills.map(skill => {
+      let maybeSkill = null
+      for (const sk of skills) {
+        if (sk.name == skill.name) {
+          maybeSkill = { value: sk._id, label: sk.name }
+        }
+      }
+      return maybeSkill
+    })
+    return {...job, requiredSkills: editedRequiredSkills}
+  }
+
+  const [editedJob, setEditedJob] = useState(transformJob(job));
 
   useEffect(() => {
-    setEditedJob(job); // This will reset the form with the new job when the job prop changes
+    setEditedJob(transformJob(job)); // This will reset the form with the new job when the job prop changes
   }, [job]);
 
   const handleChange = (e) => {
@@ -94,14 +111,39 @@ const EditJobModal = ({ show, onClose, job, onSave }) => {
             </select>
 
             </label>
-            <label>
+
+
+
+            {/* <label>
               Required Skills:
               <input type="text" name="requiredSkills" value={editedJob.requiredSkills} onChange={handleChange} />
             </label>
-            <label>
+       
+
+            {/* Dropdown for required skills */}
+          <label>
+              Required Skills:
+              <Select
+                isMulti
+                options={skills.map(skill => ({ value: skill._id, label: skill.name }))}
+                onChange={selectedSkills => 
+                  setEditedJob(
+                    { ...editedJob, requiredSkills: selectedSkills}
+                  )}
+                value={editedJob.requiredSkills}
+              />
+            </label>
+
+          <label>
               Notes:
               <input type="text" name="notes" value={editedJob.notes} onChange={handleChange} />
-            </label>
+          </label> 
+
+
+
+
+
+
           </div>
           <div className="job-modal-actions">
             <button type="submit" className="job-modal-button edit">Save Changes</button>

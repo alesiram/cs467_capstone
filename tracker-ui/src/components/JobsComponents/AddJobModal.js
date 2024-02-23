@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
+import Select from 'react-select';
 
-
-const AddJobsModal = ({ onClose, onSave }) => {
+const AddJobsModal = ({ onClose, onSave, skills }) => {
  // Get current date in local timezone and format it
  const today = new Date();
  const formattedToday = today.getFullYear() + '-' + (today.getMonth() + 1).toString().padStart(2, '0') + '-' + today.getDate().toString().padStart(2, '0');
@@ -19,7 +19,7 @@ const AddJobsModal = ({ onClose, onSave }) => {
     interviewed: 'No',
     interviewDate: null,
     decision: 'Pending',
-    requiredSkills: '', 
+    requiredSkills: [], 
     notes: '',
   });
 
@@ -128,10 +128,19 @@ const AddJobsModal = ({ onClose, onSave }) => {
                 <option value="Hired">Hired</option>
               </select>
             </label>
+
             <label>
               Required Skills:
-              <input type="text" name="requiredSkills" value={newJob.requiredSkills} onChange={handleChange} />
+              <Select
+                isMulti
+                options={skills.map(skill => ({ value: skill._id, label: skill.name }))}
+                onChange={selectedSkills => setNewJob({ ...newJob, requiredSkills: selectedSkills })}
+                value={newJob.requiredSkills}
+              />
             </label>
+
+
+
             <label>
               Notes:
               <input type="text" name="notes" value={newJob.notes} onChange={handleChange} />

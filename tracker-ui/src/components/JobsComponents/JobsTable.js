@@ -98,7 +98,15 @@ const JobTableModal = ({ jobs, onEdit, onDelete }) => {
                   <td>{job.interviewed}</td>
                   <td>{job.interviewDate ? formattedInterviewDate : ''}</td>
                   <td>{job.decision}</td>
-                  <td>{job.requiredSkills}</td>
+                  <td>
+                    {job.requiredSkills.map(skill => (
+                      <span key={skill._id}>{skill.name}<br /></span>
+                    ))}
+                  </td>
+                  
+
+
+
                   <td>{job.notes}</td>
                   <td className="job-action-buttons">
                     <button className="edit" onClick={() => onEdit(job)}>Edit</button>
