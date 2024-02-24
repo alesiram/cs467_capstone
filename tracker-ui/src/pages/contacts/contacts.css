@@ -748,6 +748,28 @@
     color: white;
 }
 
+/* Styling for Contact Sort Buttons */
+.contact-table-sort-button {
+    margin-left: 5px;
+    border: none; 
+    outline: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 15px; 
+    color: #ffffff; 
+    padding: 0; 
+    vertical-align: middle; /* Aligns button with inline or text elements vertically */
+}
+
+/* Reintroduce focus styles for accessibility, if outline is removed */
+.contact-table-sort-button:focus {
+    outline: 1px dotted #fff;
+}
+
+.contact-table-sort-button:hover {
+    color: red;
+}
+
 /* Responsive adjustments */
 @media screen and (max-width: 600px) {
     .contact-table, .contact-table-container {
@@ -1125,9 +1147,11 @@
 
 /* css code for a react component that is a search bar */
 .contact-search-bar {
-    width: 80%;
     margin: 0 auto;
     font-family: Arial, sans-serif;
+    display: flex;
+    width: 400px;
+    max-width: 100%; /* Ensures responsiveness */
 }
 
 .contact-search-bar input {
@@ -1154,4 +1178,90 @@
 
 .contact-search-bar input::placeholder {
     color: #666;
+}
+
+.contact-search-bar-clear-search-button {
+  margin-left: 10px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 12px;
+  background-color: #f0c74c;
+}
+
+.contact-search-fields-info {
+  width: 200px;
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translate(-50%);
+  padding: 5px;
+  border: 1px solid #ccc;
+  background-color: white;
+  font-size: 10px;
+  z-index: 1; /* Ensure above other elements */
+}
+
+.contact-search-fields-info-list {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.contact-search-filter-info-toggle-div {
+  padding: 5px;
+  position: relative;
+  display: inline-block;
+}
+
+.contact-filter-follow-up-date-select-input-div {
+    display: flex;
+    align-items: center; /* Aligns items vertically in the center */
+    gap: 8px; /* Adds some space between the select box and the date input */
+}
+
+.contact-filter-follow-up-date-input {
+  border-radius: 5px;
+}
+
+.contact-advanced-filter-div {
+  border: solid 2px black;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.contact-search-info-toggle-button,
+.contact-search-show-filter-button {
+  margin-left: 10px;
+  height: 40px;
+  justify-content: center;
+  align-items: center;
+  padding: 0 12px;
+  background-color: black;
+  color: white;
+}
+
+.contact-filter-apply-filters-button,
+.contact-filter-cancel-filters-button,
+.contact-search-filter-clear-filters-button {
+  margin-left: 10px;
+  height: 40px;
+  justify-content: center;
+  align-items: center;
+  padding: 0 12px;
+}
+
+.contact-filter-cancel-filters-button,
+.contact-search-filter-clear-filters-button {
+  background-color: #f0c74c;
+}
+
+.contact-search-info-toggle-button:hover,
+.contact-search-show-filter-button:hover,
+.contact-filter-apply-filters-button:hover,
+.contact-filter-cancel-filters-button:hover,
+.contact-search-filter-clear-filters-button:hover {
+  background-color: white;
+  color: black;
 }

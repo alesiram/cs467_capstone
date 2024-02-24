@@ -27,7 +27,17 @@ const ContactsPage = () => {
     const [viewMode, setViewMode] = useState('table'); // 'table', 'cards', or 'dashboard'
 
     // Handle the search
+    const [displayedContacts, setDisplayedContacts] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
+    const [selectedStrengthFilter, setSelectedStrengthFilter] = useState([]);
+    const [followUpComparisonFilter, setFollowUpComparisonFilter] = useState('');
+    const [followUpDateFilter, setFollowUpDateFilter] = useState('');
+    const [referralPotentialFilter, setReferralPotentialFilter] = useState('');
+    const [sortOptionFilter, setSortOptionFilter] = useState('');
+    const [showAdvancedFilter, setShowAdvancedFilter] = useState(false);
+    const [filtersApplied, setFiltersApplied] = useState(false);
+    const [showSearchFieldsInfo, setShowSearchFieldsInfo] = useState(false);
+    const [searchMessage, setSearchMessage] = useState('');
 
     // Handle contacts (i.e. users contacts)
     const [contacts, setContacts] = useState([]);
@@ -117,6 +127,8 @@ const ContactsPage = () => {
             } else {
                 // Await and returned the saved contact in db
                 const savedContact = await response.json();
+                // Clear all filters
+                clearAllSearchFilters();
                 return savedContact;
             }
         } catch (error) {
@@ -144,6 +156,8 @@ const ContactsPage = () => {
             } else {
                 // Await and return the updated contact in db
                 const updatedContact = await response.json();
+                // Clear all filters
+                clearAllSearchFilters();
                 return updatedContact;
             }
         } catch (error) {
@@ -170,6 +184,8 @@ const ContactsPage = () => {
             } else {
                 // Await and return the deleted response from db
                 const deletedResponse = await response.json();
+                // Clear all filters
+                clearAllSearchFilters();
                 return deletedResponse
             }
         } catch (error) {
@@ -178,19 +194,57 @@ const ContactsPage = () => {
         }
     };
 
-    // Placeholder to handle search search handler
-    const handleSearch = (query) => {
-        setSearchQuery(query);
-        console.log("Search query:", searchQuery);
-        // PLACEHOLDER: 
-        //    filteredContacts = contacts.filter(contact => contact.name.toLowercase().includes(query.toLowerCase()))
-        //    setContacts(filteredContacts)
+    // Clear search field and all filters
+    const clearAllSearchFilters = () => {
+        setSearchQuery('');
+        setSelectedStrengthFilter([]);
+        setFollowUpComparisonFilter('');
+        setFollowUpDateFilter('');
+        setReferralPotentialFilter('');
+        setSortOptionFilter('');
+        setShowAdvancedFilter(false);
+        setFiltersApplied(false);
+        setShowSearchFieldsInfo(false);
+        setSearchMessage('');
     };
+
+    // Contacts search bar props as object
+    const contactsSearchBarProps = {
+        contacts,
+        displayedContacts,
+        setDisplayedContacts,
+        searchQuery,
+        setSearchQuery,
+        selectedStrengthFilter,
+        setSelectedStrengthFilter,
+        followUpComparisonFilter,
+        setFollowUpComparisonFilter,
+        followUpDateFilter,
+        setFollowUpDateFilter,
+        referralPotentialFilter,
+        setReferralPotentialFilter,
+        sortOptionFilter,
+        setSortOptionFilter,
+        showSearchFieldsInfo,
+        setShowSearchFieldsInfo,
+        showAdvancedFilter,
+        setShowAdvancedFilter,
+        filtersApplied,
+        setFiltersApplied,
+        setSearchMessage,
+        clearAllSearchFilters
+    }
 
     // Get all of the users contacts
     useEffect(() => {
         handleGetContacts();
     }, []);
+
+    // For search and filter functionality
+    useEffect(() => {
+        // Updates displayedContacts whenever the contacts list changes
+        setDisplayedContacts(contacts);
+    }, [contacts]);
 
     // Render the view as either table listing, cards, or the dasboard
     const renderView = () => {
@@ -198,16 +252,17 @@ const ContactsPage = () => {
             // Display contacts as a table
             case 'table':
                 return <ContactsTable
-                    contacts={contacts}
+                    displayedContacts={displayedContacts}
                     onEditClick={handleEditClick}
                     onDeleteClick={handleDeleteClick}
                     onViewClick={handleViewClick}
+                    setDisplayedContacts={setDisplayedContacts}
                 />;
             // Display contacts as cards
             case 'cards':
                 return <div className="contacts-cards-container">
                     {/* Map each contact as it's own card */}
-                    {contacts.map(contact => (
+                    {displayedContacts.map(contact => (
                         <ContactsCard
                             key={contact._id}
                             contact={contact}
@@ -261,8 +316,9 @@ const ContactsPage = () => {
                 ) : (
                     <>
                         {/* Render the views for contacts */}
-                        {(viewMode === 'table' || viewMode === 'cards') && <ContactsSearchBar onSearch={handleSearch} />}
-                        {renderView()}
+                        {(viewMode === 'table' || viewMode === 'cards') && <ContactsSearchBar {...contactsSearchBarProps}/>}
+                        {searchMessage && <div>{searchMessage}</div>}
+                        {!searchMessage && renderView()}
                     </>
                 )}
             </div>
