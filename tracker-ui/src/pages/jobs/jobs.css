@@ -13,8 +13,9 @@ job-table {
 .job-table th,
 .job-table td {
   border: 1px solid #b8b5b5; /* You can adjust the border color as needed */
-  padding: 10px;
+  padding: 4px;
   border-radius: 2px;
+  font-size: 14px;
 }
 
 
@@ -44,12 +45,14 @@ job-table {
 }
 
 .modal-content {
-  background-color: #fff; /* Modal background color */
-  padding: 20px;
+  background-color: #fff;
+  padding: 15px;
   border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Box shadow for depth */
-  max-width: 500px; /* Adjust width as needed */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  max-width: 400px;
   width: 100%;
+  max-height: 80vh; /* Set a maximum height relative to the viewport height */
+  overflow-y: auto; /* Allow vertical scrolling if content exceeds the maximum height */
 }
 
 .modal-close {
@@ -86,7 +89,7 @@ select {
 }
 
 .modal-button {
-  padding: 10px 20px;
+  padding: 8px 14px;
   margin-left: 10px;
   cursor: pointer;
   border: none;
@@ -145,7 +148,7 @@ select {
 
 .delete-modal-button {
   width: 100%;
-  padding: 10px 20px;
+  padding: 8px 14px;
   margin-left: 10px;
   cursor: pointer;
   border: none;

@@ -58,7 +58,8 @@ const jobSchema = new mongoose.Schema({
     enum: ['Pending', 'Rejected', 'Hired', 'Other'],
   },
   requiredSkills: [{
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Skill',
     required: false,
   }],
   notes: {

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios'; 
 import NavBar from '../../components/NavBar';
 import JobsTable from '../../components/JobsComponents/JobsTable';
 import AddJobModal from '../../components/JobsComponents/AddJobModal';
@@ -17,36 +16,37 @@ const JobsPage = () => {
   const [selectedJob, setSelectedJob] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
+  const [skills, setSkills] = useState([]); // Update to hold skills data
 
 
-  const handleGetJobs = () => {
-    const fetchJobs = async () => {
-        setIsLoading(true);
-        try {
-            const token = localStorage.getItem('token');
-            const response = await fetch('/jobs', {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                }
-            });
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            let data = await response.json();
-            setJobs(data);
-        } catch (error) {
-            setError(error.message);
-        } finally {
-            setIsLoading(false);
-        }
-    };
-    fetchJobs();
-};
+  const fetchData = async () => {
+    setIsLoading(true);
+    try {
+      const token = localStorage.getItem('token');
+      const jobsPromise = fetch('/jobs', {
+        method: 'GET',
+        headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+      });
+      const skillsPromise = fetch('/skills', { // Fetch skills instead of contacts
+        method: 'GET',
+        headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+      });
+
+      const [jobsResponse, skillsResponse] = await Promise.all([jobsPromise, skillsPromise]);
+      if (!jobsResponse.ok || !skillsResponse.ok) throw new Error('Failed to fetch data');
+
+      const [jobsData, skillsData] = await Promise.all([jobsResponse.json(), skillsResponse.json()]);
+      setJobs(jobsData);
+      setSkills(skillsData); // Update state with skills data
+    } catch (error) {
+      setError('Failed to load data: ' + error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
-    handleGetJobs();
+    fetchData();
   }, []);
 
   {/* search */}
@@ -80,6 +80,7 @@ const JobsPage = () => {
       }
       let data = await response.json();
       setJobs([...jobs, data])
+    fetchData()
   } catch (error) {
       setError(error.message);
   } finally {
@@ -88,8 +89,6 @@ const JobsPage = () => {
     // Close the add modal
     setShowAddModal(false);
   };
-
-
 
   const handleEditJob = async (updatedJob) => {
     // Handle editing a job
@@ -110,7 +109,7 @@ const JobsPage = () => {
         throw new Error(errorData.message || 'Failed to Update the job');
       }
       // Fetch the list of jobs from BE
-      handleGetJobs()
+      fetchData()
       // Close the edit modal
       setShowEditModal(false);
   
@@ -174,8 +173,8 @@ const JobsPage = () => {
             setShowDeleteModal(true);
           }}
         />
-        {showAddModal && <AddJobModal onClose={() => setShowAddModal(false)} onSave={handleAddJob} />}
-        {showEditModal && selectedJob && <EditJobModal onClose={() => setShowEditModal(false)} onUpdate={handleEditJob} job={selectedJob} onSave={handleEditJob}  />}
+        {showAddModal && <AddJobModal onClose={() => setShowAddModal(false)} onSave={handleAddJob} skills={skills} />}
+        {showEditModal && selectedJob && <EditJobModal onClose={() => setShowEditModal(false)} onUpdate={handleEditJob} job={selectedJob} onSave={handleEditJob} skills={skills} />}
         {showDeleteModal && selectedJob && <DeleteJobModal onClose={() => setShowDeleteModal(false)} onDelete={(id) => handleDeleteJob(id)} job={selectedJob} />}
       </div>
     </div>
