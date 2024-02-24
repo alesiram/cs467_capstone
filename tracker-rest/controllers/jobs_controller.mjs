@@ -8,25 +8,22 @@ export const createJob = async (req, res) => {
 
     // // Check if required skills are provided and exist
     if (req.body.requiredSkills) {
-      const requiredSkills = req.body.requiredSkills.map(skill => skill.label);
-      const skillsExist = await Skill.find({ name: { $in: requiredSkills }, user: req.user._id });
+      const requiredSkillsName = req.body.requiredSkills.map(skill => skill.label);
+      const requiredSkillsIds = req.body.requiredSkills.map(skill => skill.value);
+
+      const skillsExist = await Skill.find({ name: { $in: requiredSkillsName }, user: req.user._id })
+      const filteredSkils = skillsExist.filter(skill => requiredSkillsIds.includes(skill._id.toString()))
 
       // Check if all required skills exist
-      if (skillsExist.length !== requiredSkills.length) {
-        const missingSkills = requiredSkills.filter(skill => !skillsExist.some(existingSkill => existingSkill.name === skill));
+      if (filteredSkils.length !== requiredSkillsName.length) {
+        const missingSkills = requiredSkillsName.filter(skill => !filteredSkils.some(existingSkill => existingSkill.name === skill));
         return res.status(400).json({ message: `One or more required skills do not exist: ${missingSkills.join(', ')}` });
       }
 
       // Store the ObjectIds of the existing required skills
-      requiredSkillIds = skillsExist.map(skill => skill._id);
+      requiredSkillIds = filteredSkils.map(skill => skill._id);
     }
 
-    // if (req.body.requiredSkills){
-    //   const skillsObj = await SkillsPage.findOne({_id: req.body.Skill});
-    // } else {
-    //   return res.status(404).json({ message: 'Skill not found'});
-    // }
-    // // Create job from request body
     const newJob = new Job({
       ...req.body,
       user: req.user._id,
@@ -81,16 +78,19 @@ export const updateJob = async (req, res) => {
     // // Check if required skills are provided and exist
     if (req.body.requiredSkills) {
       const requiredSkills = req.body.requiredSkills.map(skill => skill.label);
+      const requiredSkillsIds = req.body.requiredSkills.map(skill => skill.value);
+      
       const skillsExist = await Skill.find({ name: { $in: requiredSkills }, user: req.user._id });
+      const filteredSkils = skillsExist.filter(skill => requiredSkillsIds.includes(skill._id.toString()))
 
       // Check if all required skills exist
-      if (skillsExist.length !== requiredSkills.length) {
-        const missingSkills = requiredSkills.filter(skill => !skillsExist.some(existingSkill => existingSkill.name === skill));
+      if (filteredSkils.length !== requiredSkills.length) {
+        const missingSkills = requiredSkills.filter(skill => !filteredSkils.some(existingSkill => existingSkill.name === skill));
         return res.status(400).json({ message: `One or more required skills do not exist: ${missingSkills.join(', ')}` });
       }
 
       // Store the ObjectIds of the existing required skills
-      requiredSkillIds = skillsExist.map(skill => skill._id);
+      requiredSkillIds = filteredSkils.map(skill => skill._id);
     }
     // Find job from route param :_id, and update the job
     const job = await Job.findOneAndUpdate(
