@@ -37,10 +37,10 @@ const handleSubmit = (e) => {
 
   return (
     <div className="modal-backdrop">
-      <div className="modal" id="editSkillModal" role="dialog" aria-modal="true" aria-labelledby="editModalTitle">
+      <div className="skills-page__modal skills-page__modal--edit" role="dialog" aria-modal="true" aria-labelledby="editModalTitle">
         <h2 id="editModalTitle">Edit Skill</h2>
-        <form onSubmit={handleSubmit} className="modal-form">
-          <div className="modal-body">
+        <form onSubmit={handleSubmit} className="skills-page__modal-form">
+          <div className="skills-page__modal-body">
             <label htmlFor="editName">Name:</label>
             <input id="editName" type="text" name="name" value={editSkill.name || ''} onChange={handleChange} required />
             
@@ -55,14 +55,15 @@ const handleSubmit = (e) => {
               ))}
             </select>
           </div>
-          <div className="modal-footer">
-            <button type="submit" className="button save">Save Changes</button>
-            <button type="button" className="button cancel" onClick={onClose}>Cancel</button>
+          <div className="skills-page__modal-footer">
+            <button type="submit" className="skills-page__button--save">Save Changes</button>
+            <button type="button" className="skills-page__button--cancel" onClick={onClose}>Cancel</button>
           </div>
         </form>
       </div>
     </div>
-  );    
+  );
+   
 };
 
 export default EditSkillModal;

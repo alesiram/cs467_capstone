@@ -4,7 +4,7 @@ import React from 'react';
 
 const SkillTable = ({ skills, onEdit, onDelete, onSort }) => {
   return (
-    <table id="skillTable">
+    <table id="skillTable" className="skills-page__table">
       <thead>
         <tr>
           <th onClick={() => onSort('name')}>Name</th>
@@ -21,14 +21,14 @@ const SkillTable = ({ skills, onEdit, onDelete, onSort }) => {
             {/* Display reference name or 'N/A' if not available */}
             <td>{skill.reference ? skill.contactDetails.name : 'N/A'}</td>
             <td>
-              <button className="button edit-button" onClick={() => onEdit(skill)}>Edit</button>
-              <button className="button delete-button" onClick={() => onDelete(skill._id)}>Delete</button>
+              <button className="skills-page__action-button skills-page__action-button--edit" onClick={() => onEdit(skill)}>Edit</button>
+              <button className="skills-page__action-button skills-page__action-button--delete" onClick={() => onDelete(skill._id)}>Delete</button>
             </td>
           </tr>
         ))}
       </tbody>
     </table>
-  );  
+  );    
 };
 
 export default SkillTable;

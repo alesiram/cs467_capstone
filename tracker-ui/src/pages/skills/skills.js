@@ -223,19 +223,19 @@ const deleteSkill = async (skillId) => {
   return (
     <div id="skillsPage">
       <NavBar />
-      <div className="skills-container">
-        <h1 id="skillsHeader">Skills</h1>
+      <div className="skills-page__container">
+        <h1 className="skills-page__header">Skills</h1>
         {/* Displaying the most popular skill summary */}
         {mostPopularSkill ? (
-        <div className="most-popular-skill-summary">
+        <div className="skills-page__most-popular-summary">
           <p>Most Popular Skill: {mostPopularSkill._id}</p>
           <p>Average Rating: {mostPopularSkill.averageRating.toFixed(1)}</p>
         </div>
       ) : isLoading ? (
         <p>Loading most popular skill...</p>
       ) : null}
-        <button id="addSkillButton" onClick={() => setShowAddModal(true)}>Add New Skill</button>
-        <div className="filters">
+        <button className="skills-page__button--add-new" onClick={() => setShowAddModal(true)}>Add New Skill</button>
+        <div className="skills-page__filters">
           <input
             type="text"
             placeholder="Search by name..."
@@ -244,7 +244,7 @@ const deleteSkill = async (skillId) => {
           />
           <input
             type="number"
-            placeholder="Filter by minimum rating..."
+            placeholder="Filter by min rating..."
             value={filterRating}
             min="1" // Ensures the minimum value that can be entered is 1
             max="5" // Ensures the maximum value that can be entered is 5
@@ -269,7 +269,7 @@ const deleteSkill = async (skillId) => {
       </div>
     </div>
   );
-
+  
   // Helper function to set current skill and show edit modal
   function setCurrentSkillAndShowEditModal(skill) {
     setCurrentSkill(skill);
