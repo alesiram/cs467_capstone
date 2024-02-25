@@ -20,22 +20,36 @@ const SkillsPage = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [currentSkill, setCurrentSkill] = useState(null);
   const [mostPopularSkill, setMostPopularSkill] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [sortOption, setSortOption] = useState('name_asc'); // Example sort option
+  const [sortCriteria, setSortCriteria] = useState({ field: 'name', order: 'asc' });
+  const [filterRating, setFilterRating] = useState('');
 
 
   // Combined fetch function for skills and contacts
   const fetchData = async () => {
     setIsLoading(true);
-    try {
-      // Simultaneous fetching of skills and contacts if needed
-      const token = localStorage.getItem('token');
-      const skillsPromise = fetch('/skills', {
-        method: 'GET',
-        headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
-      });
-      const contactsPromise = fetch('/contacts', {
-        method: 'GET',
-        headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
-      });
+      try {
+        const token = localStorage.getItem('token');
+        let queryParams = new URLSearchParams();
+
+        if (searchTerm) queryParams.append('search', searchTerm);
+        if (sortOption) queryParams.append('sort', sortOption);
+        if (filterRating) queryParams.append('minRating', filterRating);
+        if (sortCriteria.field && sortCriteria.order) {
+          queryParams.append('sort', `${sortCriteria.field}_${sortCriteria.order}`);
+        }
+
+        const skillsPromise = fetch(`/skills?${queryParams.toString()}`, {
+          method: 'GET',
+          headers: { 'Authorization': `Bearer ${token}` },
+        });
+
+        // Contacts fetching remains unchanged
+        const contactsPromise = fetch('/contacts', {
+          method: 'GET',
+          headers: { 'Authorization': `Bearer ${token}` },
+        });
 
       // Await both promises
       const [skillsResponse, contactsResponse] = await Promise.all([skillsPromise, contactsPromise]);
@@ -49,6 +63,14 @@ const SkillsPage = () => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  // Add a function to update sort criteria based on column click
+  const handleSortChange = (field) => {
+    setSortCriteria((prevState) => ({
+      field,
+      order: prevState.field === field && prevState.order === 'asc' ? 'desc' : 'asc',
+    }));
   };
 
   // Correctly define fetchMostPopularSkill within SkillsPage component
@@ -72,7 +94,7 @@ const SkillsPage = () => {
   useEffect(() => {
     fetchData();
     fetchMostPopularSkill();
-  }, []);
+  }, [searchTerm, sortOption, filterRating]);
 
   // Add skill
 const addSkill = async (skill) => {
@@ -163,8 +185,6 @@ const deleteSkill = async (skillId) => {
       <NavBar />
       <div className="skills-container">
         <h1 id="skillsHeader">Skills</h1>
-        {isLoading && <p>Loading...</p>}
-        {error && <p className="error">{error}</p>}
         {/* Displaying the most popular skill summary */}
         {mostPopularSkill ? (
         <div className="most-popular-skill-summary">
@@ -175,7 +195,27 @@ const deleteSkill = async (skillId) => {
         <p>Loading most popular skill...</p>
       ) : null}
         <button id="addSkillButton" onClick={() => setShowAddModal(true)}>Add New Skill</button>
-        <SkillTable skills={skills} onEdit={setCurrentSkillAndShowEditModal} onDelete={setCurrentSkillAndShowDeleteModal} />
+        <div className="filters">
+          <input
+            type="text"
+            placeholder="Search by name..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <input
+            type="number"
+            placeholder="Filter by rating..."
+            value={filterRating}
+            onChange={(e) => setFilterRating(e.target.value)}
+          />
+          <button onClick={fetchData}>Apply</button>
+        </div>
+        <SkillTable
+          skills={skills}
+          onEdit={setCurrentSkillAndShowEditModal}
+          onDelete={setCurrentSkillAndShowDeleteModal}
+          onSort={handleSortChange} // Pass the sorting handler to SkillTable
+        />
         {showAddModal && <AddSkillModal onClose={() => setShowAddModal(false)} onSave={addSkill} contacts={contacts} />}
         {showEditModal && currentSkill && <EditSkillModal skill={currentSkill} onClose={() => setShowEditModal(false)} onSave={editSkill} contacts={contacts} />}
         {showDeleteModal && currentSkill && <DeleteSkillModal skill={currentSkill} onClose={() => setShowDeleteModal(false)} onDelete={deleteSkill} />}

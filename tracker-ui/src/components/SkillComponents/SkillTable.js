@@ -2,14 +2,14 @@
 
 import React from 'react';
 
-const SkillTable = ({ skills, onEdit, onDelete }) => {
+const SkillTable = ({ skills, onEdit, onDelete, onSort }) => {
   return (
     <table id="skillTable">
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Rating</th>
-          <th>Reference</th>
+          <th onClick={() => onSort('name')}>Name</th>
+          <th onClick={() => onSort('rating')}>Rating</th>
+          <th onClick={() => onSort('reference.name')}>Reference</th>
           <th>Actions</th>
         </tr>
       </thead>

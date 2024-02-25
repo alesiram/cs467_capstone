@@ -33,16 +33,84 @@ export const createSkill = async (req, res) => {
 
 
 
-// Get all skills for the authenticated user
+// Comprehensive getSkills function
 export const getSkills = async (req, res) => {
     try {
-        const skills = await Skill.find({ user: req.user._id })
-                                  .populate('reference', 'name -_id'); // Populate 'reference' field
-        res.status(200).json(skills);
+        const matchQuery = { user: req.user._id }; // Base match query to always filter by the authenticated user
+
+        // Add basic rating filter if specified
+        if (req.query.minRating || req.query.maxRating) {
+            matchQuery.rating = {};
+            if (req.query.minRating) {
+                matchQuery.rating.$gte = parseInt(req.query.minRating);
+            }
+            if (req.query.maxRating) {
+                matchQuery.rating.$lte = parseInt(req.query.maxRating);
+            }
+        }
+
+        const pipeline = [
+            {
+                $match: matchQuery
+            },
+            {
+                $lookup: {
+                    from: 'contacts', // Adjust this to your contacts collection name
+                    localField: 'reference',
+                    foreignField: '_id',
+                    as: 'contactDetails'
+                }
+            },
+            {
+                $unwind: {
+                    path: '$contactDetails',
+                    preserveNullAndEmptyArrays: true
+                }
+            }
+        ];
+
+        // Add search by skill name or contact name
+        if (req.query.search) {
+            pipeline.push({
+                $match: {
+                    $or: [
+                        { name: { $regex: req.query.search, $options: 'i' } },
+                        { 'contactDetails.name': { $regex: req.query.search, $options: 'i' } }
+                    ]
+                }
+            });
+        }
+
+        // Dynamic sorting based on query parameters
+        let sortField = 'name'; // default sort by skill name
+        if (req.query.sortBy) {
+            if (req.query.sortBy === 'rating') {
+                sortField = 'rating';
+            } else if (req.query.sortBy === 'contactName') {
+                sortField = 'contactDetails.name';
+            }
+            // For skill name, it remains 'name'
+        }
+        const sortOrder = req.query.order === 'desc' ? -1 : 1; // Default ascending
+
+        pipeline.push({
+            $sort: { [sortField]: sortOrder }
+        });
+
+        const skills = await Skill.aggregate(pipeline);
+
+        if (skills.length === 0) {
+            return res.status(404).json({ message: 'No skills found' });
+        }
+
+        res.json(skills);
     } catch (error) {
+        console.error(error);
         res.status(500).json({ message: error.message });
     }
 };
+
+
 
 // Function to retrieve a specific skill for the authenticated user
 export const getSkill = async (req, res) => {
