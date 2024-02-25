@@ -1,6 +1,6 @@
 // CREATED WITH GPT 4.0
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import NavBar from '../../components/NavBar';
 import SkillTable from '../../components/SkillComponents/SkillTable';
 import AddSkillModal from '../../components/SkillComponents/AddSkillModal';
@@ -21,7 +21,7 @@ const SkillsPage = () => {
   const [currentSkill, setCurrentSkill] = useState(null);
   const [mostPopularSkill, setMostPopularSkill] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
-  const [sortOption, setSortOption] = useState('name_asc'); // Example sort option
+  // Remove the sortOption state if it's not used elsewhere for a different purpose.
   const [sortCriteria, setSortCriteria] = useState({ field: 'name', order: 'asc' });
   const [filterRating, setFilterRating] = useState('');
   const [isLoadingPopularSkill, setIsLoadingPopularSkill] = useState(false);
@@ -30,35 +30,21 @@ const SkillsPage = () => {
   // Combined fetch function for skills and contacts
   const fetchData = async () => {
     setIsLoading(true);
-      try {
-        const token = localStorage.getItem('token');
-        let queryParams = new URLSearchParams();
-
-        if (searchTerm) queryParams.append('search', searchTerm);
-        if (sortOption) queryParams.append('sort', sortOption);
-        if (filterRating) queryParams.append('minRating', filterRating);
-        if (sortCriteria.field && sortCriteria.order) {
-          queryParams.append('sort', `${sortCriteria.field}_${sortCriteria.order}`);
-        }
-
-        const skillsPromise = fetch(`/skills?${queryParams.toString()}`, {
-          method: 'GET',
-          headers: { 'Authorization': `Bearer ${token}` },
-        });
-
-        // Contacts fetching remains unchanged
-        const contactsPromise = fetch('/contacts', {
-          method: 'GET',
-          headers: { 'Authorization': `Bearer ${token}` },
-        });
-
-      // Await both promises
-      const [skillsResponse, contactsResponse] = await Promise.all([skillsPromise, contactsPromise]);
-      if (!skillsResponse.ok || !contactsResponse.ok) throw new Error('Failed to fetch data');
-
-      const [skillsData, contactsData] = await Promise.all([skillsResponse.json(), contactsResponse.json()]);
+    try {
+      const token = localStorage.getItem('token');
+      let queryParams = new URLSearchParams();
+  
+      if (searchTerm) queryParams.append('search', searchTerm);
+      if (filterRating) queryParams.append('minRating', filterRating);
+  
+      const response = await fetch(`/skills?${queryParams.toString()}`, {
+        headers: { 'Authorization': `Bearer ${token}` },
+      });
+  
+      if (!response.ok) throw new Error('Failed to fetch data');
+  
+      const skillsData = await response.json();
       setSkills(skillsData);
-      setContacts(contactsData);
     } catch (error) {
       setError('Failed to load data: ' + error.message);
     } finally {
@@ -66,13 +52,47 @@ const SkillsPage = () => {
     }
   };
 
+  // Inside your SkillsPage component
+  const sortedSkills = useMemo(() => {
+    return [...skills].sort((a, b) => {
+      const field = sortCriteria.field;
+      const order = sortCriteria.order;
+  
+      // Handling null or undefined for 'a'
+      if (a[field] == null) return order === 'asc' ? 1 : -1;
+      // Handling null or undefined for 'b'
+      if (b[field] == null) return order === 'asc' ? -1 : 1;
+  
+      let compareResult = 0;
+  
+      // Numeric comparison
+      if (field === 'rating' || typeof a[field] === 'number') {
+        compareResult = a[field] - b[field];
+      } else {
+        // String comparison using localeCompare
+        compareResult = a[field].localeCompare(b[field]);
+      }
+  
+      // Reverse the comparison result if order is 'desc'
+      return order === 'asc' ? compareResult : -compareResult;
+    });
+  }, [skills, sortCriteria]);
+  
+  
+
+  
+
   // Add a function to update sort criteria based on column click
   const handleSortChange = (field) => {
-    setSortCriteria((prevState) => ({
-      field,
+    // Example of updating sort criteria state
+    console.log('Sort was called on ', field)
+    setSortCriteria(prevState => ({
+      ...prevState,
+      field: field,
       order: prevState.field === field && prevState.order === 'asc' ? 'desc' : 'asc',
     }));
   };
+  
 
   // Correctly define fetchMostPopularSkill within SkillsPage component
   const fetchMostPopularSkill = async () => {
@@ -109,7 +129,8 @@ const SkillsPage = () => {
   useEffect(() => {
     fetchData();
     fetchMostPopularSkill();
-  }, [searchTerm, sortOption, filterRating]);
+  }, [searchTerm, filterRating]); // Removed sortCriteria from dependencies
+  
 
   //useEffect(() => {
     //fetchMostPopularSkill();
@@ -223,16 +244,24 @@ const deleteSkill = async (skillId) => {
           />
           <input
             type="number"
-            placeholder="Filter by rating..."
+            placeholder="Filter by minimum rating..."
             value={filterRating}
-            onChange={(e) => setFilterRating(e.target.value)}
+            min="1" // Ensures the minimum value that can be entered is 1
+            max="5" // Ensures the maximum value that can be entered is 5
+            onChange={(e) => {
+              const newValue = e.target.value;
+              // Check if the new value is within the range 1 to 5
+              if (newValue === '' || (newValue >= 1 && newValue <= 5)) {
+                setFilterRating(newValue);
+              }
+            }}
           />
         </div>
         <SkillTable
-          skills={skills}
+          skills={sortedSkills} // Use sortedSkills here
           onEdit={setCurrentSkillAndShowEditModal}
           onDelete={setCurrentSkillAndShowDeleteModal}
-          onSort={handleSortChange} // Pass the sorting handler to SkillTable
+          onSort={handleSortChange}
         />
         {showAddModal && <AddSkillModal onClose={() => setShowAddModal(false)} onSave={addSkill} contacts={contacts} />}
         {showEditModal && currentSkill && <EditSkillModal skill={currentSkill} onClose={() => setShowEditModal(false)} onSave={editSkill} contacts={contacts} />}

@@ -9,7 +9,7 @@ const SkillTable = ({ skills, onEdit, onDelete, onSort }) => {
         <tr>
           <th onClick={() => onSort('name')}>Name</th>
           <th onClick={() => onSort('rating')}>Rating</th>
-          <th onClick={() => onSort('reference.name')}>Reference</th>
+          <th onClick={() => onSort('reference.contactDetails.name')}>Reference</th>
           <th>Actions</th>
         </tr>
       </thead>
