@@ -48,7 +48,7 @@ const handleSubmit = (e) => {
             <input id="editRating" type="number" name="rating" min="1" max="5" value={editSkill.rating || ''} onChange={handleChange} required />
             
             <label htmlFor="editReference">Reference:</label>
-            <select id="editReference" name="reference" value={editSkill.reference || ''} onChange={handleChange} required>
+            <select id="editReference" name="reference" value={editSkill.reference || ''} onChange={handleChange}>
               <option value="">N/A</option>
               {contacts.map(contact => (
                 <option key={contact._id} value={contact._id}>{contact.name}</option>

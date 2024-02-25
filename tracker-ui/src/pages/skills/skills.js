@@ -24,6 +24,7 @@ const SkillsPage = () => {
   const [sortOption, setSortOption] = useState('name_asc'); // Example sort option
   const [sortCriteria, setSortCriteria] = useState({ field: 'name', order: 'asc' });
   const [filterRating, setFilterRating] = useState('');
+  const [isLoadingPopularSkill, setIsLoadingPopularSkill] = useState(false);
 
 
   // Combined fetch function for skills and contacts
@@ -75,26 +76,44 @@ const SkillsPage = () => {
 
   // Correctly define fetchMostPopularSkill within SkillsPage component
   const fetchMostPopularSkill = async () => {
+    setIsLoadingPopularSkill(true); // Assume you have a separate loading state for this operation
     try {
       const token = localStorage.getItem('token');
       const response = await fetch('/skills/popular', {
         method: 'GET',
-        headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
       });
-
-      if (!response.ok) throw new Error('Failed to fetch the most popular skill');
-
+  
+      if (!response.ok) {
+        // If the server response is not ok, throw an error with the status text
+        throw new Error(`Failed to fetch the most popular skill: ${response.statusText}`);
+      }
+  
       const data = await response.json();
+      // Assuming the backend sends the most popular skill in the expected format
+      // directly set the received data to your state
       setMostPopularSkill(data);
     } catch (error) {
-      setError('Failed to load the most popular skill: ' + error.message);
+      // Catch any errors that occur during the fetch operation
+      setError(`Failed to load the most popular skill: ${error.message}`);
+    } finally {
+      // Whether successful or not, indicate that loading is complete
+      setIsLoadingPopularSkill(false);
     }
   };
+  
 
   useEffect(() => {
     fetchData();
     fetchMostPopularSkill();
   }, [searchTerm, sortOption, filterRating]);
+
+  //useEffect(() => {
+    //fetchMostPopularSkill();
+  //});
 
   // Add skill
 const addSkill = async (skill) => {
@@ -208,7 +227,6 @@ const deleteSkill = async (skillId) => {
             value={filterRating}
             onChange={(e) => setFilterRating(e.target.value)}
           />
-          <button onClick={fetchData}>Apply</button>
         </div>
         <SkillTable
           skills={skills}
