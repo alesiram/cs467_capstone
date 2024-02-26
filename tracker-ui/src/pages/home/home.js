@@ -57,38 +57,33 @@ function HomePage() {
 
   return (
     <div className="home-page">
-      {/* Welcome banner */}
       <div>
-        <h1>Welcome to Job Tracker!</h1>
-        <p>{isAuthenticated && user ? `Hi, ${user.username}!` : 'Sign up for an account today to better track your jobs and internships.'}</p>
+        <h1 className="home-page__title">Welcome to Job Tracker!</h1>
+        <p className="home-page__text">
+          {isAuthenticated && user ? `Hi, ${user.username}!` : 'Sign up for an account today to better track your jobs and internships.'}
+        </p>
       </div>
 
-      {/* Navigation buttons for exploring different sections */}
       <div>
-        {/* Explore Skills */}
         <Link to="/skills">
-          <button disabled={!isAuthenticated}>Explore Skills</button>
+          <button className="home-page__button" disabled={!isAuthenticated}>Explore Skills</button>
         </Link>
 
-        {/* Explore Jobs */}
         <Link to="/jobs">
-          <button disabled={!isAuthenticated}>Explore Jobs</button>
+          <button className="home-page__button" disabled={!isAuthenticated}>Explore Jobs</button>
         </Link>
 
-        {/* Explore Contacts */}
         <Link to="/contacts">
-          <button disabled={!isAuthenticated}>Explore Contacts</button>
+          <button className="home-page__button" disabled={!isAuthenticated}>Explore Contacts</button>
         </Link>
       </div>
 
-      {/* Login button positioned in the top right corner */}
-      <div className="login-button-container">
-        {/* If the User is authenticated and has a JWT token, then display a logout button, else display Login */}
+      <div className="home-page__login-button-container">
         {isAuthenticated ? (
-          <button onClick={handleLogout}>Logout</button>
+          <button className="home-page__button" onClick={handleLogout}>Logout</button>
         ) : (
           <Link to="/login">
-            <button>Login</button>
+            <button className="home-page__button">Login</button>
           </Link>
         )}
       </div>

@@ -10,16 +10,16 @@ const DeleteSkillModal = ({ skill, onClose, onDelete }) => {
 
   return (
     <div className="modal-backdrop">
-      <div className="modal" id="deleteSkillModal" role="dialog" aria-modal="true" aria-labelledby="deleteModalTitle">
+      <div className="skills-page__modal skills-page__modal--delete" role="dialog" aria-modal="true" aria-labelledby="deleteModalTitle">
         <h2 id="deleteModalTitle">Delete Skill</h2>
         <p>Are you sure you want to delete the {skill.name} skill?</p>
-        <div className="modal-footer">
-          <button type="button" className="button delete" onClick={handleDelete}>Delete</button>
-          <button type="button" className="button cancel" onClick={onClose}>Cancel</button>
+        <div className="skills-page__modal-footer">
+          <button type="button" className="skills-page__button--delete" onClick={handleDelete}>Delete</button>
+          <button type="button" className="skills-page__button--cancel" onClick={onClose}>Cancel</button>
         </div>
       </div>
     </div>
-  );  
+  ); 
 };
 
 export default DeleteSkillModal;
