@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 
 const JobTableModal = ({ jobs, onEdit, onDelete }) => {
+  console.log("jobs", jobs)
+  // pagination state 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(10); // Number of items to display per page
+
 
  // Search state
  const [searchQuery, setSearchQuery] = useState('');
@@ -16,6 +21,16 @@ const JobTableModal = ({ jobs, onEdit, onDelete }) => {
      value.toLowerCase().includes(searchQuery.toLowerCase())
  )
 );
+
+
+// Pagination logic
+const indexOfLastItem = currentPage * itemsPerPage;
+const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+const currentJobs = filteredJobs.slice(indexOfFirstItem, indexOfLastItem)
+// Calculate total number of pages
+const totalPages = Math.ceil(filteredJobs.length / itemsPerPage);
+
+
   // Conditionally render the table only if there are jobs to display
   if (filteredJobs.length === 0) {
     return (
@@ -26,6 +41,9 @@ const JobTableModal = ({ jobs, onEdit, onDelete }) => {
       </div>
     );
   }
+
+   // Calculate whether there are more pages available
+   const hasMorePages = currentJobs.length === itemsPerPage && filteredJobs.length > indexOfLastItem;
 
   return (
     <div className="job-table-container">
@@ -55,7 +73,7 @@ const JobTableModal = ({ jobs, onEdit, onDelete }) => {
             </tr>
           </thead>
           <tbody>
-          {filteredJobs.map((job) => {
+          {currentJobs.map((job) => {
 
               // Formatting to display correct date in UI 
               // APPLY DATE 
@@ -103,10 +121,6 @@ const JobTableModal = ({ jobs, onEdit, onDelete }) => {
                       <span key={skill._id}>{skill.name}<br /></span>
                     ))}
                   </td>
-                  
-
-
-
                   <td>{job.notes}</td>
                   <td className="job-action-buttons">
                     <button className="edit" onClick={() => onEdit(job)}>Edit</button>
@@ -117,6 +131,37 @@ const JobTableModal = ({ jobs, onEdit, onDelete }) => {
             })}
           </tbody>
         </table>
+      {/* Pagination controls */}
+              <div className="pagination-container">
+              <span className="pagination-info">Showing {indexOfFirstItem + 1} to {indexOfLastItem} of {filteredJobs.length} entries</span>
+              {/* First page button */}
+              <button className="pagination-button" onClick={() => setCurrentPage(1)} disabled={currentPage === 1}>
+                ««
+              </button>
+              {/* Previous page button */}
+              <button className="pagination-button" onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1}>
+                «
+              </button>
+              {/* Individual page buttons */}
+              {[...Array(totalPages)].map((_, index) => (
+                <button
+                  key={index}
+                  className={`pagination-button ${currentPage === index + 1 ? 'active' : ''}`}
+                  onClick={() => setCurrentPage(index + 1)}
+                >
+                  {index + 1}
+                </button>
+              ))}
+              {/* Next page button */}
+              <button className="pagination-button" onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage === totalPages || filteredJobs.length === 0}>
+                »
+              </button>
+              {/* Last page button */}
+              <button className="pagination-button" onClick={() => setCurrentPage(totalPages)} disabled={currentPage === totalPages || filteredJobs.length === 0}>
+                »»
+              </button>
+              {/* Display total entries information */}
+            </div>
       </div>
   );
 };

@@ -147,8 +147,8 @@ const AddJobsModal = ({ onClose, onSave, skills }) => {
             </label>
           </div>
           <div className="jobs-modal-actions">
-            <button type="submit" className="job-modal-button add">Add</button>
-            <button type="button" className="job-modal-button cancel" onClick={onClose}>Cancel</button>
+            <button type="submit" className="job-modal-button-add">Add</button>
+            <button type="button" className="job-modal-button-cancel" onClick={onClose}>Cancel</button>
           </div>
         </form>
       </div>
