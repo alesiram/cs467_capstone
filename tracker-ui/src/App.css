@@ -1,69 +1,18 @@
+/* Root Colors for App Theme */
+:root {
+  --primary-color: rgb(255, 96, 6); /* Primary orange color */
+  --secondary-color: #d35400; /* Adjusted secondary color for consistency */
+  --background-color: #f4f4f4; /* Light grey background */
+  --text-color: #333; /* Dark text color for contrast */
+  --button-text-color: white; /* White text color for buttons */
+}
+
+/* Ensure consistency across browswers */
+body {
+  margin: 0;
+  padding: 0;
+}
+
 .App {
   text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-nav {
-    width: 100vw; /* Full viewport width */
-    position: relative; /* Relative positioning */
-    left: 50%; /* Move to the center */
-    right: 50%;
-    margin-left: -50vw; /* Pull to the left edge */
-    margin-right: -50vw; /* Pull to the right edge */
-    background-color: #333; /* Example background color */
-    padding: 10px 0; /* Padding on top and bottom */
-    text-align: center;
-    box-sizing: border-box; /* Include padding in the width calculation */
-    margin-bottom: 5px;
-}
-
-nav a {
-    color: white;
-    margin: 0 10px;
-    text-decoration: none;
-    padding: 5px 10px;
-    /* other link styles */
-}
-
-nav button {
-    background-color: #444;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    cursor: pointer;
-    /* other button styles */
 }
