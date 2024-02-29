@@ -160,7 +160,7 @@ const JobsPage = () => {
       <NavBar />
       <div className="jobs-page">
         {/* <h1>Job Applications</h1> */}
-        <button onClick={() => setShowAddModal(true)}>Add Job</button>
+        <button className='jobs-page-button-add-job ' onClick={() => setShowAddModal(true)}>Add Job</button>
         <JobsTable
           // jobs={jobs}
           jobs={searchResults}

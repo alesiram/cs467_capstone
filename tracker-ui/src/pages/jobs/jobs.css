@@ -1,31 +1,160 @@
 /* jobs.css */
 
-/* table view */
+
+/* -------------------Table View Start--------------------------*/
+
+/* Table styles */
 .job-table-container {
   border-radius: 7px; /* Same border-radius as the table */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add box shadow for depth */
 }
 
-job-table {
+.job-table {
   border-collapse: collapse;
   border-radius: 10px; /* Adjust the value to control the rounding */
+  width: 100%;
 }
 
 .job-table th,
 .job-table td {
   border: 1px solid #b8b5b5; /* You can adjust the border color as needed */
-  padding: 4px;
-  border-radius: 2px;
-  font-size: 14px;
+  padding: 10px; /* Increase padding for better spacing */
+  font-size: 16px; /* Larger font size for better readability */
 }
 
+/* Apply alternating row colors */
+.job-table tbody tr:nth-child(even) {
+  background-color: #f5f6f9; /* Light gray */
+}
+
+.job-table tbody tr:nth-child(odd) {
+  background-color: #ffffff; /* White */
+}
+
+/* Hover effect for table rows */
+.job-table tbody tr:hover {
+  background-color: #f0f0f0 !important; /* Light gray background color on hover */
+}
+
+/* Header styles */
+.job-table th {
+  background-color: #007bff; /* Green */
+  color: white;
+  font-size: 16px; /* Larger font size for better readability */
+  border: 1px solid rgba(184, 181, 181, 0.5); /* Transparent border color */
+  border-radius: 7px 7px 0 0; /* Rounded top corners */
+}
+
+/* Hover effect for header */
+.job-table th:hover {
+  background-color: #6da9ea; /* Darker green on hover */
+}
+
+/* Button styles */
+.jobs-page-button-add-job {
+  margin-top: 20px;
+  margin-bottom: 20px; /* Add space below the button */
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s, transform 0.2s;
+  color: white;
+  background-color: rgb(69, 168, 69);
+  border-color: transparent; /* Remove border outline color */
+  
+}
+.jobs-page-button-add-job:hover {
+  background-color:green;  /* Darker green on hover */
+  transform: translateY(-2px);
+}
+
+/* Action buttons */
+/* Edit Button */
+/* Edit Button */
 
 .job-action-buttons button.edit {
-  background-color: #4caf50; /* Green */
+  padding: 10px 20px;
+  margin-right: 10px; /* Add space between buttons */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s, transform 0.2s;
+  color: white;
+  background-color: rgb(170, 167, 163); /* Orange */
+  border-color: transparent; /* Remove border outline color */
 }
 
-.job-action-buttons button.delete {
-  background-color: #f44336; /* Red */
+.job-action-buttons button.edit:hover {
+  background-color: #6a6967; /* Darker orange on hover */
+  transform: translateY(-2px);
 }
+
+/* Delete Button */
+.job-action-buttons button.delete {
+  padding: 10px 20px;
+  margin-right: 10px; /* Add space between buttons */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s, transform 0.2s;
+  color: white;
+  background-color: #f44336; /* Red */
+  border-color: transparent; /* Remove border outline color */
+}
+
+.job-action-buttons button.delete:hover {
+  background-color: #dd1919; /* Darker red on hover */
+  transform: translateY(-2px);
+}
+
+
+
+/* Pagination controls */
+.pagination-button {
+  padding: 8px 12px; /* Adjusted padding for larger buttons */
+  margin: 0 4px; /* Add space between buttons */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s, transform 0.2s;
+  font-size: 16px; /* Adjusted font size for larger text */
+  width: auto; /* Let the width be determined by the content */
+}
+
+.pagination-button:hover {
+  transform: translateY(-2px);
+}
+
+/* Adjusted padding for arrows */
+.pagination-button.prev,
+.pagination-button.next {
+  padding: 8px 16px;
+}
+
+/* Optional: Add additional styling if needed */
+.pagination-button.active {
+  color: #1c9d31; /* Active page button color */
+  text-decoration: underline; /* Underline active page number */
+}
+
+/* Adjust the color of disabled buttons */
+.pagination-button.disabled {
+  color: #ccc; /* Disabled button color */
+}
+
+
+
+.pagination-info {
+  margin-right: 10px;
+}
+
+
+
 
 
 /* -------------------POP-UP FOR ADD and EDIT FORM--------------------------*/
@@ -96,15 +225,51 @@ select {
   border-radius: 4px;
 }
 
-.add {
-  background-color: #4caf50; /* Green */
+/* ADD FORM BUTTONS  */
+.job-modal-button-save,
+.job-modal-button-add {
+  padding: 10px 20px;
+  margin-right: 10px; /* Add space between buttons */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s, transform 0.2s;
   color: white;
+  background-color: rgb(69, 168, 69);
+  border-color: transparent; /* Remove border outline color */
 }
 
-.cancel {
-  background-color: #f44336; /* Red */
-  color: white;
+.job-modal-button-save,
+.job-modal-button-add:hover {
+  background-color: green; 
+  transform: translateY(-2px);
 }
+
+/* Delete Button */
+.job-modal-button-cancel {
+  padding: 10px 20px;
+  margin-right: 10px; /* Add space between buttons */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s, transform 0.2s;
+  color: white;
+  background-color: #b0afab; /* Darker orange on hover */
+  border-color: transparent; /* Remove border outline color */
+}
+
+.job-modal-button-cancel:hover {
+  background-color: #6a6967; /* Darker orange on hover */
+  transform: translateY(-2px);
+}
+
+
+
+
+
+
 /* -------------------POP-UP FOR ADD and EDIT FORM END--------------------------*/
 
 /* -------------------------Delete Modal Styles-----------------------------*/

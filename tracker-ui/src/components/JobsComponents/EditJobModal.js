@@ -109,17 +109,7 @@ const EditJobModal = ({ show, onClose, job, onSave, skills }) => {
               <option value="Rejected">Rejected</option>
               <option value="Hired">Hired</option>
             </select>
-
             </label>
-
-
-
-            {/* <label>
-              Required Skills:
-              <input type="text" name="requiredSkills" value={editedJob.requiredSkills} onChange={handleChange} />
-            </label>
-       
-
             {/* Dropdown for required skills */}
           <label>
               Required Skills:
@@ -138,16 +128,10 @@ const EditJobModal = ({ show, onClose, job, onSave, skills }) => {
               Notes:
               <input type="text" name="notes" value={editedJob.notes} onChange={handleChange} />
           </label> 
-
-
-
-
-
-
           </div>
           <div className="job-modal-actions">
-            <button type="submit" className="job-modal-button edit">Save Changes</button>
-            <button type="button" className="job-modal-button cancel" onClick={onClose}>Cancel</button>
+            <button type="submit" className="job-modal-button-save">Save Changes</button>
+            <button type="button" className="job-modal-button-cancel" onClick={onClose}>Cancel</button>
           </div>
         </form>
       </div>
