@@ -4,6 +4,7 @@ import JobsTable from '../../components/JobsComponents/JobsTable';
 import AddJobModal from '../../components/JobsComponents/AddJobModal';
 import EditJobModal from '../../components/JobsComponents/EditJobModal';
 import DeleteJobModal from '../../components/JobsComponents/DeleteJobModal';
+import JobsMetrics from '../../components/JobsComponents/JobsMetrics';
 import './jobs.css';
 
 const JobsPage = () => {
@@ -17,6 +18,19 @@ const JobsPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [skills, setSkills] = useState([]); // Update to hold skills data
+  const [selectedMonth, setSelectedMonth] = useState([null])
+  const [showJobsMetrics, setShowJobsMetrics] = useState(false);
+
+    
+
+  const handleViewMetrics = () => {
+    setShowJobsMetrics(true);
+  };
+
+  const handleCloseMetricsModal = () => {
+    setShowJobsMetrics(false);
+  };
+
 
 
   const fetchData = async () => {
@@ -160,7 +174,12 @@ const JobsPage = () => {
       <NavBar />
       <div className="jobs-page">
         {/* <h1>Job Applications</h1> */}
-        <button className='jobs-page-button-add-job ' onClick={() => setShowAddModal(true)}>Add Job</button>
+        <h1>Your Applied Jobs</h1>
+
+        <button className='jobs-page-button-add-job ' onClick={() => setShowAddModal(true)}>Add New Job</button>
+        {/* Add button to view job metrics */}
+        <button className='jobs-page-button-add-job' onClick={() => setShowJobsMetrics(true)}>View Job Metrics</button>
+
         <JobsTable
           // jobs={jobs}
           jobs={searchResults}
@@ -171,11 +190,20 @@ const JobsPage = () => {
           onDelete={(jobId) => {
             setSelectedJob(jobId);
             setShowDeleteModal(true);
+        
           }}
+          setJobs={setJobs} 
         />
         {showAddModal && <AddJobModal onClose={() => setShowAddModal(false)} onSave={handleAddJob} skills={skills} />}
         {showEditModal && selectedJob && <EditJobModal onClose={() => setShowEditModal(false)} onUpdate={handleEditJob} job={selectedJob} onSave={handleEditJob} skills={skills} />}
-        {showDeleteModal && selectedJob && <DeleteJobModal onClose={() => setShowDeleteModal(false)} onDelete={(id) => handleDeleteJob(id)} job={selectedJob} />}
+        {showDeleteModal && selectedJob && <DeleteJobModal onClose={() => setShowDeleteModal(false)} onDelete={(id) => handleDeleteJob(id)} job={selectedJob} setJobs={setJobs} />}
+        <JobsMetrics show={showJobsMetrics} onClose={handleCloseMetricsModal} />
+
+        
+ 
+
+
+
       </div>
     </div>
   );

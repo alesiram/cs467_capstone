@@ -50,6 +50,9 @@ const AddJobsModal = ({ onClose, onSave, skills }) => {
     onClose(); // Close the modal after save
   };
 
+  
+
+
   return (
     <div className="modal-background">
       <div className="modal-content">
@@ -138,9 +141,6 @@ const AddJobsModal = ({ onClose, onSave, skills }) => {
                 value={newJob.requiredSkills}
               />
             </label>
-
-
-
             <label>
               Notes:
               <input type="text" name="notes" value={newJob.notes} onChange={handleChange} />
