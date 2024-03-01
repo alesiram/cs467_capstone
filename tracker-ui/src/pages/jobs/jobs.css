@@ -344,6 +344,72 @@ select {
 /* -------------------------Delete Modal Styles END-----------------------------*/
 
 /* -------------------------metrics D-----------------------------*/
+/* Darken background when metrics modal appears */
+.jobs-metrics-modal-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Metrics modal content */
+.jobs-metrics-modal-content {
+  background-color: #fff; /* Modal background color */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Box shadow for depth */
+  max-width: 500px; /* Adjust width as needed */
+  width: 100%;
+}
+
+/* Center the modal container */
+.jobs-metrics-modal {
+  /* Adjust size and position */
+  width: 400px;
+  height: 400px;
+  /* Add other styles as needed */
+}
+
+/* Left-align text */
 .left-align {
   text-align: left;
+}
+.jobs-metrics-modal {
+  /* Your existing styles for modal container */
+}
+
+.jobs-metrics-modal-background {
+  /* Your existing styles for modal background */
+}
+
+.modal-content {
+  /* Your existing styles for modal content */
+}
+
+.metric-tiles {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.metric-tile {
+  width: calc(33.33% - 20px); /* Adjust width as needed */
+  margin-bottom: 20px;
+  background-color: #f9f9f9; /* Background color for tiles */
+  border: 1px solid #ccc; /* Border for tiles */
+  border-radius: 8px; /* Border radius for rounded corners */
+  padding: 20px; /* Padding inside the tiles */
+}
+
+.metric-tile h3 {
+  margin-top: 0; /* Remove top margin for heading */
+}
+
+.metric-tile p {
+  margin-bottom: 0; /* Remove bottom margin for value */
 }

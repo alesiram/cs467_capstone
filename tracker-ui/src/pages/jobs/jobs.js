@@ -18,8 +18,9 @@ const JobsPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [skills, setSkills] = useState([]); // Update to hold skills data
-  const [selectedMonth, setSelectedMonth] = useState([null])
   const [showJobsMetrics, setShowJobsMetrics] = useState(false);
+  const [totalApplications, setTotalApplications] = useState(0); 
+  // const [totalOpenJobs, setTotalOpenJobs] = useState(0);
 
     
 
@@ -30,7 +31,6 @@ const JobsPage = () => {
   const handleCloseMetricsModal = () => {
     setShowJobsMetrics(false);
   };
-
 
 
   const fetchData = async () => {
@@ -75,6 +75,19 @@ const JobsPage = () => {
     });
     setSearchResults(filteredJobs);
   }, [jobs, searchQuery]);
+
+  // {/* Job Metric: Number of currenlty open jobs*/}
+  // useEffect(() => {
+  //   const totalOpenJobs = jobs.filter(job => job.jobStatus === 'Open').length;
+  //   setTotalOpenJobs(totalOpenJobs);
+  // }, [jobs]);
+
+   {/* Job Metric: Total Jobs Applied to*/}
+  useEffect(() => {
+    const totalAddedJobs = jobs.length;
+    setTotalApplications(totalAddedJobs);
+  }, [jobs]);
+
 
 
   const handleAddJob = async (newJob) => {
@@ -195,12 +208,15 @@ const JobsPage = () => {
           setJobs={setJobs} 
         />
         {showAddModal && <AddJobModal onClose={() => setShowAddModal(false)} onSave={handleAddJob} skills={skills} />}
+
         {showEditModal && selectedJob && <EditJobModal onClose={() => setShowEditModal(false)} onUpdate={handleEditJob} job={selectedJob} onSave={handleEditJob} skills={skills} />}
+
         {showDeleteModal && selectedJob && <DeleteJobModal onClose={() => setShowDeleteModal(false)} onDelete={(id) => handleDeleteJob(id)} job={selectedJob} setJobs={setJobs} />}
-        <JobsMetrics show={showJobsMetrics} onClose={handleCloseMetricsModal} />
+        
+        <JobsMetrics show={showJobsMetrics} onClose={handleCloseMetricsModal} totalApplications={totalApplications}  />
 
         
- 
+        {/* totalOpenJobs={totalOpenJobs} */}
 
 
 
