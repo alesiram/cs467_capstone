@@ -1,124 +1,63 @@
-body {
-    min-height: 100vh;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+/* Styling for the header */
+.login-signup-header {
+    font-weight: bold;
+    color: var(--primary-color);
 }
-  
-.container {
-    background-color: #fff;
+
+/* Styling for the sub header */
+.login-signup-subheader {
+    color: var(--text-color);
+}
+
+/* Styling for the login & signup container */
+.login-signup-container {
+    background-color: var(--text-color);
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 300px;
-    text-align: center;
-}
-  
-.banner {
-    /* background-color: #3498db; */
-    color: #fff;
-    padding: 10px;
-    border-radius: 4px 4px 0 0;
-    margin-bottom: 20px;
+    color: var(--button-text-color);
 }
 
-form {
-    display: flex;
-    flex-direction: column;
+/* Styling for the logo to display on the container */
+.login-signup-header-logo {
+    max-width: 120px; 
+    height: auto; 
 }
 
-label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: bold;
-}
-
-input {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 16px;
-    box-sizing: border-box;
-}
-
-.switch-form {
-    margin-top: 10px;
-    font-size: 14px;
-    color: #333;
-    cursor: pointer;
-}
-
-/* Modal */
-.modal-backdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.modal {
-  background-color: white;
-  padding: 20px;
-  border-radius: 5px;
-  text-align: center;
-}
-
-.message.error {
-    color: red;
-}
-
-.message.success {
-    color: green;
-}
-
-.modal button {
-    background-color: grey;
-    color: white;
-}
-
-.modal button:hover {
-    background-color: darkgray;
-    color: white;
+/* General Syling for Login/Signup Button */
+#login-btn, #signup-btn {
+  border: none;
+  padding: 5px 15px;
+  border-radius: 30px;
+  cursor: pointer;
+  font-size: 1rem;
+  margin: 0 10px 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s;
+  margin-top: 10px;
 }
 
 /* Login Button */
 #login-btn {
-    color: white;
-}
-
-#login-btn:hover {
-    background-color: lightgreen;
-    color: white; 
+  background-color: var(--primary-color);
+  color: var(--button-text-color);
 }
 
 /* Signup Button */
 #signup-btn { 
-    background-color: blue;
-    color: white;
+  color: var(--text-color);
+  background-color: var(--button-text-color);
 }
 
-#signup-btn:hover {
-    background-color: lightblue;
-    color: white; 
+/* Login and Signup button hover effects */
+#signup-btn:hover, #login-btn:hover {
+  filter: brightness(110%);
+  transform: translateY(-2px);
 }
 
-/* Banner */
-.banner.login {
-    background-color: green;
-}
-
-.banner.signup {
-    background-color: blue;
-}
-
-.switch-form {
-    color: #007bff; 
+/* Switch form toggle */
+.login-signup-switch-form {
+    color: var(--primary-color); 
     cursor: pointer; 
     font-weight: bold; 
     text-decoration: underline; 
@@ -126,22 +65,8 @@ input {
     transition: color 0.3s ease; 
 }
 
-.switch-form:hover {
-    color: #0056b3; 
+/* Switch form toggle hover */
+.login-signup-switch-form:hover {
+    color: var(--button-text-color); 
     text-decoration: none; 
-}
-
-.header-banner {
-    width: 100vw;
-    color: #fff;
-    padding: 10px;
-    background-color: #3498db;
-    text-align: center;
-    box-sizing: border-box;
-    margin-bottom: 20px;
-    position: relative;
-    left: 50%;
-    right: 50%;
-    margin-left: -50vw;
-    margin-right: -50vw;
 }
