@@ -1,5 +1,7 @@
+import { Button, Select, MenuItem, FormControl } from '@mui/material';
+
 // Contacts searchbar and filtering
-const ContactsSearchBar = ({ 
+const ContactsSearchBar = ({
     contacts,
     displayedContacts,
     setDisplayedContacts,
@@ -89,7 +91,7 @@ const ContactsSearchBar = ({
         if (filteredContacts.length === 0) {
             setSearchMessage('No results found.');
             setDisplayedContacts([]);
-        } 
+        }
         // Clear message when there are results and update displayed contacts with searched results
         else {
             setSearchMessage('');
@@ -118,7 +120,7 @@ const ContactsSearchBar = ({
             const inputDate = new Date(followUpDateFilter);
             filteredContacts = filteredContacts.filter(contact => {
                 // Exclude contacts without followUpDate immediately
-                if (!contact.followUpDate) return false; 
+                if (!contact.followUpDate) return false;
                 const contactDate = new Date(contact.followUpDate);
                 return (followUpComparisonFilter === 'less' && contactDate < inputDate) ||
                     (followUpComparisonFilter === 'equal' && contactDate.getTime() === inputDate.getTime()) ||
@@ -184,10 +186,17 @@ const ContactsSearchBar = ({
                         placeholder="Search contacts by name, company, email, ..."
                         value={searchQuery}
                         onChange={handleDynamicSearch}
+
                     />
-                    <button className="contact-search-bar-clear-search-button" onClick={handleClearSearch} disabled={searchQuery ? false : true} aria-label="Clear search">
+                    <Button
+                        className="contact-search-bar-clear-search-button"
+                        onClick={handleClearSearch}
+                        disabled={searchQuery ? false : true}
+                        aria-label="Clear search"
+                        sx={{ ml: 2, backgroundColor: 'var(--background-color)', color: 'var(--secondary-color)' }}
+                    >
                         Clear
-                    </button>
+                    </Button>
                 </div>
             )}
             <div>
@@ -195,8 +204,18 @@ const ContactsSearchBar = ({
                 <div className="contact-search-filter-info-toggle-div">
                     {!showAdvancedFilter && !filtersApplied && (
                         <>
-                            <button className="contact-search-show-filter-button" onClick={() => setShowAdvancedFilter(true)}>Filter</button>
-                            <button className="contact-search-info-toggle-button" onClick={() => setShowSearchFieldsInfo(prev => !prev)}>Info</button>
+                            <Button
+                                className="contact-search-show-filter-button" onClick={() => setShowAdvancedFilter(true)}
+                                sx={{ ml: 2, mb: 1, backgroundColor: 'var(--background-color)', color: 'var(--secondary-color)' }}
+                            >
+                                Filter
+                            </Button>
+                            <Button
+                                className="contact-search-info-toggle-button" onClick={() => setShowSearchFieldsInfo(prev => !prev)}
+                                sx={{ ml: 2, mb: 1, backgroundColor: 'var(--background-color)', color: 'var(--secondary-color)' }}
+                            >
+                                Info
+                            </Button>
                             {/* Display info to notify user of which fields will be searched */}
                             {showSearchFieldsInfo && (
                                 <span className="contact-search-fields-info">
@@ -224,61 +243,127 @@ const ContactsSearchBar = ({
                 {showAdvancedFilter && (
                     <div className="contact-advanced-filter-div">
                         {/* Strength of Connection */}
-                        <label htmlFor="">Strength Of Connection</label>
-                        <select 
-                            className="contact-filter-strength-of-connection-select" 
-                            multiple={true} 
-                            value={selectedStrengthFilter} 
-                            onChange={(e) => setSelectedStrengthFilter(e.target.value ? [e.target.value] : [])}>
-                            {Object.entries(strengthDescriptions).map(([value, description]) => (
-                                <option key={value} value={value}>{description}</option>
-                            ))}
-                        </select>
-                        {/* Follow Up Date */}
-                        <label htmlFor="">Follow Up Date</label>
-                        <div className="contact-filter-follow-up-date-select-input-div">
-                            <select
-                                className="contact-filter-comparison-select"
-                                value={followUpComparisonFilter}
-                                onChange={(e) => setFollowUpComparisonFilter(e.target.value)}>
-                                <option value="">Select Comparison</option>
-                                {comparisonOptions.map((option) => (
-                                    <option key={option.value} value={option.value}>{option.label}</option>
+                        <FormControl fullWidth sx={{ mb: 1 }}>
+                            <label htmlFor="">Strength Of Connection</label>
+                            <Select
+                                className="contact-filter-strength-of-connection-select"
+                                multiple={true}
+                                value={selectedStrengthFilter}
+                                sx={{
+                                    mt: 1,
+                                    border: '1px solid var(--primary-color)',
+                                    backgroundColor: 'var(--text-color)',
+                                    color: 'var(--button-text-color)',
+                                    '& .MuiSelect-icon': {
+                                        color: 'var(--primary-color)',
+                                    },
+                                }}
+                                onChange={(e) => setSelectedStrengthFilter(e.target.value)}>
+                                {Object.entries(strengthDescriptions).map(([value, description]) => (
+                                    <MenuItem key={value} value={value}>{description}</MenuItem>
                                 ))}
-                            </select>
-                            <input
-                                className="contact-filter-follow-up-date-input"
-                                type="date"
-                                value={followUpDateFilter}
-                                onChange={(e) => setFollowUpDateFilter(e.target.value)}
-                            />
-                        </div>
+                            </Select>
+                        </FormControl>
+                        {/* Follow Up Date */}
+                        <FormControl fullWidth sx={{ mb: 1 }}>
+                            <label htmlFor="">Follow Up Date</label>
+                            <div className="contact-filter-follow-up-date-select-input-div">
+                                <Select
+                                    className="contact-filter-comparison-select"
+                                    value={followUpComparisonFilter}
+                                    sx={{
+                                        mt: 1,
+                                        mr: 2,
+                                        width: '40%',
+                                        border: '1px solid var(--primary-color)',
+                                        backgroundColor: 'var(--text-color)',
+                                        color: 'var(--button-text-color)',
+                                        '& .MuiSelect-icon': {
+                                            color: 'var(--primary-color)',
+                                        },
+                                    }}
+                                    onChange={(e) => setFollowUpComparisonFilter(e.target.value)}>
+                                    <MenuItem value="">Select Comparison</MenuItem>
+                                    {comparisonOptions.map((option) => (
+                                        <MenuItem key={option.value} value={option.value}>{option.label}</MenuItem>
+                                    ))}
+                                </Select>
+                                <input
+                                    className="contact-filter-follow-up-date-input"
+                                    type="date"
+                                    value={followUpDateFilter}
+                                    onChange={(e) => setFollowUpDateFilter(e.target.value)}
+                                />
+                            </div>
+                        </FormControl>
                         {/* Referral Potential */}
-                        <label htmlFor="">Referral Potential</label>
-                        <select value={referralPotentialFilter} onChange={(e) => setReferralPotentialFilter(e.target.value)}>
-                            <option value="">Select Referral Potential</option>
-                            <option value="true">Yes</option>
-                            <option value="false">No</option>
-                        </select>
+                        <FormControl fullWidth sx={{ mb: 1 }}>
+                            <label htmlFor="">Referral Potential</label>
+                            <Select
+                                value={referralPotentialFilter}
+                                onChange={(e) => setReferralPotentialFilter(e.target.value)}
+                                sx={{
+                                    mt: 1,
+                                    border: '1px solid var(--primary-color)',
+                                    backgroundColor: 'var(--text-color)',
+                                    color: 'var(--button-text-color)',
+                                    '& .MuiSelect-icon': {
+                                        color: 'var(--primary-color)',
+                                    },
+                                }}
+                            >
+                                <MenuItem value="">Select Referral Potential</MenuItem>
+                                <MenuItem value="true">Yes</MenuItem>
+                                <MenuItem value="false">No</MenuItem>
+                            </Select>
+                        </FormControl>
                         {/* Sort Options */}
-                        <label htmlFor="">Sort Options For Results</label>
-                        <select value={sortOptionFilter} onChange={(e) => setSortOptionFilter(e.target.value)}>
-                            <option value="">Select Sort Option</option>
-                            <option value="name-asc">Name (A-Z)</option>
-                            <option value="name-desc">Name (Z-A)</option>
-                            <option value="company-asc">Company (A-Z)</option>
-                            <option value="company-desc">Company (Z-A)</option>
-                            <option value="followUpDate-asc">Follow Up Date (Nearest-Furthest)</option>
-                            <option value="connectionRating-asc">Connection Rating (High-Low)</option>
-                            <option value="referral-yes">Referral (Yes-No)</option>
-                            <option value="contactType-asc">Contact Type (A-Z)</option>
-                        </select>
-                        <button className="contact-filter-apply-filters-button" onClick={handleApplyAllFilters}>Apply Filters</button>
-                        <button className="contact-filter-cancel-filters-button" onClick={handleCancelFilter}>Cancel</button>
+                        <FormControl fullWidth sx={{ mb: 1 }}>
+                            <label htmlFor="">Sort Options For Results</label>
+                            <Select
+                                value={sortOptionFilter}
+                                onChange={(e) => setSortOptionFilter(e.target.value)}
+                                sx={{
+                                    mt: 1,
+                                    border: '1px solid var(--primary-color)',
+                                    backgroundColor: 'var(--text-color)',
+                                    color: 'var(--button-text-color)',
+                                    '& .MuiSelect-icon': {
+                                        color: 'var(--primary-color)',
+                                    },
+                                }}
+                            >
+                                <MenuItem value="">Select Sort Option</MenuItem>
+                                <MenuItem value="name-asc">Name (A-Z)</MenuItem>
+                                <MenuItem value="name-desc">Name (Z-A)</MenuItem>
+                                <MenuItem value="company-asc">Company (A-Z)</MenuItem>
+                                <MenuItem value="company-desc">Company (Z-A)</MenuItem>
+                                <MenuItem value="followUpDate-asc">Follow Up Date (Nearest-Furthest)</MenuItem>
+                                <MenuItem value="connectionRating-asc">Connection Rating (High-Low)</MenuItem>
+                                <MenuItem value="referral-yes">Referral (Yes-No)</MenuItem>
+                                <MenuItem value="contactType-asc">Contact Type (A-Z)</MenuItem>
+                            </Select>
+                        </FormControl>
+                        <Button
+                            className="contact-filter-apply-filters-button"
+                            onClick={handleApplyAllFilters}
+                            sx={{ mb: 1, mr: 1, backgroundColor: 'var(--background-color)', color: 'var(--secondary-color)' }}
+                        >
+                            Apply Filters
+                        </Button>
+                        <Button
+                            className="contact-filter-cancel-filters-button"
+                            onClick={handleCancelFilter}
+                            sx={{ mb: 1, ml: 1, backgroundColor: 'var(--background-color)', color: 'var(--secondary-color)' }}
+                        >
+                            Cancel
+                        </Button>
                     </div>
                 )}
                 {filtersApplied && (
-                    <button className="contact-search-filter-clear-filters-button" onClick={handleResetSearchFilters}>Clear Filters</button>
+                    <div className="contact-search-filter-clear-filters-div">
+                        <Button className="contact-search-filter-clear-filters-button" onClick={handleResetSearchFilters}>Clear Filters</Button>
+                    </div>
                 )}
             </div>
         </>
