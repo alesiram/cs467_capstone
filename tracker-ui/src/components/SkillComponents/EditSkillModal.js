@@ -36,7 +36,7 @@ const handleSubmit = (e) => {
 };
 
   return (
-    <div className="modal-backdrop">
+    <div className="skills-page__modal-backdrop">
       <div className="skills-page__modal skills-page__modal--edit" role="dialog" aria-modal="true" aria-labelledby="editModalTitle">
         <h2 id="editModalTitle">Edit Skill</h2>
         <form onSubmit={handleSubmit} className="skills-page__modal-form">

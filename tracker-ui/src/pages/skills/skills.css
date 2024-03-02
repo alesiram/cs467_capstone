@@ -20,11 +20,6 @@
   transition: transform 0.3s ease;
 }
 
-.skills-page__container:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1), 0 15px 25px rgba(0, 0, 0, 0.2);
-}
-
 /* Header */
 .skills-page__header {
   margin-bottom: 30px;
@@ -218,8 +213,19 @@
 }
 
 /* Adjustments for mobile views and other responsive designs can be added as needed */
-
-
+.skills-page__modal-backdrop {
+  position: fixed; /* Changed from background-color */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Ensure it's above other content */
+  border-radius: 20px;
+}
 
 
 

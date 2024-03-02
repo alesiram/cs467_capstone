@@ -25,7 +25,7 @@ const AddSkillModal = ({ onClose, onSave, contacts }) => {
   };
 
   return (
-    <div className="modal-backdrop">
+    <div className="skills-page__modal-backdrop">
       <div className="skills-page__modal skills-page__modal--add" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
         <form onSubmit={handleSubmit} className="skills-page__modal-form">
           <div className="skills-page__modal-header">
