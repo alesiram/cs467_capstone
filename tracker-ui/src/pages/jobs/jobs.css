@@ -379,17 +379,7 @@ select {
 .left-align {
   text-align: left;
 }
-.jobs-metrics-modal {
-  /* Your existing styles for modal container */
-}
 
-.jobs-metrics-modal-background {
-  /* Your existing styles for modal background */
-}
-
-.modal-content {
-  /* Your existing styles for modal content */
-}
 
 .metric-tiles {
   display: flex;
@@ -398,7 +388,7 @@ select {
 }
 
 .metric-tile {
-  width: calc(33.33% - 20px); /* Adjust width as needed */
+  width: calc(36.33% - 20px); /* Adjust width as needed */
   margin-bottom: 20px;
   background-color: #f9f9f9; /* Background color for tiles */
   border: 1px solid #ccc; /* Border for tiles */
@@ -412,4 +402,36 @@ select {
 
 .metric-tile p {
   margin-bottom: 0; /* Remove bottom margin for value */
+}
+
+
+/* Add the following styles for CompanyChart component */
+
+
+.metric-tile.most-applied-companies {
+  background-color: #f9f9f9; /* Background color for the most applied companies section */
+  border: 1px solid #ccc; /* Border for the section */
+  border-radius: 8px; /* Border radius for rounded corners */
+  padding: 20px; /* Padding inside the section */
+}
+
+.metric-tile.most-applied-companies h3 {
+  margin-top: 0; /* Remove top margin for heading */
+}
+
+.metric-tile.most-applied-companies ul {
+  list-style: none; /* Remove default list styles */
+  padding: 0; /* Remove padding for the list */
+}
+
+.metric-tile.most-applied-companies li {
+  margin-bottom: 5px; /* Add margin between list items */
+}
+/* .job-metric-skill-info {
+  text-align: left;
+
+} */
+
+.metrics-jobs-by-type {
+  text-align: center;
 }

@@ -14,7 +14,6 @@ const AddJobsModal = ({ onClose, onSave, skills }) => {
     jobPostingLink: '',
     pay: '',
     applyDate: formattedToday, 
-
     jobStatus: 'Open',
     interviewed: 'No',
     interviewDate: null,
@@ -49,9 +48,6 @@ const AddJobsModal = ({ onClose, onSave, skills }) => {
     onSave(updatedNewJob);
     onClose(); // Close the modal after save
   };
-
-  
-
 
   return (
     <div className="modal-background">

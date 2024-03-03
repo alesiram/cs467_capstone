@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react'; 
 
-
-const JobsMetricsModal = ({ show, onClose, totalJobs, totalApplications }) => {
-
-
+const JobsMetricsModal = ({ show, onClose, totalApplications,  totalOpenJobs, fullTimeCount, partTimeCount, internshipCount, pendingCount, rejectedCount, hiredCount, skillCounts, interviewPendingCount, interviewYescount, interviewNocount }) => {
+ 
   return (
     show && (
       <div className="jobs-metrics-modal">
@@ -14,34 +12,41 @@ const JobsMetricsModal = ({ show, onClose, totalJobs, totalApplications }) => {
               <div className="metric-tile">
                 <h3>Total Applications</h3>
                 <p>{totalApplications}</p> {/* Use totalApplications here */}
-      
               </div>
-
-              <div className="metric-tile">
-                <h3>Applications by Month</h3>
-                <p>{}</p>
-              </div>
-
               <div className="metric-tile">
                 <h3>Open Jobs</h3>
-                <p>{}</p>
+                <p>{totalOpenJobs}</p>
               </div>
-              {/* Add more metric tiles for other metrics */}
-
-              <div className="metric-tile">
-                <h3>Most applied to Company </h3>
-                <p>{}</p>
+              <div className="metric-tile interview-outcomes">
+                <h3>Interviewed Overview</h3>
+                <p>
+                  Pending: {interviewPendingCount}<br />
+                  Yes: {interviewYescount}<br />
+                  No: {interviewNocount}
+                </p>
               </div>
-
-
               <div className="metric-tile">
-                <h3>Application Status - Month</h3>
-         
-              </div>
-
+              <h3>Skill Presence in Jobs</h3>
+              {Object.entries(skillCounts).map(([skillName, count]) => (
+                <div key={skillName} className="job-metric-skill-info"> {/* Add the className attribute */}
+                  <span>{skillName}: </span>
+                  <span>{count}%</span>
+                </div>
+              ))}
+            </div>
+            <div className="metric-tile jobs-by-type">
+              <h3>Total Jobs by Type </h3>
+              <p>
+                Full Time: {fullTimeCount} <br />
+                Part-time: {partTimeCount} <br />
+                Internship: {internshipCount}
+              </p>
+            </div>
               <div className="metric-tile">
-                <h3>Jobs Type </h3>
-                <p>{}</p>
+                <h3>Decision Outcomes</h3>
+                <p>
+                Pending: {pendingCount} Rejected: {rejectedCount} Hired: {hiredCount}
+                </p>
               </div>
             </div>
             <button className="job-modal-button-cancel" onClick={onClose}>

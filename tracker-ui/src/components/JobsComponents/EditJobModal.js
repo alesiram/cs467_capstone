@@ -26,7 +26,14 @@ const EditJobModal = ({ onClose, job, onSave, skills }) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setEditedJob({ ...editedJob, [name]: value });
+  
+    // Update editedJob state except for the 'status' field
+    if (name !== 'status') {
+      setEditedJob({ ...editedJob, [name]: value });
+    } else {
+      // For 'status' field, update its value directly
+      setEditedJob({ ...editedJob, jobStatus: value });
+    }
   };
 
   const handleSubmit = (e) => {
