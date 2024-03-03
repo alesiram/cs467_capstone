@@ -1,11 +1,15 @@
 // CREATED WITH GPT 4.0
 
+// Packages and modals
 import React, { useState, useEffect, useMemo } from 'react';
 import NavBar from '../../components/NavBar';
 import SkillTable from '../../components/SkillComponents/SkillTable';
 import AddSkillModal from '../../components/SkillComponents/AddSkillModal';
 import EditSkillModal from '../../components/SkillComponents/EditSkillModal';
 import DeleteSkillModal from '../../components/SkillComponents/DeleteSkillModal';
+
+// Icons
+import SkillsIcon from '@mui/icons-material/Build';
 
 // Assuming './skills.css' and NavBar, SkillTable, AddSkillModal, EditSkillModal, DeleteSkillModal are correctly implemented
 import './skills.css';
@@ -31,26 +35,37 @@ const SkillsPage = () => {
   const fetchData = async () => {
     setIsLoading(true);
     try {
-      const token = localStorage.getItem('token');
-      let queryParams = new URLSearchParams();
-  
-      if (searchTerm) queryParams.append('search', searchTerm);
-      if (filterRating) queryParams.append('minRating', filterRating);
-  
-      const response = await fetch(`/skills?${queryParams.toString()}`, {
-        headers: { 'Authorization': `Bearer ${token}` },
-      });
-  
-      if (!response.ok) throw new Error('Failed to fetch data');
-  
-      const skillsData = await response.json();
-      setSkills(skillsData);
+        const token = localStorage.getItem('token');
+        let queryParams = new URLSearchParams();
+
+        if (searchTerm) queryParams.append('search', searchTerm);
+        if (filterRating) queryParams.append('minRating', filterRating);
+
+        const response = await fetch(`/skills?${queryParams.toString()}`, {
+            headers: { 'Authorization': `Bearer ${token}` },
+        });
+
+        if (!response.ok) {
+            // Specifically check for a 404 response and clear skills data
+            if (response.status === 404) {
+                setSkills([]); // Clear skills data if no skills are found
+                const errorData = await response.json(); // Optionally use this data to set a user-friendly error message
+                setError(errorData.message); // Set the error message from the response
+            } else {
+                throw new Error('Failed to fetch data');
+            }
+        } else {
+            const skillsData = await response.json();
+            setSkills(skillsData);
+            setError(''); // Reset any previous error messages
+        }
     } catch (error) {
-      setError('Failed to load data: ' + error.message);
+        setError('Failed to load data: ' + error.message);
     } finally {
-      setIsLoading(false);
+        setIsLoading(false);
     }
   };
+
 
   // Inside your SkillsPage component
   const sortedSkills = useMemo(() => {
@@ -128,8 +143,11 @@ const SkillsPage = () => {
 
   useEffect(() => {
     fetchData();
-    fetchMostPopularSkill();
   }, [searchTerm, filterRating]); // Removed sortCriteria from dependencies
+  
+  useEffect(() => {
+    fetchMostPopularSkill();
+  }, []); // Empty dependency array ensures this runs only once on component mount
   
 
   //useEffect(() => {
@@ -224,17 +242,24 @@ const deleteSkill = async (skillId) => {
     <div id="skillsPage">
       <NavBar />
       <div className="skills-page__container">
-        <h1 className="skills-page__header">Skills</h1>
+      <div className="skills-page__header">
+        <SkillsIcon style={{ marginRight: '8px', verticalAlign: 'middle' }} fontSize="large" />
+        <h1>SKILLS</h1>
+      </div>
+
+        
         {/* Displaying the most popular skill summary */}
         {mostPopularSkill ? (
-        <div className="skills-page__most-popular-summary">
-          <p>Most Popular Skill: {mostPopularSkill._id}</p>
-          <p>Average Rating: {mostPopularSkill.averageRating.toFixed(1)}</p>
-        </div>
-      ) : isLoading ? (
-        <p>Loading most popular skill...</p>
-      ) : null}
+          <div className="skills-page__most-popular-summary">
+            <p>Most Popular Skill: {mostPopularSkill._id}</p>
+            <p>Average Rating: {mostPopularSkill.averageRating.toFixed(1)}</p>
+          </div>
+        ) : isLoading ? (
+          <p>Loading most popular skill...</p>
+        ) : null}
+        
         <button className="skills-page__button--add-new" onClick={() => setShowAddModal(true)}>Add New Skill</button>
+        
         <div className="skills-page__filters">
           <input
             type="text"
@@ -246,29 +271,29 @@ const deleteSkill = async (skillId) => {
             type="number"
             placeholder="Filter by min rating..."
             value={filterRating}
-            min="1" // Ensures the minimum value that can be entered is 1
-            max="5" // Ensures the maximum value that can be entered is 5
-            onChange={(e) => {
-              const newValue = e.target.value;
-              // Check if the new value is within the range 1 to 5
-              if (newValue === '' || (newValue >= 1 && newValue <= 5)) {
-                setFilterRating(newValue);
-              }
-            }}
+            min="1"
+            max="5"
+            onChange={e => setFilterRating(e.target.value)}
           />
         </div>
+        
+        {/* Error message display */}
+        {error && <div className="skills-page__error-message">{error}</div>}
+        
         <SkillTable
-          skills={sortedSkills} // Use sortedSkills here
+          skills={sortedSkills}
           onEdit={setCurrentSkillAndShowEditModal}
           onDelete={setCurrentSkillAndShowDeleteModal}
           onSort={handleSortChange}
         />
+        
         {showAddModal && <AddSkillModal onClose={() => setShowAddModal(false)} onSave={addSkill} contacts={contacts} />}
         {showEditModal && currentSkill && <EditSkillModal skill={currentSkill} onClose={() => setShowEditModal(false)} onSave={editSkill} contacts={contacts} />}
         {showDeleteModal && currentSkill && <DeleteSkillModal skill={currentSkill} onClose={() => setShowDeleteModal(false)} onDelete={deleteSkill} />}
       </div>
     </div>
   );
+  
   
   // Helper function to set current skill and show edit modal
   function setCurrentSkillAndShowEditModal(skill) {

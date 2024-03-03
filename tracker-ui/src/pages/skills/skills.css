@@ -11,6 +11,9 @@
 
 /* Skills Page Container */
 .skills-page__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centers children horizontally in the container */
   background-color: #ffffff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.2);
   border-radius: 20px;
@@ -22,7 +25,13 @@
 
 /* Header */
 .skills-page__header {
+  display: flex;
+  align-items: center; /* Ensures the icon and text are aligned at their vertical center */
   margin-bottom: 30px;
+}
+
+.skills-page__header h1 {
+  margin: 0; /* Adjust based on your specific design needs */
 }
 
 /* Filters */
@@ -227,13 +236,14 @@
   border-radius: 20px;
 }
 
-
-
-  
-   
-  
-  
-  
-  
-
-  
+/* Error Message Styling Following BEM Practices */
+.skills-page__error-message {
+  color: #d32f2f; /* Bright red color for visibility */
+  background-color: #fddede; /* Light red background for contrast */
+  border: 1px solid #d32f2f; /* Solid border to highlight the error message */
+  border-radius: 4px; /* Rounded corners for a softer look */
+  padding: 10px; /* Adequate padding for content spacing */
+  margin: 20px 0; /* Margin for spacing around the error message */
+  text-align: center; /* Centered text for emphasis */
+  font-size: 0.9rem; /* Slightly smaller font size for distinction */
+}
