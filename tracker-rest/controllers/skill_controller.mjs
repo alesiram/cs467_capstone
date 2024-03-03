@@ -6,6 +6,18 @@ import Contact from '../models/contact_model.mjs'; // Adjust the path as necessa
 // Create a new skill
 export const createSkill = async (req, res) => {
     try {
+        // Pre-insertion check for duplicate skill name for the user
+        const existingSkill = await Skill.findOne({
+            user: req.user._id,
+            name: req.body.name
+        });
+
+        // If a duplicate skill is found, return a conflict response
+        if (existingSkill) {
+            return res.status(409).json({ message: 'Duplicate skill not allowed' });
+        }
+
+        // Continue with skill creation if no duplicate is found
         let referenceObjId = null; // Assume no reference by default
         if (req.body.reference) {
             const referenceObj = await Contact.findOne({ _id: req.body.reference });
@@ -16,6 +28,7 @@ export const createSkill = async (req, res) => {
                 return res.status(404).json({ message: 'Reference contact not found' });
             }
         }
+
         const newSkill = new Skill({
             name: req.body.name,
             rating: req.body.rating,
@@ -30,6 +43,7 @@ export const createSkill = async (req, res) => {
         res.status(400).json({ message: error.message });
     }
 };
+
 
 
 
@@ -129,8 +143,20 @@ export const getSkill = async (req, res) => {
 // Update a skill
 export const updateSkill = async (req, res) => {
     try {
+        // Check if the skill name being updated to already exists for this user
+        const existingSkill = await Skill.findOne({
+            user: req.user._id,
+            name: req.body.name,
+            _id: { $ne: req.params.id } // Exclude the skill being updated from the search
+        });
+
+        // If a duplicate skill is found, return a conflict response
+        if (existingSkill) {
+            return res.status(409).json({ message: 'Another skill with this name already exists' });
+        }
+
+        let referenceObjId = req.body.reference; // Keep the reference as is by default
         // Convert reference to ObjectId and validate if provided
-        let referenceObjId = null; // Assume no reference by default
         if (req.body.reference) {
             const referenceObj = await Contact.findOne({ _id: req.body.reference });
             if (referenceObj) {
@@ -139,21 +165,30 @@ export const updateSkill = async (req, res) => {
                 // Handle the case where the reference does not exist
                 return res.status(404).json({ message: 'Reference contact not found' });
             }
-            req.body.reference = referenceObjId;
         }
+
+        const updatedData = {
+            ...req.body,
+            reference: referenceObjId,
+        };
+
         const skill = await Skill.findOneAndUpdate(
             { _id: req.params.id, user: req.user._id },
-            req.body,
+            updatedData,
             { new: true }
         );
+
         if (!skill) {
             return res.status(404).json({ message: 'Skill not found' });
         }
+
         res.status(200).json(skill);
     } catch (error) {
+        console.error(error); // Log the error for debugging
         res.status(400).json({ message: error.message });
     }
 };
+
 
 
 // Delete a skill
@@ -176,7 +211,7 @@ export const getMostPopularSkill = async (req, res) => {
         // Step 1: Group by skill name and count occurrences
         { $group: { _id: "$name", count: { $sum: 1 }, averageRating: { $avg: "$rating" } } },
         // Step 2: Sort by count in descending order to get the most popular skill first
-        { $sort: { count: -1 } },
+        { $sort: { count: -1, averageRating: -1, _id: 1 } },
         // Step 3: Optionally, limit to a certain number of top skills, e.g., top 1
         { $limit: 1 }
       ]);

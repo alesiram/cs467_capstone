@@ -156,87 +156,95 @@ const SkillsPage = () => {
   //});
 
   // Add skill
-const addSkill = async (skill) => {
-  setIsLoading(true);
-  try {
-    const token = localStorage.getItem('token');
-    const response = await fetch('/skills', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(skill),
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || 'Failed to add the skill');
+  const addSkill = async (skill) => {
+    setIsLoading(true);
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch('/skills', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(skill),
+      });
+  
+      if (!response.ok) {
+        const errorData = await response.json();
+        setError(errorData.message || 'Failed to add the skill'); // Update error message based on response
+        setIsLoading(false);
+        return; // Early return to avoid further processing
+      }
+  
+      // Refetch skills to update the list and clear any existing error messages
+      setError(''); // Clear any existing error message
+      fetchData();
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setIsLoading(false);
     }
+  };
+  
 
-    // Refetch skills to update the list
-    fetchData();
-  } catch (error) {
-    setError(error.message);
-  } finally {
-    setIsLoading(false);
-  }
-};
-
-// Edit skill
-const editSkill = async (skill) => {
-  setIsLoading(true);
-  try {
-    const token = localStorage.getItem('token');
-    const response = await fetch(`/skills/${skill._id}`, {
-      method: 'PUT',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(skill),
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || 'Failed to update the skill');
+  // Edit skill
+  const editSkill = async (skill) => {
+    setIsLoading(true);
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`/skills/${skill._id}`, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(skill),
+      });
+  
+      if (!response.ok) {
+        const errorData = await response.json();
+        setError(errorData.message || 'Failed to update the skill'); // Update error message based on response
+        setIsLoading(false);
+        return; // Early return to avoid further processing
+      }
+  
+      // Refetch skills to update the list and clear any existing error messages
+      setError(''); // Clear any existing error message
+      fetchData();
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setIsLoading(false);
     }
+  };
+  
 
-    // Refetch skills to update the list
-    fetchData();
-  } catch (error) {
-    setError(error.message);
-  } finally {
-    setIsLoading(false);
-  }
-};
+  // Delete skill
+  const deleteSkill = async (skillId) => {
+    setIsLoading(true);
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`/skills/${skillId}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
 
-// Delete skill
-const deleteSkill = async (skillId) => {
-  setIsLoading(true);
-  try {
-    const token = localStorage.getItem('token');
-    const response = await fetch(`/skills/${skillId}`, {
-      method: 'DELETE',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      },
-    });
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to delete the skill');
+      }
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || 'Failed to delete the skill');
+      // Refetch skills to update the list
+      fetchData();
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setIsLoading(false);
     }
-
-    // Refetch skills to update the list
-    fetchData();
-  } catch (error) {
-    setError(error.message);
-  } finally {
-    setIsLoading(false);
-  }
-};
+  };
 
   // Render part remains largely unchanged
   return (
