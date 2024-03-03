@@ -41,30 +41,31 @@ const SkillsPage = () => {
         if (searchTerm) queryParams.append('search', searchTerm);
         if (filterRating) queryParams.append('minRating', filterRating);
 
-        const response = await fetch(`/skills?${queryParams.toString()}`, {
+        // Fetch skills
+        const skillsResponse = await fetch(`/skills?${queryParams.toString()}`, {
             headers: { 'Authorization': `Bearer ${token}` },
         });
 
-        if (!response.ok) {
-            // Specifically check for a 404 response and clear skills data
-            if (response.status === 404) {
-                setSkills([]); // Clear skills data if no skills are found
-                const errorData = await response.json(); // Optionally use this data to set a user-friendly error message
-                setError(errorData.message); // Set the error message from the response
-            } else {
-                throw new Error('Failed to fetch data');
-            }
-        } else {
-            const skillsData = await response.json();
-            setSkills(skillsData);
-            setError(''); // Reset any previous error messages
-        }
+        // Fetch contacts
+        const contactsResponse = await fetch('/contacts', {
+            headers: { 'Authorization': `Bearer ${token}` },
+        });
+
+        if (!skillsResponse.ok) throw new Error('Failed to fetch skills');
+        if (!contactsResponse.ok) throw new Error('Failed to fetch contacts');
+
+        const skillsData = await skillsResponse.json();
+        const contactsData = await contactsResponse.json();
+
+        setSkills(skillsData);
+        setContacts(contactsData); // Set contacts data here
     } catch (error) {
         setError('Failed to load data: ' + error.message);
     } finally {
         setIsLoading(false);
     }
   };
+
 
 
   // Inside your SkillsPage component

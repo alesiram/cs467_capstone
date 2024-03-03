@@ -18,8 +18,9 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.2);
   border-radius: 20px;
   max-width: 1200px;
-  margin: 40px auto;
+  margin: 20px auto;
   padding: 40px 20px;
+  width: 90%;
   transition: transform 0.3s ease;
 }
 
@@ -40,6 +41,7 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 30px;
+  width: 100%;
 }
 
 /* Buttons */
@@ -246,4 +248,5 @@
   margin: 20px 0; /* Margin for spacing around the error message */
   text-align: center; /* Centered text for emphasis */
   font-size: 0.9rem; /* Slightly smaller font size for distinction */
+  width: 100%;
 }
