@@ -58,12 +58,12 @@ const ContactsSearchBar = ({
     const handleDynamicSearch = (e) => {
 
         // Get the query (i.e. event value)
-        const query = e.target.value.trim();
+        const query = e.target.value;
         setShowSearchFieldsInfo(false);
         setSearchQuery(query);
 
         // If query is empty, reset displayed contacts and clear any search message
-        if (!query) {
+        if (!query.trim()) {
             setDisplayedContacts(contacts);
             setSearchMessage('');
             // Exit early
@@ -71,7 +71,7 @@ const ContactsSearchBar = ({
         }
 
         // Disregard upper/lower cases
-        const queryLower = query.toLowerCase();
+        const queryLower = query.trim().toLowerCase();
 
         // Filter the contacts to search various fields in the contacts data
         const filteredContacts = contacts.filter(contact =>

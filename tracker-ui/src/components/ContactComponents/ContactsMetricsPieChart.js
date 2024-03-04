@@ -76,12 +76,12 @@ const ContactsMetricsPieChart = ({ data }) => {
 
             // Pie chart colors
             const colors = [
-                '#FF0000', // Red
-                '#006400', // Dark Green
-                '#0000FF', // Blue
-                '#301934', // Dark Purple
-                '#FF00FF', // Magenta
-                '#000000', // Black
+                'rgb(255, 96, 6)', // Primary Orange
+                'darkgrey', // Darkgrey
+                '#d35400', // Secondary Orange
+                'black', // Black
+                'darkorange', // Darkorange
+                '#333', // Dark
             ];
 
             // Get the canvas parent and the computed style for sizing
@@ -91,7 +91,7 @@ const ContactsMetricsPieChart = ({ data }) => {
             const parentPadding = parseFloat(parentComputedStyle.paddingLeft) + parseFloat(parentComputedStyle.paddingRight);
 
             // 350px or less to fit within padding
-            const size = Math.min(parentWidth - parentPadding, 350); 
+            const size = Math.min(parentWidth - parentPadding, 350);
             canvas.style.width = `${size}px`;
             canvas.style.height = `${size}px`;
 
@@ -105,7 +105,7 @@ const ContactsMetricsPieChart = ({ data }) => {
             // Process data only if it's not empty
             const distribution = data.reduce((acc, contact) => {
                 // Handle contacts without a 'contactType'
-                const type = contact.contactType || 'Unknown'; 
+                const type = contact.contactType || 'Unknown';
                 acc[type] = (acc[type] || 0) + 1;
                 return acc;
             }, {});
@@ -113,7 +113,7 @@ const ContactsMetricsPieChart = ({ data }) => {
             // Create the data for the chart
             const chartData = Object.keys(distribution).map((key, index) => ({
                 // Slice to show only partial text for category that is too long
-                label: `${key.slice(0,11)}: ${distribution[key]}`,
+                label: `${key.slice(0, 11)}: ${distribution[key]}`,
                 value: distribution[key],
                 color: colors[index % colors.length],
             }));

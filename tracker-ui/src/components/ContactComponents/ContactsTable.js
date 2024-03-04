@@ -98,7 +98,7 @@ const ContactsTable = ({ displayedContacts, onEditClick, onDeleteClick, onViewCl
                 const phoneNumbers = params.value;
                 // If there is no phone number
                 if (!phoneNumbers || phoneNumbers.length === 0) {
-                    return "No Phone";
+                    return "";
                 }
                 // If there is only 1 phone number 
                 else if (phoneNumbers.length === 1) {
@@ -155,10 +155,11 @@ const ContactsTable = ({ displayedContacts, onEditClick, onDeleteClick, onViewCl
         "& .MuiDataGrid-sortIcon": { color: 'var(--primary-color)' },
         "& .MuiDataGrid-menuIconButton": { color: 'var(--primary-color)' },
         "& .MuiDataGrid-filterIcon": { color: 'var(--primary-color)' },
+        mb: 3,
     });
 
     return (
-        <Box className="contact-table-container">
+        <Box className="contact-table-container" sx={{ width: '100%', maxWidth: '1700px' }}>
             {/* Header */}
             <Typography variant='h2' sx={{ mt: 2, mb: 2 }}>Contacts</Typography>
             {/* Table of Contacts */}
