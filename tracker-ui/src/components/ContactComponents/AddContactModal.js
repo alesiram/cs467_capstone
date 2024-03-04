@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+import { TextField, Autocomplete, Button, Slider, Checkbox, FormControlLabel } from '@mui/material';
 
 // Modal to add a new contact
-const AddContactModal = ({ show, onClose, createContact, contacts, setContacts }) => {
+const AddContactModal = ({ show, onClose, createContact, contacts, setContacts, companies }) => {
 
     // For toggling the success message
     const [showSuccess, setShowSuccess] = useState(false);
@@ -154,7 +155,7 @@ const AddContactModal = ({ show, onClose, createContact, contacts, setContacts }
         // Get the description based on the value (i.e. value = key)
         const description = strengthDescriptions[value];
         // Get and update the element to display the strength connection
-        const strengthDescriptionElement = document.getElementById('strengthDescription');
+        const strengthDescriptionElement = document.getElementById('contactAddFormStrengthDescription');
         if (strengthDescriptionElement) {
             strengthDescriptionElement.textContent = `${value} - ${description}`;
         }
@@ -167,6 +168,16 @@ const AddContactModal = ({ show, onClose, createContact, contacts, setContacts }
     const statusOfInteractions = ['Awaiting Response', 'In Discussion', 'Need to Follow Up', 'Closed', 'Other'];
     const preferredContactMethods = ['Email', 'Phone', 'LinkedIn', 'Other'];
     const phoneNumberTypes = ['Mobile', 'Work', 'Home', 'Other'];
+
+    // Styles for contact form buttons
+    const commonStylesContactFormButtons = {
+        backgroundColor: 'var(--background-color)',
+        color: 'var(--secondary-color)',
+        '&:hover': {
+            backgroundColor: 'var(--primary-color)',
+            color: 'var(--button-text-color)',
+        },
+    };
 
     // Return null if not displaying
     if (!show) return null;
@@ -186,24 +197,46 @@ const AddContactModal = ({ show, onClose, createContact, contacts, setContacts }
                     </>
                 ) : (
                     <>
-                        {/* Display the form to add a new contact*/}
-                        <h2>Add New Contact</h2>
                         {/* Close Modal Button */}
                         <span className="contact-form-modal-close" onClick={onClose}>&times;</span>
+                        {/* Display the form to add a new contact*/}
+                        <h2>Add New Contact</h2>
                         {/* FORM START */}
                         <form onSubmit={handleSubmit} className='contact-add-edit-view-form'>
 
                             {/* Left hand side input fields */}
                             <div className="contact-add-edit-view-form-input-left-section">
                                 {/* Contact Name (required) */}
-                                <label className='contact-add-edit-view-form-required-input-label'>Name</label>
+                                <label className='contact-add-edit-view-form-required-input-label'>Name*</label>
                                 <input type="text" name="name" value={newContact.name} onChange={handleChange} className="contact-add-edit-view-form-input" required maxLength="50" />
-                                {nameExists && <span style={{ color: 'red', marginBottom: '10px' }}>Warning: this contact name already exists</span>}
+                                {nameExists && <span style={{ color: 'red', marginBottom: '10px', marginTop: '5px' }}>This contact name already exists!</span>}
                                 {/* Contact Company (required) */}
-                                <label className='contact-add-edit-view-form-required-input-label'>Company</label>
-                                <input type="text" name="company" value={newContact.company} onChange={handleChange} className="contact-add-edit-view-form-input" required maxLength="50" />
+                                <label className='contact-add-edit-view-form-required-input-label'>Company*</label>
+                                <Autocomplete
+                                    freeSolo
+                                    options={companies}
+                                    value={newContact.company}
+                                    onChange={(event, newValue) => {
+                                        // Directly update the newContact state for the company field
+                                        setNewContact(prevState => ({ ...prevState, company: newValue }));
+                                    }}
+                                    onInputChange={(event, newInputValue) => {
+                                        // Update the company field only if it's a manual input (free solo)
+                                        if (event && event.type === 'change') {
+                                            setNewContact(prevState => ({ ...prevState, company: newInputValue }));
+                                        }
+                                    }}
+                                    renderInput={(params) => (
+                                        <TextField
+                                            {...params}
+                                            name="company"
+                                            required
+                                            className="contact-add-edit-view-form-input"
+                                        />
+                                    )}
+                                />
                                 {/* Contact Email (required) */}
-                                <label className='contact-add-edit-view-form-required-input-label'>Email</label>
+                                <label className='contact-add-edit-view-form-required-input-label'>Email*</label>
                                 <input type="email" name="email" value={newContact.email} onChange={handleChange} className="contact-add-edit-view-form-input" required maxLength="50" />
                                 {/* Contact Phone Numbers (dynamic addition - up to 5 allowed numbers */}
                                 <label>Phone Numbers</label>
@@ -221,12 +254,17 @@ const AddContactModal = ({ show, onClose, createContact, contacts, setContacts }
                                     </div>
                                 ))}
                                 {newContact.phoneNumbers.length < 5 && (
-                                    <button type="button" onClick={handleAddPhoneNumber}>Add Phone Number</button>
+                                    <Button
+                                        type="button" onClick={handleAddPhoneNumber}
+                                        sx={{ mb: 1, mr: 1, width: '100%', ...commonStylesContactFormButtons }}
+                                    >
+                                        Add Phone Number
+                                    </Button>
                                 )}
                                 {/* Contact Notes */}
                                 <label>Notes</label>
                                 <textarea name="notes" value={newContact.notes} onChange={handleChange} maxLength="200" className="contact-add-edit-view-form-notes-textarea" placeholder='Add your notes...'></textarea>
-                                <div>{200 - newContact.notes.length} characters remaining</div>
+                                <div style={{ color: 'var(--primary-color)', marginTop: '5px' }}>{200 - newContact.notes.length} characters remaining</div>
                             </div>
 
                             {/* Right hand side input fields */}
@@ -251,9 +289,10 @@ const AddContactModal = ({ show, onClose, createContact, contacts, setContacts }
                                 </div>
                                 {/* Contact Type (required) */}
                                 <div className="contact-add-edit-view-form-div-select">
-                                    <label htmlFor="contactType" className="contact-add-edit-view-form-required-input-label">Contact Type</label>
+                                    <label htmlFor="contactType" className="contact-add-edit-view-form-required-input-label">Contact Type*</label>
                                     <select name="contactType" value={newContact.contactType} onChange={handleChange} className="contact-add-edit-view-form-select" required>
-                                        <option value="">Select a Contact Type</option> {/* Ensures user makes an explicit choice */}
+                                        <option value="" disabled>Select a Contact Type</option> {/* Ensures user makes an explicit choice */}
+                                        <option value="" disabled> - - - </option>
                                         {contactTypes.sort().map((type) => (
                                             <option key={type} value={type}>{type}</option>
                                         ))}
@@ -263,65 +302,119 @@ const AddContactModal = ({ show, onClose, createContact, contacts, setContacts }
                                 <div className="contact-add-edit-view-form-div-select">
                                     <label>Interaction Type</label>
                                     <select name="interactionType" value={newContact.interactionType} onChange={handleChange} className="contact-add-edit-view-form-select">
-                                        <option value="">Select Interaction Type</option>
+                                        <option value="" disabled></option>
+                                        <option value="" disabled> - - - </option>
                                         {interactionTypes.sort().map((type) => (
                                             <option key={type} value={type}>{type}</option>
                                         ))}
+                                        <option value="" disabled> - - - </option>
+                                        <option value="">None</option>
                                     </select>
                                 </div>
                                 {/* Source of Contact */}
                                 <div className="contact-add-edit-view-form-div-select">
                                     <label>Source of Contact</label>
                                     <select name="sourceOfContact" value={newContact.sourceOfContact} onChange={handleChange} className="contact-add-edit-view-form-select">
-                                        <option value="">Select Source of Contact</option>
+                                        <option value="" disabled></option>
+                                        <option value="" disabled> - - - </option>
                                         {sourceOfContacts.sort().map((source) => (
                                             <option key={source} value={source}>{source}</option>
                                         ))}
+                                        <option value="" disabled> - - - </option>
+                                        <option value="">None</option>
                                     </select>
                                 </div>
                                 {/* Status of Interaction */}
                                 <div className="contact-add-edit-view-form-div-select">
                                     <label>Status of Interaction</label>
                                     <select name="statusOfInteraction" value={newContact.statusOfInteraction} onChange={handleChange} className="contact-add-edit-view-form-select">
-                                        <option value="">Select Status of Interaction</option>
+                                        <option value="" disabled></option>
+                                        <option value="" disabled> - - - </option>
                                         {statusOfInteractions.sort().map((status) => (
                                             <option key={status} value={status}>{status}</option>
                                         ))}
+                                        <option value="" disabled> - - - </option>
+                                        <option value="">None</option>
                                     </select>
                                 </div>
                                 {/* Preferred Contact Method */}
                                 <div className="contact-add-edit-view-form-div-select">
                                     <label>Preferred Contact Method</label>
                                     <select name="preferredContactMethod" value={newContact.preferredContactMethod} onChange={handleChange} className="contact-add-edit-view-form-select">
-                                        <option value="">Select Preferred Contact Method</option>
+                                        <option value="" disabled></option>
+                                        <option value="" disabled> - - - </option>
                                         {preferredContactMethods.sort().map((method) => (
                                             <option key={method} value={method}>{method}</option>
                                         ))}
+                                        <option value="" disabled> - - - </option>
+                                        <option value="">None</option>
                                     </select>
                                 </div>
                                 {/* Container for Strength of Connection and Referral Potential */}
                                 <div className="contact-add-edit-view-form-div-attributes-group">
                                     {/* Strength of Connection */}
                                     <div className="contact-add-edit-view-form-div-attribute">
-                                        <label>Strength of Connection</label>
-                                        <input type="range" name="strengthOfConnection" min="1" max="5" value={newContact.strengthOfConnection} onChange={handleChange} className="contact-add-edit-view-form-strength-of-connection-slider" />
-                                        <div id="strengthDescription" className="contact-add-edit-view-form-strenght-of-connection-description">1 - Very Low (Move the Slider)</div>
+                                        <label htmlFor="strength-slider">Strength of Connection</label>
+                                        <Slider
+                                            name="strengthOfConnection"
+                                            aria-label="Strength of Connection"
+                                            value={newContact.strengthOfConnection}
+                                            onChange={handleChange}
+                                            // Shows the value label on top of the slider thumb
+                                            valueLabelDisplay="auto"
+                                            // Shows scale marks
+                                            marks
+                                            min={1}
+                                            max={5}
+                                            step={1}
+                                            sx={{
+                                                width: '70%',
+                                                color: 'var(--secondary-color)',
+                                                '&:hover': { color: 'var(--primary-color)' },
+                                            }}
+                                        />
+                                        <div id="contactAddFormStrengthDescription" className="contact-add-edit-view-form-strength-of-connection-description">
+                                            1 - Very Low (Move the Slider)
+                                        </div>
                                     </div>
                                     {/* Referral Potential */}
                                     <div className="contact-add-edit-view-form-div-attribute">
                                         <label>Referral Potential</label>
-                                        <label className="contact-add-edit-view-form-label-referral-checkbox">
-                                            <input type="checkbox" name="referralPotential" checked={newContact.referralPotential} className='contact-add-edit-view-form-input-referral-checkbox' onChange={handleCheckboxChange} />
-                                        </label>
+                                        <FormControlLabel
+                                            control={
+                                                <Checkbox
+                                                    name="referralPotential"
+                                                    checked={newContact.referralPotential}
+                                                    onChange={handleCheckboxChange}
+                                                    sx={{
+                                                        color: 'var(--primary-color)',
+                                                        '&.Mui-checked': { color: 'var(--primary-color)' },
+                                                    }}
+                                                />
+                                            }
+                                        />
                                     </div>
                                 </div>
                             </div>
 
                             {/* Form Footer for the buttons */}
                             <div className="contact-add-edit-view-form-footer">
-                                <button type="button" onClick={handleClearForm} className="add-contact-form-clear-inputs-button">Clear</button>
+                                <Button
+                                    type="button"
+                                    onClick={handleClearForm}
+                                    className="add-contact-form-clear-inputs-button"
+                                    sx={{ ...commonStylesContactFormButtons }}
+                                >
+                                    Clear
+                                </Button>
                                 <span className='contact-add-edit-view-form-required-input-label'>* Required Information *</span>
-                                <button type="submit">Save Contact</button>
+                                <Button
+                                    type="submit"
+                                    disabled={nameExists}
+                                    sx={{ ...commonStylesContactFormButtons }}
+                                >
+                                    Save Contact
+                                </Button>
                             </div>
 
                             {/* FORM END */}

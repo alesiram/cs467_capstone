@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Button, Slider, Checkbox, FormControlLabel } from '@mui/material';
 
 // Modal to view a contact
 const ViewContactModal = ({ show, onClose, contact }) => {
@@ -22,6 +23,16 @@ const ViewContactModal = ({ show, onClose, contact }) => {
         5: "5 - Very High",
     };
 
+    // Styles for contact form Buttons
+    const commonStylesContactFormButtons = {
+        backgroundColor: 'var(--background-color)',
+        color: 'var(--secondary-color)',
+        '&:hover': {
+            backgroundColor: 'var(--primary-color)',
+            color: 'var(--button-text-color)',
+        },
+    };
+
     // Return null if not displaying
     if (!show) return null;
 
@@ -40,9 +51,18 @@ const ViewContactModal = ({ show, onClose, contact }) => {
                         <p><strong>Name:</strong> {contact.name}</p>
                         <p><strong>Company:</strong> {contact.company}</p>
                         <p><strong>Email:</strong> {contact.email}</p>
-                        <div className="contact-add-edit-view-form-footer">
-                            <div></div>
-                            <button className="view-contact-show-summary-detail-button" onClick={handleView}>Show Details</button>
+                        <div>
+                            <br />
+                            <div className="contact-add-edit-view-form-footer-view-summary-btn-div">
+                                {/* Button to toggle view */}
+                                <Button
+                                    className="view-contact-show-summary-detail-button"
+                                    onClick={handleView}
+                                    sx={{ ...commonStylesContactFormButtons }}
+                                >
+                                    Show Details
+                                </Button>
+                            </div>
                         </div>
                     </>
                 ) : (
@@ -57,7 +77,7 @@ const ViewContactModal = ({ show, onClose, contact }) => {
                                 <input type="text" name="name" value={contact?.name || ""} className="contact-add-edit-view-form-input" required maxLength="50" readOnly />
                                 {/* Contact Company (required) */}
                                 <label className='contact-add-edit-view-form-required-input-label'>Company</label>
-                                <input type="text" name="company" value={contact?.company || ""} className="contact-add-edit-view-form-input" required maxLength="50" readOnly />
+                                <input type="text" name="company" value={contact?.company || ""} className="contact-add-edit-view-form-input" required readOnly />
                                 {/* Contact Email (required) */}
                                 <label className='contact-add-edit-view-form-required-input-label'>Email</label>
                                 <input type="email" name="email" value={contact?.email || ""} className="contact-add-edit-view-form-input" required maxLength="50" readOnly />
@@ -135,16 +155,44 @@ const ViewContactModal = ({ show, onClose, contact }) => {
                                 <div className="contact-add-edit-view-form-div-attributes-group">
                                     {/* Strength of Connection */}
                                     <div className="contact-add-edit-view-form-div-attribute">
-                                        <label>Strength of Connection</label>
-                                        <input type="range" name="strengthOfConnection" min="1" max="5" value={contact.strengthOfConnection} className="contact-add-edit-view-form-strength-of-connection-slider" readOnly />
-                                        <div id="strengthDescription" className="contact-add-edit-view-form-strenght-of-connection-description">{ratingText[contact.strengthOfConnection]}</div>
+                                        <label htmlFor="strength-slider">Strength of Connection</label>
+                                        <Slider
+                                            name="strengthOfConnection"
+                                            disabled
+                                            aria-label="Strength of Connection"
+                                            value={contact.strengthOfConnection}
+                                            // Shows the value label on top of the slider thumb
+                                            valueLabelDisplay="auto"
+                                            // Shows scale marks
+                                            marks
+                                            min={1}
+                                            max={5}
+                                            step={1}
+                                            sx={{
+                                                width: '70%',
+                                                color: 'var(--secondary-color)',
+                                                '&:hover': { color: 'var(--primary-color)' },
+                                            }}
+                                        />
+                                        <div className="contact-add-edit-view-form-strength-of-connection-description">
+                                            {ratingText[contact.strengthOfConnection]}
+                                        </div>
                                     </div>
                                     {/* Referral Potential */}
                                     <div className="contact-add-edit-view-form-div-attribute">
                                         <label>Referral Potential</label>
-                                        <label className="contact-add-edit-view-form-label-referral-checkbox">
-                                            <input type="checkbox" name="referralPotential" checked={contact.referralPotential} className='contact-add-edit-view-form-input-referral-checkbox' readOnly />
-                                        </label>
+                                        <FormControlLabel
+                                            control={
+                                                <Checkbox
+                                                    name="referralPotential"
+                                                    checked={contact.referralPotential}
+                                                    sx={{
+                                                        color: 'var(--primary-color)',
+                                                        '&.Mui-checked': { color: 'var(--primary-color)' },
+                                                    }}
+                                                />
+                                            }
+                                        />
                                     </div>
                                 </div>
                             </div>
@@ -152,8 +200,13 @@ const ViewContactModal = ({ show, onClose, contact }) => {
                             {/* Form Footer for the buttons */}
                             <div className="contact-add-edit-view-form-footer">
                                 <span className='contact-add-edit-view-form-required-input-label'>* Required Information *</span>
-                                <div></div>
-                                <button type="button" className="view-contact-show-summary-detail-button" onClick={handleView} >Show Summary</button>
+                                <Button
+                                    className="view-contact-show-summary-detail-button"
+                                    onClick={handleView}
+                                    sx={{ ml: 1, ...commonStylesContactFormButtons }}
+                                >
+                                    Show Summary
+                                </Button>
                             </div>
 
                             {/* FORM END */}

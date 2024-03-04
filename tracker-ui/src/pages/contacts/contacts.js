@@ -13,6 +13,12 @@ import ViewContactModal from '../../components/ContactComponents/ViewContactModa
 import ContactsMetrics from '../../components/ContactComponents/ContactsMetrics';
 import ContactsSearchBar from '../../components/ContactComponents/ContactsSearchBar';
 
+// MUI Components and Icons
+import { Button, Box } from '@mui/material';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import SortIcon from '@mui/icons-material/Sort';
+
 // Styling for the contacts page and components
 import './contacts.css';
 
@@ -41,6 +47,9 @@ const ContactsPage = () => {
 
     // Handle contacts (i.e. users contacts)
     const [contacts, setContacts] = useState([]);
+
+    // Handle companies from Jobs
+    const [companies, setCompanies] = useState([]);
 
     // Handle modals for add/view/edit/delete - and current contact
     const [showAddModal, setShowAddModal] = useState(false);
@@ -76,37 +85,16 @@ const ContactsPage = () => {
         setCurrentContact(null); // Clear current contact
     };
 
-    // Handler to get all contacts for the user
-    const handleGetContacts = async () => {
-        // Set is loading as true
-        setIsLoading(true);
-        // Try to get all contacts with auth'd token
-        try {
-            const token = localStorage.getItem('token');
-            const response = await fetch('/contacts', {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                }
-            });
-            // If response is not 200, throw an error
-            if (response.status !== 200) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            } else {
-                // Await all contacts data
-                const contactsData = await response.json();
-                // Set contacts data
-                setContacts(contactsData);
-            }
-        } catch (error) {
-            // Catch the error
-            setError(error.message)
-        } finally {
-            // Set is loading as false
-            setIsLoading(false);
-        }
-    }
+    // Update companies list for autocomplete text field on add/edit forms
+    const updateCompaniesList = (newCompanies) => {
+        setCompanies(prevCompanies => {
+            // Check if newCompanies is an array and spread it accordingly
+            const allCompanies = Array.isArray(newCompanies) ? [...prevCompanies, ...newCompanies] : [...prevCompanies, newCompanies];
+            const updatedCompanies = [...new Set(allCompanies)];
+            // Ensure the list remains sorted
+            return updatedCompanies.sort();
+        });
+    };
 
     // Handle creating a new contact
     const handleCreateContact = async (newContact) => {
@@ -127,6 +115,10 @@ const ContactsPage = () => {
             } else {
                 // Await and returned the saved contact in db
                 const savedContact = await response.json();
+                // Update the companies list
+                if (savedContact.company) {
+                    updateCompaniesList(savedContact.company);
+                }
                 // Clear all filters
                 clearAllSearchFilters();
                 return savedContact;
@@ -156,6 +148,10 @@ const ContactsPage = () => {
             } else {
                 // Await and return the updated contact in db
                 const updatedContact = await response.json();
+                // Update the companies list
+                if (updatedContact.company) {
+                    updateCompaniesList(updatedContact.company);
+                }
                 // Clear all filters
                 clearAllSearchFilters();
                 return updatedContact;
@@ -235,9 +231,73 @@ const ContactsPage = () => {
         clearAllSearchFilters
     }
 
-    // Get all of the users contacts
+    // Get all of the users contacts and companies from jobs/contacts for forms
     useEffect(() => {
+
+        // Handler to get all contacts for the user
+        const handleGetContacts = async () => {
+            // Set is loading as true
+            setIsLoading(true);
+            // Try to get all contacts with auth'd token
+            try {
+                const token = localStorage.getItem('token');
+                const response = await fetch('/contacts', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                // If response is not 200, throw an error
+                if (response.status !== 200) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                } else {
+                    // Await all contacts data
+                    const contactsData = await response.json();
+                    // Set contacts data
+                    setContacts(contactsData);
+                    // Extract companies from contacts (remove falsy values)
+                    const contactCompanies = contactsData.map(contact => contact.company).filter(company => company);
+                    updateCompaniesList(contactCompanies);
+                }
+            } catch (error) {
+                // Catch the error
+                setError(error.message)
+            } finally {
+                // Set is loading as false
+                setIsLoading(false);
+            }
+        }
+
+        // Get companies from Jobs to populate on forms
+        const handleGetCompanies = async () => {
+            setIsLoading(true);
+            try {
+                const token = localStorage.getItem('token');
+                const response = await fetch('/jobs', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                if (response.status !== 200) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                } else {
+                    const jobsData = await response.json();
+                    const jobCompanies = jobsData.map(job => job.company);
+                    updateCompaniesList(jobCompanies);
+                }
+            } catch (error) {
+                setError(error.message);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        // Call methods
         handleGetContacts();
+        handleGetCompanies();
     }, []);
 
     // For search and filter functionality
@@ -288,10 +348,54 @@ const ContactsPage = () => {
         <>
             <NavBar />
             <div className={`contacts-page`}>
-                <div className="contacts-page-controls-container">
-                    <button className="contacts-page-add-new-contact-button" onClick={() => setShowAddModal(true)}>Add New Contact</button>
-                    <button className="contacts-page-toggle-dashboard-button" onClick={() => viewMode !== 'dashboard' ? setViewMode('dashboard') : setViewMode('table')}>{viewMode === 'dashboard' ? 'Contacts Table View' : 'Dashboard Metrics'}</button>
-                </div>
+                <Box
+                    className="contacts-page-controls-container"
+                    sx={{
+                        mt: 2,
+                        mb: 2,
+                        display: 'flex',
+                        flexWrap: 'wrap',
+                        justifyContent: 'center',
+                        padding: '5px',
+                    }}
+                >
+                    <Button
+                        className="contacts-page-add-new-contact-button"
+                        sx={{
+                            m: 2,
+                            backgroundColor: 'var(--primary-color)',
+                            color: 'var(--button-text-color)',
+                        }}
+                        onClick={() => setShowAddModal(true)}
+                    >
+                        <AddCircleIcon sx={{ color: 'var(--button-text-color' }} /> Add New Contact
+                    </Button>
+                    {viewMode === 'dashboard' ? (
+                        <Button
+                            className="contacts-page-toggle-dashboard-button"
+                            sx={{
+                                m: 2,
+                                backgroundColor: 'var(--text-color)',
+                                color: 'var(--button-text-color)',
+                            }}
+                            onClick={() => setViewMode('table')}
+                        >
+                            <SortIcon /> Contacts Table View
+                        </Button>
+                    ) : (
+                        <Button
+                            className="contacts-page-toggle-dashboard-button"
+                            sx={{
+                                m: 2,
+                                backgroundColor: 'var(--text-color)',
+                                color: 'var(--button-text-color)',
+                            }}
+                            onClick={() => setViewMode('dashboard')}
+                        >
+                            <DashboardIcon /> Dashboard Metrics
+                        </Button>
+                    )}
+                </Box>
                 {viewMode !== 'dashboard' ? (
                     <>
                         <span className="contacts-page-view-mode-text">{viewMode === 'cards' ? 'Card View' : 'Table View'}</span>
@@ -316,8 +420,8 @@ const ContactsPage = () => {
                 ) : (
                     <>
                         {/* Render the views for contacts */}
-                        {(viewMode === 'table' || viewMode === 'cards') && <ContactsSearchBar {...contactsSearchBarProps}/>}
-                        {searchMessage && <div>{searchMessage}</div>}
+                        {(viewMode === 'table' || viewMode === 'cards') && <ContactsSearchBar {...contactsSearchBarProps} />}
+                        {searchMessage && <div className='contact-search-filter-message-div'><h3>{searchMessage}</h3></div>}
                         {!searchMessage && renderView()}
                     </>
                 )}
@@ -329,6 +433,7 @@ const ContactsPage = () => {
                 createContact={handleCreateContact}
                 contacts={contacts}
                 setContacts={setContacts}
+                companies={companies}
             />
             {/* Edit Contact Modal for Current Contact */}
             {currentContact && <EditContactModal
@@ -338,6 +443,7 @@ const ContactsPage = () => {
                 updateContact={handleUpdateContact}
                 contacts={contacts}
                 setContacts={setContacts}
+                companies={companies}
             />}
             {/* Delete Contact Modal for Current Contact */}
             {currentContact && <DeleteContactModal

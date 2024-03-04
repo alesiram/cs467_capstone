@@ -8,45 +8,11 @@
   min-height: 100vh; /* Ensure full-height layout */
 }
 
-/* Controls container styling */
-.contacts-page-controls-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  margin-bottom: 20px;
-}
-
-.contacts-page-controls-container button {
-  border: none;
-  padding: 10px 20px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-  margin-bottom: 10px; /* Add spacing for mobile responsiveness */
-}
-
-.contacts-page-toggle-dashboard-button {
-  padding: 10px 20px;
-  font-size: 16px;
-  color: #FFF; /* Assuming white text initially */
-  background-color: #007BFF; /* Assuming blue background initially */
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s, color 0.3s; /* Smooth transition for color and background-color */
-}
-
 /* Hover styles for the buttons */
-.contacts-page-toggle-dashboard-button:hover, .contacts-page-add-new-contact-button:hover {
-  color: black; /* Text color changes to black */
-  background-color: white; /* Background color changes to white */
-}
-
-.contacts-page-toggle-theme-button {
-  background: linear-gradient(-45deg, white, black);
-  background-size: 400% 400%;
-  animation: contactsGradientShift 15s ease infinite; /* Adjust time for faster/slower shifts */
-  transition: background 0.3s ease; /* Smooth transition for background changes */
+.contacts-page-toggle-dashboard-button:hover, 
+.contacts-page-add-new-contact-button:hover {
+  color: var(--secondary-color);
+  background-color: var(--background-color); 
 }
 
 .contacts-page-view-toggle {
@@ -103,7 +69,7 @@
 }
 
 .contacts-page-view-mode-checkbox:checked + .contacts-page-view-mode-label {
-  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+  background: linear-gradient(-45deg, var(--primary-color), var(--secondary-color), var(--text-color), var(--button-text-color));
   background-size: 400% 400%;
   animation: contactsGradientShift 15s ease infinite; /* Adjust time for faster/slower shifts */
   transition: background 0.3s ease; /* Smooth transition for background changes */
@@ -143,55 +109,28 @@
   margin-top: 20px; /* Adjust as needed */
 }
 
-.contacts-page-light-mode {
-  background-color: white;
-  color: black;
-}
-
-.contacts-page-dark-mode {
-  background-color: rgb(8, 8, 8);
-  color: white !important;
-}
-
-.contacts-page-dark-mode tr {
-  color: black !important;
-}
-
 .contacts-page-banner {
-  background-color: #f0f0f0;
+  background-color: var(--background-color);
   padding: 1rem;
   border-radius: 5px;
   margin-bottom: 1rem;
 }
 
 .contacts-page-banner-text {
+  color: var(--text-color);
   text-align: center;
   margin-bottom: 0.5rem;
 }
 
-.under-construction-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  gap: 10px;
-  background-color: yellow;
+.contact-search-filter-message-div {
+  background-color: var(--background-color);
+  margin-top: 30px;
   padding: 10px;
-  border: 2px dashed orange;
-  border-radius: 5px;
+  border: solid 1px var(--primary-color);
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  color: var(--text-color);
 }
-
-.under-construction-text {
-  color: black;
-  font-family: 'Arial', sans-serif;
-  font-weight: bold;
-  text-transform: uppercase;
-  background-color: rgba(255, 255, 255, 0.5);
-  padding: 5px;
-  border-radius: 5px;
-  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-}
-
 
 /* STYLING FOR ADD/EDIT/VIEW CONTACT MODALS (BARD) */
 
@@ -204,22 +143,80 @@
   left: 0;
   width: 100%;
   height: 100%;
+  max-height: 100%; /* Prevent modal from exceeding screen height */
   background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent backdrop */
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: auto;
   z-index: 100; /* Ensure modal is displayed above other content */
+}
+
+/* Modal responsiveness */
+@media (max-width: 850px) {
+  .add-contact-modal-content,
+  .edit-contact-modal-content,
+  .view-contact-modal-content {
+    width: 90%; 
+    padding: 20px; 
+    overflow: auto; 
+    box-sizing: border-box; /* Ensures padding is included in the width */
+  }
+}
+
+/* Adjustments for smaller screen heights */
+@media screen and (max-height: 1000px) {
+  .add-contact-modal-content,
+  .edit-contact-modal-content,
+  .view-contact-modal-content {
+    overflow-y: auto; /* Enable vertical scrolling inside the modal */
+    max-height: 80vh; /* Adjust modal content max-height */
+    padding: 20px; /* Ensure there's padding around the content */
+    box-sizing: border-box; /* Ensures padding is included in the width */
+  }
+  .add-contact-modal,
+  .edit-contact-modal,
+  .view-contact-modal {
+    align-items: flex-start; /* Align to the top */
+    padding-top: 10vh; /* Add some top padding to ensure visibility */
+  }
 }
 
 /* Modal content styling */
 .add-contact-modal-content,
 .edit-contact-modal-content,
 .view-contact-modal-content {
-  background-color: #fff;
+  background-color: var(--text-color);
   padding: 40px;
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  width: 75%; /* Adjust as needed */
+  overflow: auto;
+}
+
+.add-contact-modal-content h2,
+.edit-contact-modal-content h2,
+.view-contact-modal-content h2 {
+  color: var(--primary-color)
+}
+
+.add-contact-modal-content label,
+.edit-contact-modal-content label,
+.view-contact-modal-content label {
+  color: var(--primary-color);
+  margin-bottom: 10px;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.view-contact-modal-content p {
+  color: var(--button-text-color);
+}
+
+.contact-add-edit-view-form input[type="text"],
+.contact-add-edit-view-form select {
+  border: none;
+  width: 100%;
+  padding: 8px;
 }
 
 /* Close button styling */
@@ -229,8 +226,9 @@
   right: 15px;
   font-size: 20px;
   font-weight: bold;
-  color: #333;
+  color: var(--primary-color);
   cursor: pointer;
+  z-index: 105; /* Slightly higher than the modal's z-index to ensure visibility */
 }
 
 /* Form styling */
@@ -238,9 +236,22 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
+    overflow-y: auto; /* Allow vertical scrolling */
+    max-height: 90vh;
+    max-width: 90vw;
 }
 
-.contact-add-edit-view-form-input-left-section, .contact-add-edit-view-form-input-right-section {
+/* Adjust for smaller screens */
+@media (max-width: 850px) {
+    .contact-add-edit-view-form {
+        grid-template-columns: 1fr; 
+        max-height: 50vh;
+    }
+}
+
+/* Left and Right form input sections */
+.contact-add-edit-view-form-input-left-section, 
+.contact-add-edit-view-form-input-right-section {
     display: flex;
     flex-direction: column;
 }
@@ -261,28 +272,25 @@
 
 /* Hover effect for input fields */
 .contact-add-edit-view-form-input:hover {
-    border-color: #999; /* Darken border slightly on hover */
+  border-color: var(--primary-color); 
 }
 
 /* Focus effect for input fields */
 .contact-add-edit-view-form-input:focus {
     outline: none; /* Remove default focus outline */
-    border-color: #007bff; /* Highlight with a stronger color on focus */
-    box-shadow: 0 0 0 2px rgba(0,123,255,.25); /* Soft glow effect */
-}
-
-/* Placeholder styling */
-::placeholder {
-    color: #aaa; /* Lighter text color for placeholders */
+    border-color: var(--secondary-color); /* Highlight with a stronger color on focus */
+    box-shadow: 0 0 0 2px var(--primary-color); /* Soft glow effect */
 }
 
 .contact-add-edit-view-form-phoneNumber-div {
     display: flex;
     gap: 10px;
+    padding: 8px;
 }
 
 .contact-add-edit-view-form-phoneNumber-div button {
     margin-left: auto; /* Pushes the remove button to the right */
+    color: red;
 }
 
 /* Styling for the textarea */
@@ -290,7 +298,6 @@
     width: 100%; /* Full width to match the form layout */
     height: 150px; /* Adequate height for entering notes */
     padding: 15px; /* Comfortable padding for text entry */
-    border: 1px solid #ccc; /* Subtle border for a refined look */
     border-radius: 8px; /* Rounded corners for a modern aesthetic */
     font-size: 16px; /* Legible font size */
     line-height: 1.5; /* Improve readability of multiline text */
@@ -304,29 +311,13 @@
 /* Focus effect for textarea */
 .contact-add-edit-view-form-notes-textarea:focus {
     outline: none; /* Remove the default focus outline */
-    border-color: #66afe9; /* Highlight border color on focus */
-    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1), 0 0 8px rgba(102, 175, 233, 0.6); /* Enhanced focus with outer glow */
+    border-color: var(--primary-color); /* Highlight border color on focus */
+    box-shadow: inset 0 1px 3px var(--text-color) var(--secondary-color); /* Enhanced focus with outer glow */
 }
 
 /* Placeholder styling for consistency */
 .contact-add-edit-view-form-notes-textarea::placeholder {
     color: #aaa; /* Lighter color for the placeholder text */
-}
-
-.contact-add-edit-view-form-strength-of-connection-slider-container {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.contact-add-edit-view-form-strength-of-connection-slider-container input[type=range] {
-    flex-grow: 1;
-}
-
-.contact-add-edit-view-form-label-referral-checkbox {
-    display: flex;
-    align-items: center;
-    gap: 5px;
 }
 
 .contact-add-edit-view-form-footer {
@@ -348,7 +339,6 @@
 .contact-add-edit-view-form-phoneNumber-div button {
     height: 38px; /* Adjust based on actual match */
     padding: 6px 12px; /* Adjust padding to match */
-    border: 1px solid #ccc; /* Match border styles */
     border-radius: 4px; /* Optional: Adjust for rounded corners */
     font-size: 16px; /* Adjust font size for alignment */
 }
@@ -370,7 +360,8 @@
 }
 
 .contact-add-edit-view-form-phoneNumber-div button:hover {
-    background-color: #c82333; /* Lighter red on hover */
+    background-color: #c82333; 
+    cursor: pointer;
 }
 
 /* Base styling for select dropdowns */
@@ -397,9 +388,8 @@
 /* Focus and hover effects for select */
 .contact-add-edit-view-form-select:focus,
 .contact-add-edit-view-form-select:hover {
-    border-color: #999; /* Darker border for focus/hover */
     outline: none; /* Remove focus outline */
-    box-shadow: 0 0 0 2px rgba(0,123,255,.25); /* Soft glow effect for focus */
+    box-shadow: 0 0 0 2px var(--primary-color); /* Soft glow effect for focus */
 }
 
 /* For browsers that don't support `appearance` property */
@@ -407,82 +397,32 @@
     display: none; /* Hide the default arrow in IE11 */
 }
 
-/* Base styling for the slider */
-.contact-add-edit-view-form-strength-of-connection-slider {
-    -webkit-appearance: none; /* Removes default webkit styles */
-    width: 100%; /* Full width to match the layout */
-    height: 8px; /* Height of the track */
-    background: #ddd; /* Background color of the track */
-    outline: none; /* Remove the outline on focus */
-    opacity: 0.7; /* Slightly transparent */
-    -webkit-transition: .2s; /* Transition for smooth color change */
-    transition: opacity .2s;
-    border-radius: 5px; /* Rounded corners for the track */
+.contact-add-edit-view-form-date-input-div {
+  margin-bottom: 20px;
+  margin-top: 15px;
 }
 
-/* Hover effect for the slider */
-.contact-add-edit-view-form-strength-of-connection-slider:hover {
-    opacity: 1; /* Fully opaque on hover */
+.contact-add-edit-view-form-date-input-div input {
+  margin-top: 5px;
 }
 
-/* The slider handle (thumb) */
-.contact-add-edit-view-form-strength-of-connection-slider::-webkit-slider-thumb {
-    -webkit-appearance: none; /* Removes default webkit styles */
-    appearance: none;
-    width: 20px; /* Width of the thumb */
-    height: 20px; /* Height of the thumb */
-    background: #007bff; /* Background color of the thumb */
-    cursor: pointer; /* Cursor on hover */
-    border-radius: 50%; /* Round shape */
-    border: 2px solid #fff; /* White border for the thumb */
-}
-
-.contact-add-edit-view-form-strength-of-connection-slider::-moz-range-thumb {
-    width: 20px; /* Width of the thumb */
-    height: 20px; /* Height of the thumb */
-    background: #007bff; /* Background color of the thumb */
-    cursor: pointer; /* Cursor on hover */
-    border-radius: 50%; /* Round shape */
-    border: 2px solid #fff; /* White border for the thumb */
-}
-
-/* Focus styles for the thumb */
-.contact-add-edit-view-form-strength-of-connection-slider:focus::-webkit-slider-thumb {
-    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5); /* Focus indicator */
-}
-
-.contact-add-edit-view-form-strength-of-connection-slider:focus::-moz-range-thumb {
-    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5); /* Focus indicator */
-}
-
-.contact-add-edit-view-form-input-referral-checkbox {
-  cursor: pointer;
-  height: 50px;
-}
-
-/* Styling when the checkbox is checked */
-.contact-add-edit-view-form-input-referral-checkbox:checked ~ .contact-checkbox-custom {
-    background-color: #007bff; /* Background color for checked state */
-    border-color: #007bff; /* Border color for checked state */
-}
-
-/* Show the checkmark icon when the checkbox is checked */
-.contact-add-edit-view-form-input-referral-checkbox:checked ~ .contact-checkbox-custom::after {
-    display: block;
-}
-
-/* Focus indicator for accessibility */
-.contact-add-edit-view-form-input-referral-checkbox:focus + .contact-checkbox-custom {
-    box-shadow: 0 0 0 2px rgba(0,123,255,.25);
-}
-
+/* Date Input Group */
 .contact-add-edit-view-form-date-group {
     display: flex;
-    justify-content: space-between; /* Distribute space evenly between the inputs */
-    gap: 10px; /* Provide some space between the inputs */
+    justify-content: space-between; 
+    gap: 10px; 
+    margin-bottom: 10px;
 }
 
-/* Optional: Adjustments for smaller screens */
+.contact-add-edit-view-form-date-group > div {
+    flex: 1;
+}
+
+.contact-add-edit-view-form-date-group input[type="date"] {
+    width: 100%; /* Makes the input fill its parent */
+}
+
+/* Adjustments for smaller screens */
 @media (max-width: 600px) {
     .contact-add-edit-view-form-date-group {
         flex-direction: column; /* Stack them vertically on small screens */
@@ -492,25 +432,26 @@
 
 .contact-add-edit-view-form-div-attributes-group {
     display: flex;
-    justify-content: space-between;
-    gap: 20px; /* Adjust based on your design */
+    justify-content: center;
+    align-items: center;
     margin-top: 5%;
-    /* margin: 15%; */
 }
 
 .contact-add-edit-view-form-div-attribute {
     display: flex;
     flex-direction: column;
+    align-items: center;
     width: calc(50% - 10px); /* Adjust the width so both items can fit side by side */
 }
 
-.contact-add-edit-view-form-strenght-of-connection-description {
+.contact-add-edit-view-form-strength-of-connection-description {
     margin-top: 8px; 
     text-align: center; 
+    color: var(--secondary-color);
 }
 
 .contact-add-edit-view-form-required-input-label {
-  color: blue;
+  color: var(--button-text-color);
 }
 
 .contact-add-edit-view-form-div-select {
@@ -547,63 +488,64 @@
   left: 0;
   width: 100%;
   height: 4px;
-  background-color: #007bff; /* Match button color */
+  border: 5px solid var(--primary-color);
   border-radius: 10px 10px 0 0;
 }
 
 .contact-form-success-message {
     /* Style for the success message */
-    color: #28a745;
+    color: var(--primary-color);
     text-align: center;
 }
 
-/* Adjustments for the Clear button */
-.add-contact-form-clear-inputs-button {
-    background-color: #ffc107; /* Yellow */
-    color: black;
-    border-color: #ffc107; /* Adjust border color to match background */
-}
-
-.add-contact-form-clear-inputs-button:hover {
-    background-color: #e0a800; /* Lighter yellow on hover */
-}
-
-/* Adjustments for the Clear button */
-.view-contact-form-close-button {
-    background-color: darkgray; /* Yellow */
-    color: black;
-    border-color: darkgray; /* Adjust border color to match background */
-}
-
-.view-contact-form-close-button:hover {
-    background-color: lightgray; /* Lighter yellow on hover */
-}
-
-.view-contact-show-summary-detail-button {
-  background-color: blue;
-}
-
-.view-contact-show-summary-detail-button:hover {
-  opacity: 85%;
+.contact-add-edit-view-form-footer-view-summary-btn-div {
+  display: flex; 
+  justify-content: center; 
+  align-items: center;
+  padding: 10px;
 }
 
 /* STYLING FOR CONTACTS CARD (CHATGPT) */
 
+.contacts-cards-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Creates four columns */
+    gap: 20px; /* Adjusts the gap between cards */
+    padding: 20px; /* Adds some padding around the grid */
+    place-items: center; /* Centers items both horizontally and vertically */
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 1250px) { /* Adjusts for tablets and below */
+    .contacts-cards-container {
+        grid-template-columns: repeat(2, 1fr); /* Two columns for smaller screens */
+    }
+}
+
+@media (max-width: 768px) {
+    .contacts-cards-container {
+        grid-template-columns: 1fr; /* Single column */
+    }
+}
+
 /* Base styling for the contact card */
 .contact-card {
     font-family: 'Arial', sans-serif;
-    max-width: 340px;
-    background-color: #fff;
+    width: 240px;
+    max-width: 240px;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    border: 2px solid var(--primary-color);
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin: 20px;
-    overflow: hidden;
+    overflow: auto;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .contact-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 8px var(--primary-color);
 }
 
 .contact-card-content {
@@ -612,11 +554,11 @@
 
 .contact-card-content h3 {
     margin-top: 0;
-    color: #333;
+    color: var(--primary-color);
 }
 
 .contact-card-content p {
-    color: #666;
+    color: var(--text-color);
     font-size: 0.9rem;
     line-height: 1.6;
 }
@@ -624,41 +566,43 @@
 /* Styling for the action buttons */
 .contact-card-actions {
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     padding-top: 15px;
 }
 
 .contact-card-actions button {
-    background-color: #007bff;
-    color: white;
     border: none;
     border-radius: 5px;
     padding: 10px 15px;
-    margin-right: 10px;
+    margin-left: 5px;
+    margin-right: 5px;
     cursor: pointer;
     transition: background-color 0.2s ease;
 }
 
 .contact-card-actions button:hover {
-    background-color: #0056b3;
+    opacity: 80%;
 }
 
 .contact-card-actions button:nth-child(3) {
-    background-color: #dc3545; /* Delete button */
+  color: var(--button-text-color);
+  background-color: var(--secondary-color); /* Delete button */
 }
 
 .contact-card-actions button:nth-child(2) {
-    background-color: #ffc107; /* Edit button */
+  color: var(--button-text-color);
+  background-color: var(--primary-color); /* Edit button */
 }
 
 .contact-card-actions button:nth-child(1) {
-    background-color: #28a745; /* View button */
+  color: var(--button-text-color);
+  background-color: var(--text-color); /* View button */
 }
 
 /* Responsive adjustments for smaller screens */
 @media (max-width: 400px) {
     .contact-card {
-        max-width: 100%;
+        max-width: 80%;
     }
 
     .contact-card-content {
@@ -673,125 +617,53 @@
 
 /* STYLING FOR CONTACTS TABLE (CHATGPT) */
 
-/* Container and table base styling */
-.contact-table-container {
-    font-family: Arial, sans-serif;
-    margin: 20px;
-    overflow-x: auto;
-}
-
-.contact-table {
-    width: 100%;
-    border-collapse: collapse;
-    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
-    background-color: #ffffff;
-    border-radius: 8px;
-    overflow: hidden;
-}
-
-/* Table headers */
-.contact-table th {
-    background-color: #007bff;
-    color: #ffffff;
-    font-weight: normal;
-    padding: 15px;
-    text-align: left;
-}
-
-/* Table rows and cells */
-.contact-table td {
-    padding: 10px;
-    border-bottom: 1px solid #eeeeee;
-}
-
-.contact-table tr:nth-child(even) {
-    background-color: #f8f8f8;
-}
-
-/* Hover effect for rows */
-.contact-table tr:hover {
-    background-color: #f1f1f1;
-}
-
-/* Styling for phone numbers */
-.contact-phone-number {
-    display: block;
-    margin-bottom: 5px;
-}
-
-/* Action buttons */
-.contact-action-buttons button {
-    border: none;
-    border-radius: 5px;
-    padding: 8px 12px;
-    margin-right: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
 .contact-action-buttons button:hover {
     opacity: 0.8;
 }
 
 .contact-action-buttons button:nth-child(1) {
-    background-color: blue; /* View button */
-    color: white;
+  cursor: pointer;
+  font-size: 14px;
+  margin-right: 5px;
+  color: var(--button-text-color);
+  background-color: var(--text-color);
 }
 
 .contact-action-buttons button:nth-child(2) {
-    background-color: #ffc107; /* Edit button */
-    color: white;
+  cursor: pointer;
+  font-size: 14px;
+  margin-right: 5px;
+  color: var(--button-text-color);
+  background-color: var(--primary-color);
 }
 
 .contact-action-buttons button:nth-child(3) {
-    background-color: #f44336; /* Delete button */
-    color: white;
-}
-
-/* Styling for Contact Sort Buttons */
-.contact-table-sort-button {
-    margin-left: 5px;
-    border: none; 
-    outline: none;
-    background: transparent;
-    cursor: pointer;
-    font-size: 15px; 
-    color: #ffffff; 
-    padding: 0; 
-    vertical-align: middle; /* Aligns button with inline or text elements vertically */
-}
-
-/* Reintroduce focus styles for accessibility, if outline is removed */
-.contact-table-sort-button:focus {
-    outline: 1px dotted #fff;
-}
-
-.contact-table-sort-button:hover {
-    color: red;
-}
-
-/* Responsive adjustments */
-@media screen and (max-width: 600px) {
-    .contact-table, .contact-table-container {
-        width: 100%;
-        margin: 10px 0;
-    }
-
-    .contact-table th, .contact-table td {
-        padding: 12px;
-    }
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--button-text-color);
+  background-color: var(--secondary-color);
 }
 
 /* STYLING FOR DASHBOARD METRICS (BING + ChatGPT) */
 
 .contact-metrics-container {
-    display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
     gap: 20px;
     padding: 20px;
     font-family: Arial, sans-serif;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 100%;
+    overflow-x: auto; /* Allows scrolling for elements that are too wide */
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 1000px) { 
+    .contact-metrics-container {
+        grid-template-columns: 1fr; 
+    }
 }
 
 .contact-metric {
@@ -808,7 +680,7 @@
     position: relative; /* For potential absolute positioning inside */
     padding-top: 40px; /* Added padding to avoid title overlap */
     padding: 20px; /* Ensure padding for inner content */
-    background-color: #fff;
+    background-color: var(--background-color);
 }
 
 .contact-metric:hover {
@@ -822,9 +694,9 @@
     width: 100%;
     margin: 0;
     padding: 10px;
-    background: linear-gradient(to right, #f0f0f0, #e6e6e6);
+    background: var(--text-color);
     text-align: center; /* Ensure title is centered */
-    color: #007bff; 
+    color: var(--button-text-color); 
     margin-bottom: 15px; /* Space between title and details */
 }
 
@@ -858,7 +730,7 @@
 .contacts-metrics-pie-chart-legend-item:hover {
   transform: scale(1.05);
   transition: all 0.1s ease-in-out;
-  color: red;
+  color: var(--primary-color);
   cursor: pointer;
 }
 
@@ -892,7 +764,7 @@
 .contacts-metrics-follow-up-item {
   width: 100%;
   box-sizing: border-box;
-  border: 1px solid #eee; /* Slightly more defined border */
+  border: 2px solid var(--primary-color); /* Slightly more defined border */
   border-radius: 8px; /* Rounded corners for a softer look */
   padding: 15px; /* Increased padding for more space around the content */
   margin-bottom: 10px; /* Space between items */
@@ -901,24 +773,38 @@
   transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions for hover effects */
   align-items: center; /* Align items for a cleaner look */
   justify-content: space-between; /* Space content nicely */
+  background-color: white;
+  color: var(--text-color);
 }
 
 .contacts-metrics-follow-up-item:hover {
-  background-color: #f7f7f7;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 4px var(--primary-color);
   cursor: pointer;
-  background-color: grey;
-  color: white;
 }
 
 .contacts-metrics-current-date {
   margin-top: 15%;
-  color: #0056b3;
+  color: var(--primary-color);
   font-weight: bold;
 }
 
 .contacts-metrics-pagination-nav {
-  background-color: lightgray;
+  background-color: var(--text-color);
+  color: var(--button-text-color);
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.contacts-metrics-pagination-nav button {
+  margin-left: 8px;
+  margin-right: 8px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+}
+
+.contacts-metrics-pagination-nav button:hover {
+  filter: brightness(110%);
 }
 
 .contacts-metrics-follow-up-reminders-div {
@@ -930,6 +816,7 @@
 
 .contacts-metrics-no-followups-msg {
   margin-top: 15%;
+  color: var(--primary-color);
 }
 
 .contacts-metrics-strength-referral-container {
@@ -940,7 +827,6 @@
     justify-content: center;
     align-items: start;
     margin-top: 15%;
-
 }
 
 .contacts-metrics-strength-box-div {
@@ -994,21 +880,22 @@
 .contacts-metrics-table-toggle-buttons-div button {
   padding: 5px 10px; /* Reduce padding for smaller buttons */
   font-size: 0.8rem; /* Smaller font size */
-  border: none;
   border-radius: 5px;
-  background-color: black;
-  color: white;
+  background-color: white;
+  border: solid 2px var(--primary-color);
+  color: var(--text-color);
   cursor: pointer;
   transition: background-color 0.3s;
 }
 
 .contacts-metrics-table-toggle-buttons-div button:hover {
-  background-color: #0056b3;
+  background-color: var(--secondary-color);
+  color: var(--button-text-color);
 }
 
 .contacts-metrics-table-toggle-buttons-div button:focus {
   outline: none;
-  box-shadow: 0 0 0 2px rgba(0,123,255,.25);
+  box-shadow: 0 0 0 2px var(--text-color);
 }
 
 /* Container for the entire ContactsTable component */
@@ -1033,10 +920,11 @@
 /* Update for table to fit within .contact-metric */
 .contacts-metrics-table {
   width: 100%;
-  max-height: 200px; 
-  overflow-y: auto; /* Allow scrolling within the table */
+  max-height: 200px;
+  overflow-y: auto;
   border-collapse: collapse;
-  font-size: 0.9rem; /* Adjust font size for space */
+  font-size: 0.8rem;
+  color: var(--secondary-color);
 }
 
 .contacts-metrics-table th,
@@ -1046,11 +934,10 @@
 }
 
 .contacts-metrics-table th {
-  background-color: darkgray;
-  color: white;
+  background-color: var(--text-color);
+  color: var(--button-text-color);
 }
 
-.contacts-metrics-table tr:nth-child(even) {background-color: #f2f2f2;}
 .contacts-metrics-table tr:hover {background-color: #ddd;}
 
 /* STYLING FOR DELETE CONTACT MODAL (BARD) */
@@ -1071,7 +958,7 @@
 
 /* Modal content styling */
 .delete-contact-modal-content {
-  background-color: #fff;
+  background-color: var(--text-color);
   padding: 30px;
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
@@ -1079,10 +966,10 @@
 }
 
 /* Body content styling */
-.delete-contact-modal-body {
+.delete-contact-modal-body p {
   text-align: center;
   font-weight: bold;
-  color: #333;
+  color: var(--primary-color);
 }
 
 /* Footer styling */
@@ -1111,12 +998,12 @@
 
 /* Cancel button styling */
 .delete-contact-modal-cancel-button {
-  background-color: #f2f2f2;
-  color: #333;
+  background-color: var(--background-color);
+  color: var(--text-color);
 }
 
 .delete-contact-modal-cancel-button:hover {
-  background-color: #e0e0e0;
+  opacity: 85%;
   cursor: pointer;
 }
 
@@ -1152,42 +1039,40 @@
     display: flex;
     width: 400px;
     max-width: 100%; /* Ensures responsiveness */
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
 }
 
 .contact-search-bar input {
     width: 100%;
-    height: 40px;
     padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 20px;
-    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    box-shadow: inset 0 0 2px var(--primary-color);
     outline: none;
+    color: var(--text-color);
 }
 
 .contact-search-bar input:hover {
-    border-color: #999;
+    border-color: var(--primary-color);
     transition: all 0.3s;
 }
 
 .contact-search-bar input:focus {
-    border-color: #2196f3;
-    box-shadow: inset 0 0 10px rgba(33, 150, 243, 0.2);
+    border-color: var(--primary-color);
+    box-shadow: inset 0 0 5px var(--secondary-color);
     transform: scale(1.05);
     transition: all 0.3s;
 }
 
 .contact-search-bar input::placeholder {
-    color: #666;
+    color: #6666669d;
+    font-style: italic;
 }
 
-.contact-search-bar-clear-search-button {
-  margin-left: 10px;
-  height: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0 12px;
-  background-color: #f0c74c;
+.contact-search-bar-clear-search-button:hover {
+  color: var(--text-color);
+  background-color: var(--button-text-color); 
 }
 
 .contact-search-fields-info {
@@ -1196,11 +1081,14 @@
   bottom: 100%;
   left: 50%;
   transform: translate(-50%);
-  padding: 5px;
-  border: 1px solid #ccc;
-  background-color: white;
+  padding: 10px;
+  border: 1px solid var(--primary-color);
+  background-color: var(--text-color);
+  color: var(--button-text-color);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
   font-size: 10px;
-  z-index: 1; /* Ensure above other elements */
+  z-index: 1;
 }
 
 .contact-search-fields-info-list {
@@ -1213,55 +1101,57 @@
   padding: 5px;
   position: relative;
   display: inline-block;
+  margin-top: 20px;
 }
 
-.contact-filter-follow-up-date-select-input-div {
-    display: flex;
-    align-items: center; /* Aligns items vertically in the center */
-    gap: 8px; /* Adds some space between the select box and the date input */
+.contact-search-filter-info-toggle-div button:hover {
+  background-color: var(--background-color);
+  color: var(--text-color);
 }
 
 .contact-filter-follow-up-date-input {
   border-radius: 5px;
+  background-color: lightgrey;
+  color: var(--text-color);
+  padding: 15px;
+  border: 2px solid var(--primary-color);
 }
 
 .contact-advanced-filter-div {
-  border: solid 2px black;
+  border: solid 2px var(--primary-color);
+  background-color: var(--background-color);
   padding: 10px;
   border-radius: 5px;
+  width: 380px;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.contact-search-info-toggle-button,
-.contact-search-show-filter-button {
-  margin-left: 10px;
-  height: 40px;
-  justify-content: center;
-  align-items: center;
-  padding: 0 12px;
-  background-color: black;
-  color: white;
+.contact-advanced-filter-div label {
+  color: var(--text-color);
+  font-weight: bold;
 }
 
-.contact-filter-apply-filters-button,
-.contact-filter-cancel-filters-button,
-.contact-search-filter-clear-filters-button {
-  margin-left: 10px;
-  height: 40px;
-  justify-content: center;
-  align-items: center;
-  padding: 0 12px;
+.contact-advanced-filter-div input[type="text"],
+.contact-advanced-filter-div select {
+  width: 100%;
+  padding: 5px;
+  border: 1px solid var(--primary-color);
+  border-radius: 4px;
+  margin-bottom: 10px;
+  margin-top: 10px;
 }
 
-.contact-filter-cancel-filters-button,
-.contact-search-filter-clear-filters-button {
-  background-color: #f0c74c;
+.contact-advanced-filter-div button:hover {
+  background-color: var(--text-color);
+  color: var(--button-text-color);
 }
 
-.contact-search-info-toggle-button:hover,
-.contact-search-show-filter-button:hover,
-.contact-filter-apply-filters-button:hover,
-.contact-filter-cancel-filters-button:hover,
-.contact-search-filter-clear-filters-button:hover {
-  background-color: white;
-  color: black;
+.contact-search-filter-clear-filters-div button {
+  background-color: var(--primary-color);
+  color: var(--button-text-color);
+}
+
+.contact-search-filter-clear-filters-div button:hover {
+  background-color: var(--text-color);
+  color: var(--button-text-color);
 }
