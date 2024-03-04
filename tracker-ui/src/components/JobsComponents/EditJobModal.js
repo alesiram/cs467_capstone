@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 
-const EditJobModal = ({ show, onClose, job, onSave, skills }) => {
+const EditJobModal = ({ onClose, job, onSave, skills }) => {
 
   const transformJob = (job) => {
     // We are transforming the job object here into 
@@ -26,7 +26,14 @@ const EditJobModal = ({ show, onClose, job, onSave, skills }) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setEditedJob({ ...editedJob, [name]: value });
+  
+    // Update editedJob state except for the 'status' field
+    if (name !== 'status') {
+      setEditedJob({ ...editedJob, [name]: value });
+    } else {
+      // For 'status' field, update its value directly
+      setEditedJob({ ...editedJob, jobStatus: value });
+    }
   };
 
   const handleSubmit = (e) => {

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const JobTableModal = ({ jobs, onEdit, onDelete }) => {
+const JobTableModal = ({ jobs, onEdit, onDelete, setJobs }) => {
   console.log("jobs", jobs)
   // pagination state 
   const [currentPage, setCurrentPage] = useState(1);
@@ -22,6 +22,17 @@ const JobTableModal = ({ jobs, onEdit, onDelete }) => {
  )
 );
 
+// Handle notes change function
+const handleNotesChange = (e, jobId) => {
+  const newNotes = e.target.value.slice(0, 200); // Limit the notes to 200 characters
+  // Update the notes for the corresponding job
+  setJobs((prevJobs) =>
+    prevJobs.map((job) =>
+      job._id === jobId ? { ...job, notes: newNotes } : job
+    )
+  );
+};
+
 
 // Pagination logic
 const indexOfLastItem = currentPage * itemsPerPage;
@@ -29,7 +40,6 @@ const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 const currentJobs = filteredJobs.slice(indexOfFirstItem, indexOfLastItem)
 // Calculate total number of pages
 const totalPages = Math.ceil(filteredJobs.length / itemsPerPage);
-
 
   // Conditionally render the table only if there are jobs to display
   if (filteredJobs.length === 0) {
@@ -121,7 +131,17 @@ const totalPages = Math.ceil(filteredJobs.length / itemsPerPage);
                       <span key={skill._id}>{skill.name}<br /></span>
                     ))}
                   </td>
-                  <td>{job.notes}</td>
+                  <td>
+                    <textarea
+                      value={job.notes}
+                      onChange={(e) => handleNotesChange(e, job._id)}
+                      maxLength={200} // Set the maximum number of characters
+                      className="notes-textarea"></textarea>
+                    </td>
+
+
+
+
                   <td className="job-action-buttons">
                     <button className="edit" onClick={() => onEdit(job)}>Edit</button>
                     <button className="delete" onClick={() => onDelete(job)}>Delete</button>

@@ -15,7 +15,7 @@
   flex-direction: column;
   align-items: center; /* Centers children horizontally in the container */
   background-color: #ffffff;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 8px rgba(202, 21, 21, 0.1), 0 10px 20px rgba(0, 0, 0, 0.2);
   border-radius: 20px;
   max-width: 1200px;
   margin: 20px auto;

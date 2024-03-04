@@ -1,14 +1,27 @@
 /* jobs.css */
 
-
-/* -------------------Table View Start--------------------------*/
-
-/* Table styles */
+/* -------------------Container Start--------------------------*/
 .job-table-container {
+  background-color: #ffffff;
   border-radius: 7px; /* Same border-radius as the table */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add box shadow for depth */
+  box-shadow: 0 4px 8px rgba(215, 15, 15, 0.1); /* Add box shadow for depth */
+  max-width: 1700px; /* Adjusted maximum width */
+  margin: 40px auto; /* Center the container horizontally */
+  padding: 20px; /* Add padding for better spacing */
+  transition: transform 0.3s ease;
 }
 
+.skills-page__container:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1), 0 15px 25px rgba(0, 0, 0, 0.2);
+}
+
+.job-table {
+  margin-bottom: 10px;
+}
+/* -------------------Container End--------------------------*/
+
+/* -------------------Table View Start--------------------------*/
 .job-table {
   border-collapse: collapse;
   border-radius: 10px; /* Adjust the value to control the rounding */
@@ -17,9 +30,8 @@
 
 .job-table th,
 .job-table td {
-  border: 1px solid #b8b5b5; /* You can adjust the border color as needed */
-  padding: 10px; /* Increase padding for better spacing */
-  font-size: 16px; /* Larger font size for better readability */
+  padding: 2px; /* Increase padding for better spacing */
+  font-size: 14px; /* Larger font size for better readability */
 }
 
 /* Apply alternating row colors */
@@ -38,35 +50,35 @@
 
 /* Header styles */
 .job-table th {
-  background-color: #007bff; /* Green */
+  background-color: black; 
   color: white;
   font-size: 16px; /* Larger font size for better readability */
-  border: 1px solid rgba(184, 181, 181, 0.5); /* Transparent border color */
-  border-radius: 7px 7px 0 0; /* Rounded top corners */
+  border: black; /* Transparent border color */
+
 }
 
 /* Hover effect for header */
 .job-table th:hover {
-  background-color: #6da9ea; /* Darker green on hover */
+  background-color: #434547; /* Darker green on hover */
 }
 
 /* Button styles */
 .jobs-page-button-add-job {
   margin-top: 20px;
   margin-bottom: 20px; /* Add space below the button */
-  padding: 10px 20px;
+  padding: 15px 30px;
   border: none;
-  border-radius: 5px;
+  border-radius: 30px;
   cursor: pointer;
   font-weight: bold;
   transition: background-color 0.3s, transform 0.2s;
   color: white;
-  background-color: rgb(69, 168, 69);
+  background-color: rgb(255, 96, 6);
   border-color: transparent; /* Remove border outline color */
   
 }
 .jobs-page-button-add-job:hover {
-  background-color:green;  /* Darker green on hover */
+  background-color:#d35400;  /* Darker green on hover */
   transform: translateY(-2px);
 }
 
@@ -75,7 +87,7 @@
 /* Edit Button */
 
 .job-action-buttons button.edit {
-  padding: 10px 20px;
+  padding: 5px 10px;
   margin-right: 10px; /* Add space between buttons */
   border: none;
   border-radius: 5px;
@@ -94,7 +106,7 @@
 
 /* Delete Button */
 .job-action-buttons button.delete {
-  padding: 10px 20px;
+  padding: 5px 10px;
   margin-right: 10px; /* Add space between buttons */
   border: none;
   border-radius: 5px;
@@ -110,8 +122,6 @@
   background-color: #dd1919; /* Darker red on hover */
   transform: translateY(-2px);
 }
-
-
 
 /* Pagination controls */
 .pagination-button {
@@ -138,7 +148,7 @@
 
 /* Optional: Add additional styling if needed */
 .pagination-button.active {
-  color: #1c9d31; /* Active page button color */
+  color:  rgb(255, 96, 6);
   text-decoration: underline; /* Underline active page number */
 }
 
@@ -146,21 +156,20 @@
 .pagination-button.disabled {
   color: #ccc; /* Disabled button color */
 }
-
-
-
 .pagination-info {
   margin-right: 10px;
 }
 
+/* Textarea style */
+.notes-textarea {
+  font-size: 11px;
+  color: #5a5858; 
+  border-color: lightgray;
+}
 
-
-
-
-/* -------------------POP-UP FOR ADD and EDIT FORM--------------------------*/
+/* ----------POP-UP FOR ADD and EDIT FORM-----------------*/
 
 /* AddJobsModal.css */
-
 .modal-background {
   position: fixed;
   top: 0;
@@ -264,12 +273,6 @@ select {
   background-color: #6a6967; /* Darker orange on hover */
   transform: translateY(-2px);
 }
-
-
-
-
-
-
 /* -------------------POP-UP FOR ADD and EDIT FORM END--------------------------*/
 
 /* -------------------------Delete Modal Styles-----------------------------*/
@@ -339,3 +342,96 @@ select {
   background-color: #b3b3b3; /* Darker gray on hover */
 }
 /* -------------------------Delete Modal Styles END-----------------------------*/
+
+/* -------------------------metrics D-----------------------------*/
+/* Darken background when metrics modal appears */
+.jobs-metrics-modal-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Metrics modal content */
+.jobs-metrics-modal-content {
+  background-color: #fff; /* Modal background color */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Box shadow for depth */
+  max-width: 500px; /* Adjust width as needed */
+  width: 100%;
+}
+
+/* Center the modal container */
+.jobs-metrics-modal {
+  /* Adjust size and position */
+  width: 400px;
+  height: 400px;
+  /* Add other styles as needed */
+}
+
+/* Left-align text */
+.left-align {
+  text-align: left;
+}
+
+
+.metric-tiles {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.metric-tile {
+  width: calc(36.33% - 20px); /* Adjust width as needed */
+  margin-bottom: 20px;
+  background-color: #f9f9f9; /* Background color for tiles */
+  border: 1px solid #ccc; /* Border for tiles */
+  border-radius: 8px; /* Border radius for rounded corners */
+  padding: 20px; /* Padding inside the tiles */
+}
+
+.metric-tile h3 {
+  margin-top: 0; /* Remove top margin for heading */
+}
+
+.metric-tile p {
+  margin-bottom: 0; /* Remove bottom margin for value */
+}
+
+
+/* Add the following styles for CompanyChart component */
+
+
+.metric-tile.most-applied-companies {
+  background-color: #f9f9f9; /* Background color for the most applied companies section */
+  border: 1px solid #ccc; /* Border for the section */
+  border-radius: 8px; /* Border radius for rounded corners */
+  padding: 20px; /* Padding inside the section */
+}
+
+.metric-tile.most-applied-companies h3 {
+  margin-top: 0; /* Remove top margin for heading */
+}
+
+.metric-tile.most-applied-companies ul {
+  list-style: none; /* Remove default list styles */
+  padding: 0; /* Remove padding for the list */
+}
+
+.metric-tile.most-applied-companies li {
+  margin-bottom: 5px; /* Add margin between list items */
+}
+/* .job-metric-skill-info {
+  text-align: left;
+
+} */
+
+.metrics-jobs-by-type {
+  text-align: center;
+}

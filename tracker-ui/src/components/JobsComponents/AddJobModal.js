@@ -14,7 +14,6 @@ const AddJobsModal = ({ onClose, onSave, skills }) => {
     jobPostingLink: '',
     pay: '',
     applyDate: formattedToday, 
-
     jobStatus: 'Open',
     interviewed: 'No',
     interviewDate: null,
@@ -138,9 +137,6 @@ const AddJobsModal = ({ onClose, onSave, skills }) => {
                 value={newJob.requiredSkills}
               />
             </label>
-
-
-
             <label>
               Notes:
               <input type="text" name="notes" value={newJob.notes} onChange={handleChange} />
