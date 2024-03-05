@@ -52,9 +52,6 @@ const JobsPage = () => {
       setJobs(jobsData);
       setSkills(skillsData); // Update state with skills data
 
-
-
-
     } catch (error) {
       setError('Failed to load data: ' + error.message);
     } finally {
@@ -170,7 +167,7 @@ useEffect(() => {
       }
     });
     // Calculate the percentage for each skill
-    percentages[skillName] = (skillCount / totalSkills) * 100;
+    percentages[skillName] = Math.round((skillCount / totalSkills) * 100);
   });
   // Update the state with the calculated skill percentages
   setSkillPercentages(percentages);
@@ -302,7 +299,7 @@ useEffect(() => {
 
         <button className='jobs-page-button-add-job ' onClick={() => setShowAddModal(true)}>Add New Job</button>
         {/* Add button to view job metrics */}
-        <button className='jobs-page-button-add-job' onClick={() => setShowJobsMetrics(true)}>View Job Metrics</button>
+        <button className='jobs-page-button-metrics' onClick={() => setShowJobsMetrics(true)}>View Job Metrics</button>
 
         <JobsTable
           // jobs={jobs}

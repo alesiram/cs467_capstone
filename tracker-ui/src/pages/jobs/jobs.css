@@ -11,11 +11,6 @@
   transition: transform 0.3s ease;
 }
 
-.skills-page__container:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1), 0 15px 25px rgba(0, 0, 0, 0.2);
-}
-
 .job-table {
   margin-bottom: 10px;
 }
@@ -24,7 +19,7 @@
 /* -------------------Table View Start--------------------------*/
 .job-table {
   border-collapse: collapse;
-  border-radius: 10px; /* Adjust the value to control the rounding */
+  border-radius: 10px;
   width: 100%;
 }
 
@@ -32,6 +27,7 @@
 .job-table td {
   padding: 2px; /* Increase padding for better spacing */
   font-size: 14px; /* Larger font size for better readability */
+  font-family: 'Arial', sans-serif;
 }
 
 /* Apply alternating row colors */
@@ -50,16 +46,26 @@
 
 /* Header styles */
 .job-table th {
-  background-color: black; 
+  background-color: #333;
   color: white;
   font-size: 16px; /* Larger font size for better readability */
   border: black; /* Transparent border color */
+  padding: 15px;
+}
 
+/* Apply rounded corners to the last th element */
+.job-table th:last-child {
+  border-top-right-radius: 5px; /* Top right corner */
+  border-bottom-right-radius: 5px; /* Bottom right corner */
+}
+.job-table th:first-child {
+  border-top-left-radius: 5px; /* Top left corner */
+  border-bottom-left-radius: 5px; /* Bottom left corner */
 }
 
 /* Hover effect for header */
 .job-table th:hover {
-  background-color: #434547; /* Darker green on hover */
+  background-color: #434547; 
 }
 
 /* Button styles */
@@ -78,10 +84,28 @@
   
 }
 .jobs-page-button-add-job:hover {
-  background-color:#d35400;  /* Darker green on hover */
+  background-color:#d35400;  
   transform: translateY(-2px);
 }
 
+.jobs-page-button-metrics {
+  margin-top: 20px;
+  margin-bottom: 20px; /* Add space below the button */
+  padding: 15px 30px;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s, transform 0.2s;
+  color: white;
+  background-color: #333;
+  border-color: transparent; /* Remove border outline color */
+}
+
+.jobs-page-button-metrics:hover {
+  background-color: #474646;
+  transform: translateY(-2px);
+}
 /* Action buttons */
 /* Edit Button */
 /* Edit Button */
@@ -191,6 +215,7 @@
   width: 100%;
   max-height: 80vh; /* Set a maximum height relative to the viewport height */
   overflow-y: auto; /* Allow vertical scrolling if content exceeds the maximum height */
+
 }
 
 .modal-close {
@@ -427,10 +452,6 @@ select {
 .metric-tile.most-applied-companies li {
   margin-bottom: 5px; /* Add margin between list items */
 }
-/* .job-metric-skill-info {
-  text-align: left;
-
-} */
 
 .metrics-jobs-by-type {
   text-align: center;

@@ -85,7 +85,9 @@ const EditJobModal = ({ onClose, job, onSave, skills }) => {
             <label>
               Apply Date:
    
-              <input type="date" name="applyDate" value={editedJob.applyDate ? editedJob.applyDate.split('T')[0] : ''} onChange={handleChange} />
+              <input type="date" name="applyDate" value={editedJob.applyDate ? editedJob.applyDate.split('T')[0] : ''} onChange={handleChange}
+              style={{ marginLeft: '10px' }}
+               />
 
             </label>
             <label>
@@ -107,7 +109,9 @@ const EditJobModal = ({ onClose, job, onSave, skills }) => {
             </label>
             <label>
               Interview Date:
-              <input type="date" name="interviewDate" value={editedJob.interviewDate ? editedJob.interviewDate.split('T')[0] : ''} onChange={handleChange} />
+              <input type="date" name="interviewDate" value={editedJob.interviewDate ? editedJob.interviewDate.split('T')[0] : ''} onChange={handleChange} 
+              style={{ marginLeft: '10px' }}
+              />
             </label>
             <label>
               Decision:
