@@ -6,8 +6,11 @@ const JobsMetricsModal = ({ show, onClose, totalApplications,  totalOpenJobs, fu
     show && (
       <div className="jobs-metrics-modal">
         <div className="jobs-metrics-modal-background">
-          <div className="modal-content">
+          <div className="modal-content-">
+          <div className="metrics-header">
             <h2>Job Metrics</h2>
+          </div>
+          
             <div className="metric-tiles">
               <div className="metric-tile">
                 <h3>Total Applications</h3>
@@ -34,7 +37,7 @@ const JobsMetricsModal = ({ show, onClose, totalApplications,  totalOpenJobs, fu
                 </div>
               ))}
             </div>
-            <div className="metric-tile jobs-by-type">
+            <div className="metric-tile">
               <h3>Total Jobs by Type </h3>
               <p>
                 Full Time: {fullTimeCount} <br />
@@ -45,7 +48,9 @@ const JobsMetricsModal = ({ show, onClose, totalApplications,  totalOpenJobs, fu
               <div className="metric-tile">
                 <h3>Decision Outcomes</h3>
                 <p>
-                Pending: {pendingCount} Rejected: {rejectedCount} Hired: {hiredCount}
+                Pending: {pendingCount}  <br />
+                Rejected: {rejectedCount}  <br />
+                Hired: {hiredCount}
                 </p>
               </div>
             </div>
@@ -53,8 +58,8 @@ const JobsMetricsModal = ({ show, onClose, totalApplications,  totalOpenJobs, fu
               Close
             </button>
           </div>
-        </div>
-      </div>
+         </div>
+       </div>
     )
   );
 };

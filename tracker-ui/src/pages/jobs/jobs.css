@@ -193,6 +193,18 @@
 
 /* ----------POP-UP FOR ADD and EDIT FORM-----------------*/
 
+.add-job-header,
+.edit-header {
+  background-color: black;
+  color: white;
+  padding: 10px; /* Adjust padding as needed */
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  text-align: center; /* Center the text */
+  padding-bottom: 3px;
+  margin-bottom: 20px;
+}
+
 /* AddJobsModal.css */
 .modal-background {
   position: fixed;
@@ -208,14 +220,22 @@
 
 .modal-content {
   background-color: #fff;
-  padding: 15px;
-  border-radius: 8px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  max-width: 400px;
+  max-width: 600px;
   width: 100%;
   max-height: 80vh; /* Set a maximum height relative to the viewport height */
   overflow-y: auto; /* Allow vertical scrolling if content exceeds the maximum height */
+  align-items: center; /* Center the content horizontally */
+}
 
+.form-label {
+  display: flex;
+  flex-direction: column;
+  width: 500px; /* Set the desired width */
+  margin-left: 40px;
+  margin-right: 9px;
 }
 
 .modal-close {
@@ -227,11 +247,6 @@
   color: #888;
 }
 
-.form-column {
-  display: flex;
-  flex-direction: column;
-}
-
 label {
   margin-bottom: 10px;
 }
@@ -239,7 +254,7 @@ label {
 input[type="text"],
 select {
   width: 100%;
-  padding: 8px;
+  padding: 9px;
   border: 1px solid #ccc;
   border-radius: 4px;
   margin-bottom: 10px;
@@ -272,6 +287,7 @@ select {
   color: white;
   background-color: rgb(69, 168, 69);
   border-color: transparent; /* Remove border outline color */
+  margin-bottom: 10px;
 }
 
 .job-modal-button-save,
@@ -298,7 +314,7 @@ select {
   background-color: #6a6967; /* Darker orange on hover */
   transform: translateY(-2px);
 }
-/* -------------------POP-UP FOR ADD and EDIT FORM END--------------------------*/
+/* ----------POP-UP FOR ADD and EDIT FORM END-------------------*/
 
 /* -------------------------Delete Modal Styles-----------------------------*/
 .delete-modal-background {
@@ -368,36 +384,37 @@ select {
 }
 /* -------------------------Delete Modal Styles END-----------------------------*/
 
-/* -------------------------metrics D-----------------------------*/
-/* Darken background when metrics modal appears */
+/* -------------------------metrics -----------------------------*/
+
 .jobs-metrics-modal-background {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-/* Metrics modal content */
-.jobs-metrics-modal-content {
-  background-color: #fff; /* Modal background color */
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Box shadow for depth */
-  max-width: 500px; /* Adjust width as needed */
-  width: 100%;
-}
+/* Modal content */
+.modal-content- {
+  background-color: white;
+  padding-bottom: 20px;
+  border-radius: 10px; 
 
-/* Center the modal container */
-.jobs-metrics-modal {
-  /* Adjust size and position */
-  width: 400px;
-  height: 400px;
-  /* Add other styles as needed */
+}
+/* Style for the header "Job Metrics" */
+.metrics-header {
+  background-color: black;
+  color: white;
+  padding: 10px; /* Adjust padding as needed */
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  text-align: center; /* Center the text */
+  padding-bottom: 3px;
+  margin-bottom: 40px;
 }
 
 /* Left-align text */
@@ -405,54 +422,40 @@ select {
   text-align: left;
 }
 
-
+/* Metric tiles container */
 .metric-tiles {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: space-around;
+
+  margin-top: 20px;
+  margin-bottom: 10px;
+  margin-left: 15px;
+  margin-right: 15px;
 }
 
+/* Individual metric tile */
 .metric-tile {
-  width: calc(36.33% - 20px); /* Adjust width as needed */
+  width: calc(30% - 20px); /* Adjust width as needed */
+  margin-right: 20px; /* Add margin-right to create space between tiles */
   margin-bottom: 20px;
-  background-color: #f9f9f9; /* Background color for tiles */
-  border: 1px solid #ccc; /* Border for tiles */
-  border-radius: 8px; /* Border radius for rounded corners */
-  padding: 20px; /* Padding inside the tiles */
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 20px;
 }
 
+/* Adjust heading margin */
 .metric-tile h3 {
-  margin-top: 0; /* Remove top margin for heading */
+  margin-top: 0;
 }
 
+/* Adjust paragraph margin */
 .metric-tile p {
-  margin-bottom: 0; /* Remove bottom margin for value */
+  margin-bottom: 0;
 }
 
-
-/* Add the following styles for CompanyChart component */
-
-
-.metric-tile.most-applied-companies {
-  background-color: #f9f9f9; /* Background color for the most applied companies section */
-  border: 1px solid #ccc; /* Border for the section */
-  border-radius: 8px; /* Border radius for rounded corners */
-  padding: 20px; /* Padding inside the section */
-}
-
-.metric-tile.most-applied-companies h3 {
-  margin-top: 0; /* Remove top margin for heading */
-}
-
-.metric-tile.most-applied-companies ul {
-  list-style: none; /* Remove default list styles */
-  padding: 0; /* Remove padding for the list */
-}
-
-.metric-tile.most-applied-companies li {
-  margin-bottom: 5px; /* Add margin between list items */
-}
-
-.metrics-jobs-by-type {
-  text-align: center;
+/* Remove margin-right for the last tile in each row */
+.metric-tile:nth-child(3n) {
+  margin-right: 0;
 }

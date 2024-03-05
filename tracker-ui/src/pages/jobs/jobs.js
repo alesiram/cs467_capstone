@@ -216,6 +216,9 @@ useEffect(() => {
       let data = await response.json();
       setJobs([...jobs, data])
     fetchData()
+
+    // Alert the user that the job was deleted successfully
+    alert("Job added successfully!");
   } catch (error) {
       setError(error.message);
   } finally {
@@ -223,6 +226,8 @@ useEffect(() => {
   }
     // Close the add modal
     setShowAddModal(false);
+    
+
   };
 
   const handleEditJob = async (updatedJob) => {
@@ -249,6 +254,7 @@ useEffect(() => {
       setShowEditModal(false);
   
       setIsLoading(true);
+
   
       // Alert the user that the job was deleted successfully
       alert("Job Updated successfully!");
@@ -336,11 +342,6 @@ useEffect(() => {
         interviewNocount={interviewNocount}
   
         />
-
-        
-       
-
-
 
       </div>
     </div>
