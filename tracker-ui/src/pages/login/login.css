@@ -11,11 +11,11 @@
 
 /* Styling for the login & signup container */
 .login-signup-container {
-    background-color: var(--text-color);
+    background-color: var(--background-color);
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    color: var(--button-text-color);
+    color: var(--text-color);
 }
 
 /* Styling for the logo to display on the container */
@@ -45,8 +45,8 @@
 
 /* Signup Button */
 #signup-btn { 
-  color: var(--text-color);
-  background-color: var(--button-text-color);
+  color: var(--button-text-color);
+  background-color: var(--secondary-color);
 }
 
 /* Login and Signup button hover effects */
@@ -57,7 +57,7 @@
 
 /* Switch form toggle */
 .login-signup-switch-form {
-    color: var(--primary-color); 
+    color: var(--text-color); 
     cursor: pointer; 
     font-weight: bold; 
     text-decoration: underline; 
@@ -67,6 +67,6 @@
 
 /* Switch form toggle hover */
 .login-signup-switch-form:hover {
-    color: var(--button-text-color); 
+    color: var(--primary-color); 
     text-decoration: none; 
 }
