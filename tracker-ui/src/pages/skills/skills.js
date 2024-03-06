@@ -163,11 +163,6 @@ const SkillsPage = () => {
   useEffect(() => {
     fetchMostPopularSkill();
   }, []); // Empty dependency array ensures this runs only once on component mount
-  
-
-  //useEffect(() => {
-    //fetchMostPopularSkill();
-  //});
 
   // Add skill
   const addSkill = async (skill) => {

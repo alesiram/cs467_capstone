@@ -19,7 +19,7 @@ const SkillTable = ({ skills, onEdit, onDelete, onSort }) => {
             <td>{skill.name}</td>
             <td>{skill.rating}</td>
             {/* Display reference name or 'N/A' if not available */}
-            <td>{skill.reference ? skill.contactDetails.name : 'N/A'}</td>
+            <td>{skill.contactDetails ? skill.contactDetails.name : 'N/A'}</td>
             <td>
               <button className="skills-page__action-button skills-page__action-button--edit" onClick={() => onEdit(skill)}>Edit</button>
               <button className="skills-page__action-button skills-page__action-button--delete" onClick={() => onDelete(skill._id)}>Delete</button>

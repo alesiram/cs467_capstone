@@ -12,7 +12,7 @@ const DeleteSkillModal = ({ skill, onClose, onDelete }) => {
     <div className="skills-page__modal-backdrop">
       <div className="skills-page__modal skills-page__modal--delete" role="dialog" aria-modal="true" aria-labelledby="deleteModalTitle">
         <h2 id="deleteModalTitle">Delete Skill</h2>
-        <p>Are you sure you want to delete the {skill.name} skill?</p>
+        <p>Are you sure you want to delete the {skill.name}?</p>
         <div className="skills-page__modal-footer">
           <button type="button" className="skills-page__button--delete" onClick={handleDelete}>Delete</button>
           <button type="button" className="skills-page__button--cancel" onClick={onClose}>Cancel</button>
