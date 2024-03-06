@@ -8,11 +8,28 @@
   min-height: 100vh; /* Ensure full-height layout */
 }
 
+/* Do not capitalize Button text for all decendents of buttons on contacts page */
+.contacts-page button {
+  text-transform: none;
+}
+
+/* Styling for buttons on contacts page (add new contact/dashboard metrics) */
+.contacts-page-controls-container button {
+  background-color: var(--primary-color);
+  color: var(--button-text-color);
+  padding: 10px 20px;
+  border-radius: 30px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s, filter 0.3s, transform 0.2s;
+}
+
 /* Hover styles for the buttons */
-.contacts-page-toggle-dashboard-button:hover, 
-.contacts-page-add-new-contact-button:hover {
-  color: var(--secondary-color);
-  background-color: var(--background-color); 
+.contacts-page-controls-container button:hover {
+  background-color: var(--secondary-color);
+  color: var(--button-text-color);
+  filter: brightness(110%);
+  transform: translateY(-2px);
 }
 
 .contacts-page-view-toggle {
@@ -83,7 +100,7 @@
 .contacts-page-loading-message {
   text-align: center;
   font-size: 16px;
-  color: #333;
+  color: var(--text-color);
   margin-top: 50px; /* Adjust as needed */
 }
 
@@ -186,7 +203,7 @@
 .add-contact-modal-content,
 .edit-contact-modal-content,
 .view-contact-modal-content {
-  background-color: var(--text-color);
+  background-color: var(--background-color);
   padding: 40px;
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
@@ -196,27 +213,63 @@
 .add-contact-modal-content h2,
 .edit-contact-modal-content h2,
 .view-contact-modal-content h2 {
-  color: var(--primary-color)
+  color: var(--text-color);
 }
 
 .add-contact-modal-content label,
 .edit-contact-modal-content label,
 .view-contact-modal-content label {
-  color: var(--primary-color);
+  color: var(--text-color);
   margin-bottom: 10px;
   margin-top: 10px;
   font-weight: bold;
 }
 
 .view-contact-modal-content p {
-  color: var(--button-text-color);
+  color: var(--text-color);
 }
 
-.contact-add-edit-view-form input[type="text"],
-.contact-add-edit-view-form select {
+/* Remove border for company input Add/Edit as it uses Autocomplete/TextField */
+.add-contact-modal input[name="company"],
+.edit-contact-modal input[name="company"] {
   border: none;
+}
+
+/* Add border for company input View */
+.view-contact-modal input[name="company"] {
+  border: 1px solid var(--primary-color);
+  background-color: #fff;
+  width: 100%;
+}
+
+/* Border and Background for form inputs/selects */
+.contact-add-edit-view-form input[name="name"],
+.contact-add-edit-view-form input[name="email"],
+.contact-add-edit-view-form input[type="date"],
+.contact-add-edit-view-form select {
+  border: 1px solid var(--primary-color);
+  background-color: #fff;
   width: 100%;
   padding: 8px;
+}
+
+/* Styling for buttons in form footer */
+.contact-add-edit-view-form-footer button {
+  background-color: var(--primary-color);
+  color: var(--button-text-color);
+  padding: 10px 20px;
+  border-radius: 30px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s, filter 0.3s, transform 0.2s;
+}
+
+/* Styling for buttons in form footer on hover */
+.contact-add-edit-view-form-footer button:hover {
+  background-color: var(--secondary-color);
+  color: var(--button-text-color);
+  filter: brightness(110%);
+  transform: translateY(-2px);
 }
 
 /* Close button styling */
@@ -260,12 +313,10 @@
 .contact-add-edit-view-form-input {
     width: 100%; /* Full width to match the layout */
     padding: 10px 15px; /* Adequate padding for text alignment and comfort */
-    border: 1px solid #ccc; /* Subtle border for a refined look */
     border-radius: 5px; /* Rounded corners for a modern aesthetic */
     font-size: 16px; 
     line-height: 1.5; /* Line height for text input */
     box-sizing: border-box; /* Include padding and border in the element's total dimensions */
-    background-color: #fff; /* Background color for visibility */
     cursor: text; /* Cursor indication for text input */
     transition: border-color 0.3s, box-shadow 0.3s; /* Smooth transition for focus and hover effects */
 }
@@ -303,7 +354,9 @@
     line-height: 1.5; /* Improve readability of multiline text */
     box-sizing: border-box; /* Include padding and border in the total dimensions */
     resize: vertical; /* Allow vertical resizing only */
-    background-color: #fafafa; /* Slightly off-white background for a soft look */
+    background-color: #fff;
+    color: var(--text-color);
+    border-color: var(--primary-color);
     box-shadow: inset 0 1px 3px rgba(0,0,0,0.1); /* Inner shadow for depth */
     transition: border-color 0.3s, box-shadow 0.3s; /* Smooth transition for focus effect */
 }
@@ -330,7 +383,9 @@
 .contact-add-edit-view-form-phoneNumber-div select,
 .contact-add-edit-view-form-phoneNumber-div input[type="text"],
 .contact-add-edit-view-form-phoneNumber-div button {
+    background-color: #fff;
     box-sizing: border-box; /* Ensure padding and border are included in the total height */
+    border: 1px solid var(--primary-color);
 }
 
 /* Uniform styling for select, input, and button */
@@ -374,12 +429,11 @@
     font-size: 16px; /* Readable text size */
     line-height: 1.5; /* Adequate line height */
     box-sizing: border-box; /* Include padding and border in the box model */
-    background-color: #fff; /* White background for visibility */
     cursor: pointer; /* Indicate it's selectable */
     appearance: none; /* Remove native appearance to customize */
     -moz-appearance: none; /* For Firefox */
     -webkit-appearance: none; /* For Chrome, Safari, and newer Edge */
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>'); /* Custom dropdown arrow */
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="black"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>'); /* Custom dropdown arrow */
     background-repeat: no-repeat;
     background-position: right 15px center; /* Position the arrow icon */
     background-size: 20px 20px; /* Size of the arrow icon */
@@ -418,10 +472,6 @@
     flex: 1;
 }
 
-.contact-add-edit-view-form-date-group input[type="date"] {
-    width: 100%; /* Makes the input fill its parent */
-}
-
 /* Adjustments for smaller screens */
 @media (max-width: 600px) {
     .contact-add-edit-view-form-date-group {
@@ -447,11 +497,11 @@
 .contact-add-edit-view-form-strength-of-connection-description {
     margin-top: 8px; 
     text-align: center; 
-    color: var(--secondary-color);
+    color: var(--text-color);
 }
 
 .contact-add-edit-view-form-required-input-label {
-  color: var(--button-text-color);
+  color: var(--text-color);
 }
 
 .contact-add-edit-view-form-div-select {
@@ -494,7 +544,7 @@
 
 .contact-form-success-message {
     /* Style for the success message */
-    color: var(--primary-color);
+    color: var(--text-color);
     text-align: center;
 }
 
@@ -503,6 +553,25 @@
   justify-content: center; 
   align-items: center;
   padding: 10px;
+}
+
+/*  Styling for buttons in form footers */
+.contact-add-edit-view-form-footer-view-summary-btn-div button {
+  background-color: var(--primary-color);
+  color: var(--button-text-color);
+  padding: 10px 20px;
+  border-radius: 30px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s, filter 0.3s, transform 0.2s; 
+}
+
+/*  Styling for buttons in form footers on hover */
+.contact-add-edit-view-form-footer-view-summary-btn-div button:hover {
+  background-color: var(--secondary-color);
+  color: var(--button-text-color);
+  filter: brightness(110%);
+  transform: translateY(-2px);
 }
 
 /* STYLING FOR CONTACTS CARD (CHATGPT) */
@@ -554,7 +623,7 @@
 
 .contact-card-content h3 {
     margin-top: 0;
-    color: var(--primary-color);
+    color: var(--text-color);
 }
 
 .contact-card-content p {
@@ -581,7 +650,8 @@
 }
 
 .contact-card-actions button:hover {
-    opacity: 80%;
+  filter: brightness(110%);
+  transform: translateY(-2px);
 }
 
 .contact-card-actions button:nth-child(3) {
@@ -618,7 +688,8 @@
 /* STYLING FOR CONTACTS TABLE (CHATGPT) */
 
 .contact-action-buttons button:hover {
-    opacity: 0.8;
+  filter: brightness(110%);
+  transform: translateY(-2px);
 }
 
 .contact-action-buttons button:nth-child(1) {
@@ -680,7 +751,7 @@
     position: relative; /* For potential absolute positioning inside */
     padding-top: 40px; /* Added padding to avoid title overlap */
     padding: 20px; /* Ensure padding for inner content */
-    background-color: var(--background-color);
+    background-color: #fff;
 }
 
 .contact-metric:hover {
@@ -694,9 +765,10 @@
     width: 100%;
     margin: 0;
     padding: 10px;
-    background: var(--text-color);
+    background: var(--background-color);
+    border-bottom: 3px solid var(--primary-color);
     text-align: center; /* Ensure title is centered */
-    color: var(--button-text-color); 
+    color: var(--text-color); 
     margin-bottom: 15px; /* Space between title and details */
 }
 
@@ -768,13 +840,12 @@
   border-radius: 8px; /* Rounded corners for a softer look */
   padding: 15px; /* Increased padding for more space around the content */
   margin-bottom: 10px; /* Space between items */
-  background-color: #fff; /* Base background to stand out against a potential container bg */
   box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Subtle shadow for depth */
   transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions for hover effects */
   align-items: center; /* Align items for a cleaner look */
   justify-content: space-between; /* Space content nicely */
-  background-color: white;
   color: var(--text-color);
+  background-color: var(--background-color);
 }
 
 .contacts-metrics-follow-up-item:hover {
@@ -784,15 +855,16 @@
 
 .contacts-metrics-current-date {
   margin-top: 15%;
-  color: var(--primary-color);
+  color: var(--text-color);
   font-weight: bold;
 }
 
 .contacts-metrics-pagination-nav {
-  background-color: var(--text-color);
-  color: var(--button-text-color);
+  background-color: var(--background-color);
+  color: var(--text-color);
   padding: 5px;
   border-radius: 5px;
+  border: solid 2px var(--primary-color);
 }
 
 .contacts-metrics-pagination-nav button {
@@ -801,10 +873,15 @@
   cursor: pointer;
   border: none;
   border-radius: 5px;
+  background-color: var(--primary-color);
+  color: var(--button-text-color);
 }
 
 .contacts-metrics-pagination-nav button:hover {
+  background-color: var(--secondary-color);
+  color: var(--button-text-color);
   filter: brightness(110%);
+  transform: translateY(-2px);
 }
 
 .contacts-metrics-follow-up-reminders-div {
@@ -816,7 +893,7 @@
 
 .contacts-metrics-no-followups-msg {
   margin-top: 15%;
-  color: var(--primary-color);
+  color: var(--text-color);
 }
 
 .contacts-metrics-strength-referral-container {
@@ -881,9 +958,9 @@
   padding: 5px 10px; /* Reduce padding for smaller buttons */
   font-size: 0.8rem; /* Smaller font size */
   border-radius: 5px;
-  background-color: white;
-  border: solid 2px var(--primary-color);
-  color: var(--text-color);
+  background-color: var(--primary-color);
+  border: none;
+  color: var(--button-text-color);
   cursor: pointer;
   transition: background-color 0.3s;
 }
@@ -891,11 +968,8 @@
 .contacts-metrics-table-toggle-buttons-div button:hover {
   background-color: var(--secondary-color);
   color: var(--button-text-color);
-}
-
-.contacts-metrics-table-toggle-buttons-div button:focus {
-  outline: none;
-  box-shadow: 0 0 0 2px var(--text-color);
+  filter: brightness(110%);
+  transform: translateY(-2px);
 }
 
 /* Container for the entire ContactsTable component */
@@ -924,7 +998,7 @@
   overflow-y: auto;
   border-collapse: collapse;
   font-size: 0.8rem;
-  color: var(--secondary-color);
+  color: var(--text-color);
 }
 
 .contacts-metrics-table th,
@@ -938,7 +1012,7 @@
   color: var(--button-text-color);
 }
 
-.contacts-metrics-table tr:hover {background-color: #ddd;}
+.contacts-metrics-table tr:hover {background-color: var(--background-color);}
 
 /* STYLING FOR DELETE CONTACT MODAL (BARD) */
 
@@ -958,7 +1032,8 @@
 
 /* Modal content styling */
 .delete-contact-modal-content {
-  background-color: var(--text-color);
+  background-color: var(--background-color);
+  color: var(--text-color);
   padding: 30px;
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
@@ -969,7 +1044,7 @@
 .delete-contact-modal-body p {
   text-align: center;
   font-weight: bold;
-  color: var(--primary-color);
+  color: var(--text-color);
 }
 
 /* Footer styling */
@@ -980,9 +1055,18 @@
 }
 
 .delete-contact-modal-footer button {
-  padding: 10px 15px;
   border: none;
-  border-radius: 4px;
+  padding: 10px 20px;
+  border-radius: 30px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s, filter 0.3s, transform 0.2s;
+}
+
+.delete-contact-modal-footer button:hover {
+  filter: brightness(110%);
+  transform: translateY(-2px);
+  cursor: pointer;
 }
 
 /* Delete button styling */
@@ -991,20 +1075,10 @@
   color: #fff;
 }
 
-.delete-contact-modal-delete-button:hover {
-  background-color: #c82333; /* Darker hover state */
-  cursor: pointer;
-}
-
 /* Cancel button styling */
 .delete-contact-modal-cancel-button {
-  background-color: var(--background-color);
-  color: var(--text-color);
-}
-
-.delete-contact-modal-cancel-button:hover {
-  opacity: 85%;
-  cursor: pointer;
+  background-color: var(--primary-color);
+  color: var(--button-text-color);
 }
 
 /* Unique styling tricks */
@@ -1023,7 +1097,7 @@
   height: 0;
   border-left: 15px solid transparent;
   border-right: 15px solid transparent;
-  border-bottom: 20px solid #dc3545; /* Match delete button color */
+  border-bottom: 20px solid var(--primary-color);
 }
 
 .delete-contact-modal-name-span {
@@ -1070,9 +1144,21 @@
     font-style: italic;
 }
 
-.contact-search-bar-clear-search-button:hover {
-  color: var(--text-color);
-  background-color: var(--button-text-color); 
+.contact-search-bar button {
+  background-color: var(--primary-color);
+  color: var(--button-text-color);
+  padding: 5px 10px;
+  border-radius: 30px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s, filter 0.3s, transform 0.2s;
+}
+
+.contact-search-bar button:hover {
+  background-color: var(--secondary-color);
+  color: var(--button-text-color);
+  filter: brightness(110%);
+  transform: translateY(-2px);
 }
 
 .contact-search-fields-info {
@@ -1083,8 +1169,8 @@
   transform: translate(-50%);
   padding: 10px;
   border: 1px solid var(--primary-color);
-  background-color: var(--text-color);
-  color: var(--button-text-color);
+  background-color: var(--background-color);
+  color: var(--text-color);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
   font-size: 10px;
@@ -1104,23 +1190,35 @@
   margin-top: 20px;
 }
 
+.contact-search-filter-info-toggle-div button {
+  background-color: var(--primary-color);
+  color: var(--button-text-color);
+  padding: 10px 20px;
+  border-radius: 30px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s, filter 0.3s, transform 0.2s;
+}
+
 .contact-search-filter-info-toggle-div button:hover {
-  background-color: var(--background-color);
-  color: var(--text-color);
+  background-color: var(--secondary-color);
+  color: var(--button-text-color);
+  filter: brightness(110%);
+  transform: translateY(-2px);
 }
 
 .contact-filter-follow-up-date-input {
   border-radius: 5px;
-  background-color: lightgrey;
+  background-color: #fff;
   color: var(--text-color);
   padding: 15px;
-  border: 2px solid var(--primary-color);
+  border: 1px solid var(--primary-color);
 }
 
 .contact-advanced-filter-div {
   border: solid 2px var(--primary-color);
   background-color: var(--background-color);
-  padding: 10px;
+  padding: 15px;
   border-radius: 5px;
   width: 380px;
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
@@ -1131,27 +1229,40 @@
   font-weight: bold;
 }
 
-.contact-advanced-filter-div input[type="text"],
-.contact-advanced-filter-div select {
-  width: 100%;
-  padding: 5px;
-  border: 1px solid var(--primary-color);
-  border-radius: 4px;
-  margin-bottom: 10px;
-  margin-top: 10px;
-}
-
-.contact-advanced-filter-div button:hover {
-  background-color: var(--text-color);
+/* Styling for Contacts Advanced Filter Buttons */
+.contact-advanced-filter-div button {
+  background-color: var(--primary-color);
   color: var(--button-text-color);
+  padding: 10px 20px;
+  border-radius: 30px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s, filter 0.3s, transform 0.2s;
 }
 
+/* Styling for Contacts Advanced Filter Buttons hover */
+.contact-advanced-filter-div button:hover {
+  background-color: var(--secondary-color);
+  color: var(--button-text-color);
+  filter: brightness(110%);
+  transform: translateY(-2px);
+}
+
+/* Styling for Contacts Advanced Filter Clearing Filter */
 .contact-search-filter-clear-filters-div button {
   background-color: var(--primary-color);
   color: var(--button-text-color);
+  padding: 10px 20px;
+  border-radius: 30px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s, filter 0.3s, transform 0.2s;
 }
 
+/* Styling for Contacts Advanced Filter Clearing Filter on hover */
 .contact-search-filter-clear-filters-div button:hover {
-  background-color: var(--text-color);
+  background-color: var(--secondary-color);
   color: var(--button-text-color);
+  filter: brightness(110%);
+  transform: translateY(-2px);
 }

@@ -153,9 +153,9 @@ const LoginPage = () => {
     // change label color when input is focused
     '& label.Mui-focused': { color: 'grey' },
     '& .MuiInputLabel-root': {
-      color: 'var(--primary-color)',
+      color: 'var(--text-color)',
       '&:hover': {
-        color: 'var(--primary-color)', // Label color on hover
+        color: 'var(--text-color)', // Label color on hover
       },
     },
     '& .MuiOutlinedInput-root': {

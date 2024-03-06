@@ -23,16 +23,6 @@ const ViewContactModal = ({ show, onClose, contact }) => {
         5: "5 - Very High",
     };
 
-    // Styles for contact form Buttons
-    const commonStylesContactFormButtons = {
-        backgroundColor: 'var(--background-color)',
-        color: 'var(--secondary-color)',
-        '&:hover': {
-            backgroundColor: 'var(--primary-color)',
-            color: 'var(--button-text-color)',
-        },
-    };
-
     // Return null if not displaying
     if (!show) return null;
 
@@ -58,7 +48,6 @@ const ViewContactModal = ({ show, onClose, contact }) => {
                                 <Button
                                     className="view-contact-show-summary-detail-button"
                                     onClick={handleView}
-                                    sx={{ ...commonStylesContactFormButtons }}
                                 >
                                     Show Details
                                 </Button>
@@ -170,8 +159,7 @@ const ViewContactModal = ({ show, onClose, contact }) => {
                                             step={1}
                                             sx={{
                                                 width: '70%',
-                                                color: 'var(--secondary-color)',
-                                                '&:hover': { color: 'var(--primary-color)' },
+                                                color: 'var(--text-color)',
                                             }}
                                         />
                                         <div className="contact-add-edit-view-form-strength-of-connection-description">
@@ -187,8 +175,8 @@ const ViewContactModal = ({ show, onClose, contact }) => {
                                                     name="referralPotential"
                                                     checked={contact.referralPotential}
                                                     sx={{
-                                                        color: 'var(--primary-color)',
-                                                        '&.Mui-checked': { color: 'var(--primary-color)' },
+                                                        color: 'var(--text-color)',
+                                                        '&.Mui-checked': { color: 'var(--text-color)' },
                                                     }}
                                                 />
                                             }
@@ -203,7 +191,7 @@ const ViewContactModal = ({ show, onClose, contact }) => {
                                 <Button
                                     className="view-contact-show-summary-detail-button"
                                     onClick={handleView}
-                                    sx={{ ml: 1, ...commonStylesContactFormButtons }}
+                                    sx={{ ml: 1 }}
                                 >
                                     Show Summary
                                 </Button>

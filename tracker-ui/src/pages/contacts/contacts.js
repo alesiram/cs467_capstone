@@ -363,8 +363,6 @@ const ContactsPage = () => {
                         className="contacts-page-add-new-contact-button"
                         sx={{
                             m: 2,
-                            backgroundColor: 'var(--primary-color)',
-                            color: 'var(--button-text-color)',
                         }}
                         onClick={() => setShowAddModal(true)}
                     >
@@ -373,11 +371,7 @@ const ContactsPage = () => {
                     {viewMode === 'dashboard' ? (
                         <Button
                             className="contacts-page-toggle-dashboard-button"
-                            sx={{
-                                m: 2,
-                                backgroundColor: 'var(--text-color)',
-                                color: 'var(--button-text-color)',
-                            }}
+                            sx={{ m: 2 }}
                             onClick={() => setViewMode('table')}
                         >
                             <SortIcon /> Contacts Table View
@@ -385,11 +379,7 @@ const ContactsPage = () => {
                     ) : (
                         <Button
                             className="contacts-page-toggle-dashboard-button"
-                            sx={{
-                                m: 2,
-                                backgroundColor: 'var(--text-color)',
-                                color: 'var(--button-text-color)',
-                            }}
+                            sx={{ m: 2 }}
                             onClick={() => setViewMode('dashboard')}
                         >
                             <DashboardIcon /> Dashboard Metrics
