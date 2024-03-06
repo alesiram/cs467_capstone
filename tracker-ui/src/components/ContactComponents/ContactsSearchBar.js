@@ -193,7 +193,7 @@ const ContactsSearchBar = ({
                         onClick={handleClearSearch}
                         disabled={searchQuery ? false : true}
                         aria-label="Clear search"
-                        sx={{ ml: 2, backgroundColor: 'var(--background-color)', color: 'var(--secondary-color)' }}
+                        sx={{ ml: 2 }}
                     >
                         Clear
                     </Button>
@@ -206,13 +206,13 @@ const ContactsSearchBar = ({
                         <>
                             <Button
                                 className="contact-search-show-filter-button" onClick={() => setShowAdvancedFilter(true)}
-                                sx={{ ml: 2, mb: 1, backgroundColor: 'var(--background-color)', color: 'var(--secondary-color)' }}
+                                sx={{ ml: 2, mb: 1 }}
                             >
                                 Filter
                             </Button>
                             <Button
                                 className="contact-search-info-toggle-button" onClick={() => setShowSearchFieldsInfo(prev => !prev)}
-                                sx={{ ml: 2, mb: 1, backgroundColor: 'var(--background-color)', color: 'var(--secondary-color)' }}
+                                sx={{ ml: 2, mb: 1 }}
                             >
                                 Info
                             </Button>
@@ -252,10 +252,10 @@ const ContactsSearchBar = ({
                                 sx={{
                                     mt: 1,
                                     border: '1px solid var(--primary-color)',
-                                    backgroundColor: 'var(--text-color)',
-                                    color: 'var(--button-text-color)',
+                                    backgroundColor: '#fff',
+                                    color: 'var(--text-color)',
                                     '& .MuiSelect-icon': {
-                                        color: 'var(--primary-color)',
+                                        color: 'var(--text-color)',
                                     },
                                 }}
                                 onChange={(e) => setSelectedStrengthFilter(e.target.value)}>
@@ -276,10 +276,10 @@ const ContactsSearchBar = ({
                                         mr: 2,
                                         width: '40%',
                                         border: '1px solid var(--primary-color)',
-                                        backgroundColor: 'var(--text-color)',
-                                        color: 'var(--button-text-color)',
+                                        backgroundColor: '#fff',
+                                        color: 'var(--text-color)',
                                         '& .MuiSelect-icon': {
-                                            color: 'var(--primary-color)',
+                                            color: 'var(--text-color)',
                                         },
                                     }}
                                     onChange={(e) => setFollowUpComparisonFilter(e.target.value)}>
@@ -305,10 +305,10 @@ const ContactsSearchBar = ({
                                 sx={{
                                     mt: 1,
                                     border: '1px solid var(--primary-color)',
-                                    backgroundColor: 'var(--text-color)',
-                                    color: 'var(--button-text-color)',
+                                    backgroundColor: '#fff',
+                                    color: 'var(--text-color)',
                                     '& .MuiSelect-icon': {
-                                        color: 'var(--primary-color)',
+                                        color: 'var(--text-color)',
                                     },
                                 }}
                             >
@@ -326,10 +326,10 @@ const ContactsSearchBar = ({
                                 sx={{
                                     mt: 1,
                                     border: '1px solid var(--primary-color)',
-                                    backgroundColor: 'var(--text-color)',
-                                    color: 'var(--button-text-color)',
+                                    backgroundColor: '#fff',
+                                    color: 'var(--text-color)',
                                     '& .MuiSelect-icon': {
-                                        color: 'var(--primary-color)',
+                                        color: 'var(--text-color)',
                                     },
                                 }}
                             >
@@ -347,14 +347,14 @@ const ContactsSearchBar = ({
                         <Button
                             className="contact-filter-apply-filters-button"
                             onClick={handleApplyAllFilters}
-                            sx={{ mb: 1, mr: 1, backgroundColor: 'var(--background-color)', color: 'var(--secondary-color)' }}
+                            sx={{ mb: 1, mr: 1 }}
                         >
                             Apply Filters
                         </Button>
                         <Button
                             className="contact-filter-cancel-filters-button"
                             onClick={handleCancelFilter}
-                            sx={{ mb: 1, ml: 1, backgroundColor: 'var(--background-color)', color: 'var(--secondary-color)' }}
+                            sx={{ mb: 1, ml: 1 }}
                         >
                             Cancel
                         </Button>

@@ -171,10 +171,10 @@ const AddContactModal = ({ show, onClose, createContact, contacts, setContacts, 
 
     // Styles for contact form buttons
     const commonStylesContactFormButtons = {
-        backgroundColor: 'var(--background-color)',
-        color: 'var(--secondary-color)',
+        backgroundColor: 'var(--primary-color)',
+        color: 'var(--button-text-color)',
         '&:hover': {
-            backgroundColor: 'var(--primary-color)',
+            backgroundColor: 'var(--secondary-color)',
             color: 'var(--button-text-color)',
         },
     };
@@ -232,6 +232,21 @@ const AddContactModal = ({ show, onClose, createContact, contacts, setContacts, 
                                             name="company"
                                             required
                                             className="contact-add-edit-view-form-input"
+                                            sx={{
+                                                '& .MuiOutlinedInput-root': {
+                                                    border: '1px solid var(--primary-color)',
+                                                    backgroundColor: '#fff',
+                                                    '&:hover fieldset': {
+                                                        border: 'none',
+                                                    },
+                                                    '&.Mui-focused fieldset': {
+                                                        border: 'none',
+                                                    },
+                                                },
+                                                '& .MuiOutlinedInput-notchedOutline': {
+                                                    border: 'none',
+                                                },
+                                            }}
                                         />
                                     )}
                                 />
@@ -264,7 +279,7 @@ const AddContactModal = ({ show, onClose, createContact, contacts, setContacts, 
                                 {/* Contact Notes */}
                                 <label>Notes</label>
                                 <textarea name="notes" value={newContact.notes} onChange={handleChange} maxLength="200" className="contact-add-edit-view-form-notes-textarea" placeholder='Add your notes...'></textarea>
-                                <div style={{ color: 'var(--primary-color)', marginTop: '5px' }}>{200 - newContact.notes.length} characters remaining</div>
+                                <div style={{ color: 'var(--text-color)', marginTop: '5px' }}>{200 - newContact.notes.length} characters remaining</div>
                             </div>
 
                             {/* Right hand side input fields */}
@@ -369,8 +384,8 @@ const AddContactModal = ({ show, onClose, createContact, contacts, setContacts, 
                                             step={1}
                                             sx={{
                                                 width: '70%',
-                                                color: 'var(--secondary-color)',
-                                                '&:hover': { color: 'var(--primary-color)' },
+                                                color: 'var(--text-color)',
+                                                '&:hover': { color: 'var(--text-color)' },
                                             }}
                                         />
                                         <div id="contactAddFormStrengthDescription" className="contact-add-edit-view-form-strength-of-connection-description">
@@ -387,8 +402,8 @@ const AddContactModal = ({ show, onClose, createContact, contacts, setContacts, 
                                                     checked={newContact.referralPotential}
                                                     onChange={handleCheckboxChange}
                                                     sx={{
-                                                        color: 'var(--primary-color)',
-                                                        '&.Mui-checked': { color: 'var(--primary-color)' },
+                                                        color: 'var(--text-color)',
+                                                        '&.Mui-checked': { color: 'var(--text-color)' },
                                                     }}
                                                 />
                                             }
@@ -403,7 +418,6 @@ const AddContactModal = ({ show, onClose, createContact, contacts, setContacts, 
                                     type="button"
                                     onClick={handleClearForm}
                                     className="add-contact-form-clear-inputs-button"
-                                    sx={{ ...commonStylesContactFormButtons }}
                                 >
                                     Clear
                                 </Button>
@@ -411,7 +425,6 @@ const AddContactModal = ({ show, onClose, createContact, contacts, setContacts, 
                                 <Button
                                     type="submit"
                                     disabled={nameExists}
-                                    sx={{ ...commonStylesContactFormButtons }}
                                 >
                                     Save Contact
                                 </Button>
