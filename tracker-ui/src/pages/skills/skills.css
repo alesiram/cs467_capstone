@@ -59,6 +59,10 @@
   margin: 0 10px 20px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: background-color 0.3s, filter 0.3s, transform 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px; /* Adjust based on your design */
 }
 
 .skills-page__button--add-new,

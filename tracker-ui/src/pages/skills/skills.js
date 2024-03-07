@@ -7,9 +7,12 @@ import SkillTable from '../../components/SkillComponents/SkillTable';
 import AddSkillModal from '../../components/SkillComponents/AddSkillModal';
 import EditSkillModal from '../../components/SkillComponents/EditSkillModal';
 import DeleteSkillModal from '../../components/SkillComponents/DeleteSkillModal';
+import ViewContactModal from '../../components/ContactComponents/ViewContactModal';
 
 // Icons
 import SkillsIcon from '@mui/icons-material/Build';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import DashboardIcon from '@mui/icons-material/Dashboard';
 
 // Assuming './skills.css' and NavBar, SkillTable, AddSkillModal, EditSkillModal, DeleteSkillModal are correctly implemented
 import './skills.css';
@@ -28,6 +31,8 @@ const SkillsPage = () => {
   const [sortCriteria, setSortCriteria] = useState({ field: 'name', order: 'asc' });
   const [filterRating, setFilterRating] = useState('');
   const [isLoadingPopularSkill, setIsLoadingPopularSkill] = useState(false);
+  const [showViewModal, setShowViewModal] = useState(false);
+  const [currentContact, setCurrentContact] = useState({});
 
 
   // Combined fetch function for skills and contacts
@@ -75,9 +80,6 @@ const SkillsPage = () => {
     }
   };
   
-
-
-
   // Inside your SkillsPage component
   const sortedSkills = useMemo(() => {
     return [...skills].sort((a, b) => {
@@ -103,10 +105,6 @@ const SkillsPage = () => {
       return order === 'asc' ? compareResult : -compareResult;
     });
   }, [skills, sortCriteria]);
-  
-  
-
-  
 
   // Add a function to update sort criteria based on column click
   const handleSortChange = (field) => {
@@ -125,7 +123,6 @@ const SkillsPage = () => {
     setShowEditModal(true);
   }
   
-
   // Correctly define fetchMostPopularSkill within SkillsPage component
   const fetchMostPopularSkill = async () => {
     setIsLoadingPopularSkill(true); // Assume you have a separate loading state for this operation
@@ -157,7 +154,6 @@ const SkillsPage = () => {
     }
   };
   
-
   useEffect(() => {
     fetchData();
   }, [searchTerm, filterRating]); // Removed sortCriteria from dependencies
@@ -167,107 +163,119 @@ const SkillsPage = () => {
   }, []); // Empty dependency array ensures this runs only once on component mount
   
   // Add skill
-const addSkill = async (skill) => {
-  setIsLoading(true);
-  try {
-    const token = localStorage.getItem('token');
-    const response = await fetch('/skills', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(skill),
-    });
+  const addSkill = async (skill) => {
+    setIsLoading(true);
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch('/skills', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(skill),
+      });
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      setError(errorData.message || 'Failed to add the skill'); // Update error message based on response
+      if (!response.ok) {
+        const errorData = await response.json();
+        setError(errorData.message || 'Failed to add the skill'); // Update error message based on response
+        setIsLoading(false);
+        return; // Early return to avoid further processing
+      }
+
+      // Refetch skills to update the list and clear any existing error messages
+      setError(''); // Clear any existing error message
+      fetchData();
+    } catch (error) {
+      setError(error.message);
+    } finally {
       setIsLoading(false);
-      return; // Early return to avoid further processing
     }
-
-    // Refetch skills to update the list and clear any existing error messages
-    setError(''); // Clear any existing error message
-    fetchData();
-  } catch (error) {
-    setError(error.message);
-  } finally {
-    setIsLoading(false);
-  }
-};
+  };
 
 
-// Edit skill
-const editSkill = async (skill) => {
-  setIsLoading(true);
-  try {
-    const token = localStorage.getItem('token');
-    const response = await fetch(`/skills/${skill._id}`, {
-      method: 'PUT',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(skill),
-    });
+  // Edit skill
+  const editSkill = async (skill) => {
+    setIsLoading(true);
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`/skills/${skill._id}`, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(skill),
+      });
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || 'Failed to update the skill');
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to update the skill');
+      }
+
+      // Refetch skills to update the list
+      fetchData();
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setIsLoading(false);
     }
+  };
 
-    // Refetch skills to update the list
-    fetchData();
-  } catch (error) {
-    setError(error.message);
-  } finally {
-    setIsLoading(false);
-  }
-};
+  // Delete skill
+  const deleteSkill = async (skillId) => {
+    setIsLoading(true);
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`/skills/${skillId}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
 
-// Delete skill
-const deleteSkill = async (skillId) => {
-  setIsLoading(true);
-  try {
-    const token = localStorage.getItem('token');
-    const response = await fetch(`/skills/${skillId}`, {
-      method: 'DELETE',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      },
-    });
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to delete the skill');
+      }
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || 'Failed to delete the skill');
+      // Refetch skills to update the list
+      fetchData();
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setIsLoading(false);
     }
+  };
 
-    // Refetch skills to update the list
-    fetchData();
-  } catch (error) {
-    setError(error.message);
-  } finally {
-    setIsLoading(false);
+  // Function to set current skill and show delete modal
+  function setCurrentSkillAndShowDeleteModal(skillId) {
+    // Find the skill object from the skills array using the skillId
+    const skillToDelete = skills.find(skill => skill._id === skillId);
+    if (skillToDelete) {
+      setCurrentSkill(skillToDelete); // Set this skill as the currentSkill state
+      setShowDeleteModal(true); // Set showDeleteModal state to true to show the modal
+    }
   }
-};
 
-// Function to set current skill and show delete modal
-function setCurrentSkillAndShowDeleteModal(skillId) {
-  // Find the skill object from the skills array using the skillId
-  const skillToDelete = skills.find(skill => skill._id === skillId);
-  if (skillToDelete) {
-    setCurrentSkill(skillToDelete); // Set this skill as the currentSkill state
-    setShowDeleteModal(true); // Set showDeleteModal state to true to show the modal
-  }
-}
+  // Function to open the modal with the selected contact's details
+  const handleViewClick = (contact) => {
+    setCurrentContact(contact);
+    setShowViewModal(true);
+  };
+
+  // Handler to close the modal
+  const handleCloseModal = () => {
+    setShowViewModal(false);
+    setCurrentContact({});
+  };
 
   // Render part remains largely unchanged
   return (
     <div id="skillsPage">
       <NavBar />
-      <div className="skills-page__container">
+      <div className="skills-page__container" >
       <div className="skills-page__header">
         <SkillsIcon style={{ marginRight: '8px', verticalAlign: 'middle' }} fontSize="large" />
         <h1>SKILLS</h1>
@@ -284,7 +292,9 @@ function setCurrentSkillAndShowDeleteModal(skillId) {
           <p>Loading most popular skill...</p>
         ) : null}
         
-        <button className="skills-page__button--add-new" onClick={() => setShowAddModal(true)}>Add New Skill</button>
+        <button className="skills-page__button--add-new"  onClick={() => setShowAddModal(true)}>
+          <AddCircleIcon sx={{ color: 'var(--button-text-color' }} /> Add New Skill 
+        </button>
         
         <div className="skills-page__filters">
           <input
@@ -294,14 +304,6 @@ function setCurrentSkillAndShowDeleteModal(skillId) {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
           <button onClick={() => setSearchTerm('')} className="skills-page__action-button--clear">Clear</button>
-          <input
-            type="number"
-            placeholder="Filter by min rating..."
-            value={filterRating}
-            min="1"
-            max="5"
-            onChange={e => setFilterRating(e.target.value)}
-          />
         </div>
         
         {/* Error message display */}
@@ -312,11 +314,13 @@ function setCurrentSkillAndShowDeleteModal(skillId) {
           onEdit={setCurrentSkillAndShowEditModal}
           onDelete={setCurrentSkillAndShowDeleteModal}
           onSort={handleSortChange}
+          onViewClick={handleViewClick}
         />
         
         {showAddModal && <AddSkillModal onClose={() => setShowAddModal(false)} onSave={addSkill} contacts={contacts} />}
         {showEditModal && currentSkill && <EditSkillModal skill={currentSkill} onClose={() => setShowEditModal(false)} onSave={editSkill} contacts={contacts} />}
         {showDeleteModal && currentSkill && <DeleteSkillModal skill={currentSkill} onClose={() => setShowDeleteModal(false)} onDelete={deleteSkill} />}
+        {currentContact && (<ViewContactModal show={showViewModal} onClose={handleCloseModal} contact={currentContact} />)}
       </div>
     </div>
   );
