@@ -45,19 +45,22 @@ const EditJobModal = ({ onClose, job, onSave, skills }) => {
   return (
     <div className="modal-background">
       <div className="modal-content">
-        <h2>Edit Job</h2>
+        {/* <h2>Edit Job</h2> */}
+        <div className="edit-header">
+            <h2>Edit Job</h2>
+        </div>
         <span className="job-modal-close" onClick={onClose}>&times;</span>
         <form onSubmit={handleSubmit} className="two-column-form">
           <div className="form-column">
-            <label>
+          <label className="form-label">
               Company:
               <input type="text" name="company" value={editedJob.company} onChange={handleChange} />
             </label>
-            <label>
+            <label className="form-label">
               Title:
               <input type="text" name="title" value={editedJob.title} onChange={handleChange} />
             </label>
-            <label>
+            <label className="form-label">
               Type:
             
               <select type="text" name="type" value={editedJob.type} onChange={handleChange}>
@@ -68,27 +71,29 @@ const EditJobModal = ({ onClose, job, onSave, skills }) => {
 
 
             </label>
-            <label>
+            <label className="form-label">
               Location:
               <input type="text" name="location" value={editedJob.location} onChange={handleChange} />
             </label>
-            <label>
+            <label className="form-label">
               Job Posting Link:
               <input type="text" name="jobPostingLink" value={editedJob.jobPostingLink} onChange={handleChange} />
             </label>
           </div>
           <div className="form-column">
-            <label>
+          <label className="form-label">
               Pay:
               <input type="text" name="pay" value={editedJob.pay} onChange={handleChange} />
             </label>
-            <label>
+            <label className="form-label">
               Apply Date:
    
-              <input type="date" name="applyDate" value={editedJob.applyDate ? editedJob.applyDate.split('T')[0] : ''} onChange={handleChange} />
+              <input type="date" name="applyDate" value={editedJob.applyDate ? editedJob.applyDate.split('T')[0] : ''} onChange={handleChange}
+              style={{ marginLeft: '10px' }}
+               />
 
             </label>
-            <label>
+            <label className="form-label">
               Status:
               <select name="status" value={editedJob.jobStatus} onChange={handleChange}>
               <option value="Open">Open</option>
@@ -96,7 +101,7 @@ const EditJobModal = ({ onClose, job, onSave, skills }) => {
             </select>
 
             </label>
-            <label>
+            <label className="form-label">
               Interviewed:
               <select name="interviewed" value={editedJob.interviewed} onChange={handleChange}>
               <option value="Yes">Yes</option>
@@ -105,11 +110,13 @@ const EditJobModal = ({ onClose, job, onSave, skills }) => {
             </select>
 
             </label>
-            <label>
+            <label className="form-label">
               Interview Date:
-              <input type="date" name="interviewDate" value={editedJob.interviewDate ? editedJob.interviewDate.split('T')[0] : ''} onChange={handleChange} />
+              <input type="date" name="interviewDate" value={editedJob.interviewDate ? editedJob.interviewDate.split('T')[0] : ''} onChange={handleChange} 
+              style={{ marginLeft: '10px' }}
+              />
             </label>
-            <label>
+            <label className="form-label">
               Decision:
               <select name="decision" value={editedJob.decision} onChange={handleChange}>
               <option value="Pending">Pending</option>
@@ -118,7 +125,7 @@ const EditJobModal = ({ onClose, job, onSave, skills }) => {
             </select>
             </label>
             {/* Dropdown for required skills */}
-          <label>
+            <label className="form-label">
               Required Skills:
               <Select
                 isMulti
@@ -131,7 +138,7 @@ const EditJobModal = ({ onClose, job, onSave, skills }) => {
               />
             </label>
 
-          <label>
+            <label className="form-label">
               Notes:
               <input type="text" name="notes" value={editedJob.notes} onChange={handleChange} />
           </label> 

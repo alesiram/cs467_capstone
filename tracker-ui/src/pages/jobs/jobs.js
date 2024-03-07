@@ -52,9 +52,6 @@ const JobsPage = () => {
       setJobs(jobsData);
       setSkills(skillsData); // Update state with skills data
 
-
-
-
     } catch (error) {
       setError('Failed to load data: ' + error.message);
     } finally {
@@ -170,7 +167,7 @@ useEffect(() => {
       }
     });
     // Calculate the percentage for each skill
-    percentages[skillName] = (skillCount / totalSkills) * 100;
+    percentages[skillName] = Math.round((skillCount / totalSkills) * 100);
   });
   // Update the state with the calculated skill percentages
   setSkillPercentages(percentages);
@@ -219,6 +216,9 @@ useEffect(() => {
       let data = await response.json();
       setJobs([...jobs, data])
     fetchData()
+
+    // Alert the user that the job was deleted successfully
+    alert("Job added successfully!");
   } catch (error) {
       setError(error.message);
   } finally {
@@ -226,6 +226,8 @@ useEffect(() => {
   }
     // Close the add modal
     setShowAddModal(false);
+    
+
   };
 
   const handleEditJob = async (updatedJob) => {
@@ -252,6 +254,7 @@ useEffect(() => {
       setShowEditModal(false);
   
       setIsLoading(true);
+
   
       // Alert the user that the job was deleted successfully
       alert("Job Updated successfully!");
@@ -302,7 +305,7 @@ useEffect(() => {
 
         <button className='jobs-page-button-add-job ' onClick={() => setShowAddModal(true)}>Add New Job</button>
         {/* Add button to view job metrics */}
-        <button className='jobs-page-button-add-job' onClick={() => setShowJobsMetrics(true)}>View Job Metrics</button>
+        <button className='jobs-page-button-metrics' onClick={() => setShowJobsMetrics(true)}>View Job Metrics</button>
 
         <JobsTable
           // jobs={jobs}
@@ -339,11 +342,6 @@ useEffect(() => {
         interviewNocount={interviewNocount}
   
         />
-
-        
-       
-
-
 
       </div>
     </div>

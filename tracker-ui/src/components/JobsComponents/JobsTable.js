@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 const JobTableModal = ({ jobs, onEdit, onDelete, setJobs }) => {
-  console.log("jobs", jobs)
+  // console.log("jobs", jobs)
   // pagination state 
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10); // Number of items to display per page
@@ -10,8 +10,8 @@ const JobTableModal = ({ jobs, onEdit, onDelete, setJobs }) => {
  // Search state
  const [searchQuery, setSearchQuery] = useState('');
   // Log jobs and searchQuery for debugging
-  console.log('All jobs:', jobs);
-  console.log('Search query:', searchQuery);
+  // console.log('All jobs:', jobs);
+  // console.log('Search query:', searchQuery);
 
  // Filtered jobs based on search query
  const filteredJobs = jobs.filter((job) =>
@@ -82,8 +82,9 @@ const totalPages = Math.ceil(filteredJobs.length / itemsPerPage);
               <th>Actions</th>
             </tr>
           </thead>
+          
           <tbody>
-          {currentJobs.map((job) => {
+            {currentJobs.map((job) => {
 
               // Formatting to display correct date in UI 
               // APPLY DATE 
@@ -138,10 +139,6 @@ const totalPages = Math.ceil(filteredJobs.length / itemsPerPage);
                       maxLength={200} // Set the maximum number of characters
                       className="notes-textarea"></textarea>
                     </td>
-
-
-
-
                   <td className="job-action-buttons">
                     <button className="edit" onClick={() => onEdit(job)}>Edit</button>
                     <button className="delete" onClick={() => onDelete(job)}>Delete</button>
