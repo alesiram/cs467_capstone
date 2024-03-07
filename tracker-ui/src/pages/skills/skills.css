@@ -41,7 +41,7 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 30px;
-  width: 100%;
+  width: 75%;
 }
 
 /* Buttons */
@@ -59,6 +59,10 @@
   margin: 0 10px 20px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: background-color 0.3s, filter 0.3s, transform 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px; /* Adjust based on your design */
 }
 
 .skills-page__button--add-new,
@@ -99,7 +103,8 @@
 }
 
 /* Skill Table Action Buttons */
-.skills-page__action-button--edit {
+.skills-page__action-button--edit,
+.skills-page__action-button--clear {
   border: none;
   padding: 5px 10px;
   border-radius: 10px;
@@ -217,7 +222,7 @@
 /* Additional styling for overall filter container for alignment and spacing */
 .skills-page__filters {
   display: flex;
-  justify-content: start; /* Align items to the start of the container */
+  justify-content: flex-start; /* Align items to the start of the container */
   align-items: center; /* Center items vertically */
   gap: 10px; /* Space between filter inputs */
   padding: 20px 0; /* Padding above and below the filter container */
@@ -250,3 +255,18 @@
   font-size: 0.9rem; /* Slightly smaller font size for distinction */
   width: 100%;
 }
+
+/* Skills page header icon styling */
+.skills-page__header-icon {
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+/* Skills page filter styling */
+.skills-page__filters {
+  display: flex;
+  gap: 10px; /* Adjust the gap as needed */
+  margin-bottom: 20px; /* Adjust margin as needed */
+}
+
+
