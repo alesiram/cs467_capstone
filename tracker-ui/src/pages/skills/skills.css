@@ -99,7 +99,8 @@
 }
 
 /* Skill Table Action Buttons */
-.skills-page__action-button--edit {
+.skills-page__action-button--edit,
+.skills-page__action-button--clear {
   border: none;
   padding: 5px 10px;
   border-radius: 10px;
@@ -250,3 +251,18 @@
   font-size: 0.9rem; /* Slightly smaller font size for distinction */
   width: 100%;
 }
+
+/* Skills page header icon styling */
+.skills-page__header-icon {
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+/* Skills page filter styling */
+.skills-page__filters {
+  display: flex;
+  gap: 10px; /* Adjust the gap as needed */
+  margin-bottom: 20px; /* Adjust margin as needed */
+}
+
+

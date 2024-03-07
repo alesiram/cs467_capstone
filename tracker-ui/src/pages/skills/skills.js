@@ -25,7 +25,6 @@ const SkillsPage = () => {
   const [currentSkill, setCurrentSkill] = useState(null);
   const [mostPopularSkill, setMostPopularSkill] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
-  // Remove the sortOption state if it's not used elsewhere for a different purpose.
   const [sortCriteria, setSortCriteria] = useState({ field: 'name', order: 'asc' });
   const [filterRating, setFilterRating] = useState('');
   const [isLoadingPopularSkill, setIsLoadingPopularSkill] = useState(false);
@@ -34,51 +33,48 @@ const SkillsPage = () => {
   // Combined fetch function for skills and contacts
   const fetchData = async () => {
     setIsLoading(true);
+    setError(''); // Reset error message at the beginning of a fetch operation
     try {
-        const token = localStorage.getItem('token');
-        let queryParams = new URLSearchParams();
-
-        if (searchTerm) queryParams.append('search', searchTerm);
-        if (filterRating) queryParams.append('minRating', filterRating);
-
-        // Fetch skills
-        const skillsResponse = await fetch(`/skills?${queryParams.toString()}`, {
-            headers: { 'Authorization': `Bearer ${token}` },
-        });
-
-        // Fetch contacts
-        const contactsResponse = await fetch('/contacts', {
-            headers: { 'Authorization': `Bearer ${token}` },
-        });
-
-        // Check for 404 specifically for skills
-        if (skillsResponse.status === 404) {
-            setError('No skills found.');
-            setSkills([]); // Optionally clear skills if none are found
-        } else if (!skillsResponse.ok) {
-            throw new Error('Failed to fetch skills');
-        } else {
-            const skillsData = await skillsResponse.json();
-            setSkills(skillsData); // Set skills data here
-        }
-
-        // Check for 404 specifically for contacts
-        if (contactsResponse.status === 404) {
-            // Handle similarly, if necessary, or ignore if contacts being missing isn't critical
-        } else if (!contactsResponse.ok) {
-            throw new Error('Failed to fetch contacts');
-        } else {
-            const contactsData = await contactsResponse.json();
-            setContacts(contactsData); // Set contacts data here
-        }
-
+      const token = localStorage.getItem('token');
+      let queryParams = new URLSearchParams();
+  
+      if (searchTerm) queryParams.append('search', searchTerm);
+      if (filterRating) queryParams.append('minRating', filterRating);
+  
+      // Fetch skills
+      const skillsResponse = await fetch(`/skills?${queryParams.toString()}`, {
+          headers: { 'Authorization': `Bearer ${token}` },
+      });
+  
+      // Fetch contacts
+      const contactsResponse = await fetch('/contacts', {
+          headers: { 'Authorization': `Bearer ${token}` },
+      });
+  
+      if (!skillsResponse.ok) throw new Error('Failed to fetch skills');
+      if (!contactsResponse.ok) throw new Error('Failed to fetch contacts');
+  
+      const skillsData = await skillsResponse.json();
+      const contactsData = await contactsResponse.json();
+  
+      // Check if the search yielded no results and set an appropriate error message if so
+      if (skillsData.length === 0 && searchTerm) {
+        setError('No matching skills found.');
+        setSkills([]); // Clear skills to show an empty table
+      } else {
+        setSkills(skillsData); // Otherwise, update the table with the fetched skills
+        setError(''); // Clear any previous error message
+      }
+      
+      setContacts(contactsData);
     } catch (error) {
-        setError('Failed to load data: ' + error.message);
+      setError('Failed to load data: ' + error.message);
+      setSkills([]); // Ensure the skills list is cleared on error
     } finally {
-        setIsLoading(false);
+      setIsLoading(false);
     }
   };
-
+  
 
 
 
@@ -122,6 +118,12 @@ const SkillsPage = () => {
       order: prevState.field === field && prevState.order === 'asc' ? 'desc' : 'asc',
     }));
   };
+
+  // Helper function to set current skill and show edit modal
+  function setCurrentSkillAndShowEditModal(skill) {
+    setCurrentSkill(skill);
+    setShowEditModal(true);
+  }
   
 
   // Correctly define fetchMostPopularSkill within SkillsPage component
@@ -163,97 +165,103 @@ const SkillsPage = () => {
   useEffect(() => {
     fetchMostPopularSkill();
   }, []); // Empty dependency array ensures this runs only once on component mount
-
+  
   // Add skill
-  const addSkill = async (skill) => {
-    setIsLoading(true);
-    try {
-      const token = localStorage.getItem('token');
-      const response = await fetch('/skills', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(skill),
-      });
-  
-      if (!response.ok) {
-        const errorData = await response.json();
-        setError(errorData.message || 'Failed to add the skill'); // Update error message based on response
-        setIsLoading(false);
-        return; // Early return to avoid further processing
-      }
-  
-      // Refetch skills to update the list and clear any existing error messages
-      setError(''); // Clear any existing error message
-      fetchData();
-    } catch (error) {
-      setError(error.message);
-    } finally {
+const addSkill = async (skill) => {
+  setIsLoading(true);
+  try {
+    const token = localStorage.getItem('token');
+    const response = await fetch('/skills', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(skill),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      setError(errorData.message || 'Failed to add the skill'); // Update error message based on response
       setIsLoading(false);
+      return; // Early return to avoid further processing
     }
-  };
-  
 
-  // Edit skill
-  const editSkill = async (skill) => {
-    setIsLoading(true);
-    try {
-      const token = localStorage.getItem('token');
-      const response = await fetch(`/skills/${skill._id}`, {
-        method: 'PUT',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(skill),
-      });
-  
-      if (!response.ok) {
-        const errorData = await response.json();
-        setError(errorData.message || 'Failed to update the skill'); // Update error message based on response
-        setIsLoading(false);
-        return; // Early return to avoid further processing
-      }
-  
-      // Refetch skills to update the list and clear any existing error messages
-      setError(''); // Clear any existing error message
-      fetchData();
-    } catch (error) {
-      setError(error.message);
-    } finally {
-      setIsLoading(false);
+    // Refetch skills to update the list and clear any existing error messages
+    setError(''); // Clear any existing error message
+    fetchData();
+  } catch (error) {
+    setError(error.message);
+  } finally {
+    setIsLoading(false);
+  }
+};
+
+
+// Edit skill
+const editSkill = async (skill) => {
+  setIsLoading(true);
+  try {
+    const token = localStorage.getItem('token');
+    const response = await fetch(`/skills/${skill._id}`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(skill),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Failed to update the skill');
     }
-  };
-  
 
-  // Delete skill
-  const deleteSkill = async (skillId) => {
-    setIsLoading(true);
-    try {
-      const token = localStorage.getItem('token');
-      const response = await fetch(`/skills/${skillId}`, {
-        method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-      });
+    // Refetch skills to update the list
+    fetchData();
+  } catch (error) {
+    setError(error.message);
+  } finally {
+    setIsLoading(false);
+  }
+};
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to delete the skill');
-      }
+// Delete skill
+const deleteSkill = async (skillId) => {
+  setIsLoading(true);
+  try {
+    const token = localStorage.getItem('token');
+    const response = await fetch(`/skills/${skillId}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
 
-      // Refetch skills to update the list
-      fetchData();
-    } catch (error) {
-      setError(error.message);
-    } finally {
-      setIsLoading(false);
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Failed to delete the skill');
     }
-  };
+
+    // Refetch skills to update the list
+    fetchData();
+  } catch (error) {
+    setError(error.message);
+  } finally {
+    setIsLoading(false);
+  }
+};
+
+// Function to set current skill and show delete modal
+function setCurrentSkillAndShowDeleteModal(skillId) {
+  // Find the skill object from the skills array using the skillId
+  const skillToDelete = skills.find(skill => skill._id === skillId);
+  if (skillToDelete) {
+    setCurrentSkill(skillToDelete); // Set this skill as the currentSkill state
+    setShowDeleteModal(true); // Set showDeleteModal state to true to show the modal
+  }
+}
 
   // Render part remains largely unchanged
   return (
@@ -272,7 +280,7 @@ const SkillsPage = () => {
             <p>Most Popular Skill: {mostPopularSkill._id}</p>
             <p>Average Rating: {mostPopularSkill.averageRating.toFixed(1)}</p>
           </div>
-        ) : isLoading ? (
+        ) : isLoadingPopularSkill ? (
           <p>Loading most popular skill...</p>
         ) : null}
         
@@ -285,6 +293,7 @@ const SkillsPage = () => {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
+          <button onClick={() => setSearchTerm('')} className="skills-page__action-button--clear">Clear</button>
           <input
             type="number"
             placeholder="Filter by min rating..."
@@ -311,24 +320,6 @@ const SkillsPage = () => {
       </div>
     </div>
   );
-  
-  
-  // Helper function to set current skill and show edit modal
-  function setCurrentSkillAndShowEditModal(skill) {
-    setCurrentSkill(skill);
-    setShowEditModal(true);
-  }
-
-  // Function to set current skill and show delete modal
-  function setCurrentSkillAndShowDeleteModal(skillId) {
-    // Find the skill object from the skills array using the skillId
-    const skillToDelete = skills.find(skill => skill._id === skillId);
-    if (skillToDelete) {
-      setCurrentSkill(skillToDelete); // Set this skill as the currentSkill state
-      setShowDeleteModal(true); // Set showDeleteModal state to true to show the modal
-    }
-}
-
 };
 
 export default SkillsPage;
