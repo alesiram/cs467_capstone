@@ -59,6 +59,7 @@ const totalPages = Math.ceil(filteredJobs.length / itemsPerPage);
     <div className="job-table-container">
         <input
         type="text"
+        className="jobs-text-search"
         placeholder="Search jobs by company name..."
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}

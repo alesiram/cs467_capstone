@@ -30,12 +30,16 @@ const JobsMetricsModal = ({ show, onClose, totalApplications,  totalOpenJobs, fu
               </div>
               <div className="metric-tile">
               <h3>Skill Presence in Jobs</h3>
-              {Object.entries(skillCounts).map(([skillName, count]) => (
-                <div key={skillName} className="job-metric-skill-info"> {/* Add the className attribute */}
-                  <span>{skillName}: </span>
-                  <span>{count}%</span>
-                </div>
-              ))}
+              {
+              Object.keys(skillCounts).length === 0 
+                ? "No skills found" 
+                : Object.entries(skillCounts).map(([skillName, count]) => (
+                    <div key={skillName} className="job-metric-skill-info"> {/* Add the className attribute */}
+                      <span>{skillName}: </span>
+                      <span>{count}%</span>
+                    </div>
+                  ))
+              }
             </div>
             <div className="metric-tile">
               <h3>Total Jobs by Type </h3>
