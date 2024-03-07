@@ -9,7 +9,7 @@ export const createSkill = async (req, res) => {
         // Pre-insertion check for duplicate skill name for the user
         const existingSkill = await Skill.findOne({
             user: req.user._id,
-            name: req.body.name
+            name: { $regex: new RegExp("^" + req.body.name + "$", "i") } // Case-insensitive search
         });
 
         // If a duplicate skill is found, return a conflict response
