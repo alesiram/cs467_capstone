@@ -1,7 +1,7 @@
 // CREATED WITH GPT 4.0
 
 // Packages and modals
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import NavBar from '../../components/NavBar';
 import SkillTable from '../../components/SkillComponents/SkillTable';
 import AddSkillModal from '../../components/SkillComponents/AddSkillModal';
@@ -12,7 +12,7 @@ import ViewContactModal from '../../components/ContactComponents/ViewContactModa
 // Icons
 import SkillsIcon from '@mui/icons-material/Build';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import DashboardIcon from '@mui/icons-material/Dashboard';
+//import DashboardIcon from '@mui/icons-material/Dashboard';
 
 // Assuming './skills.css' and NavBar, SkillTable, AddSkillModal, EditSkillModal, DeleteSkillModal are correctly implemented
 import './skills.css';
@@ -20,7 +20,7 @@ import './skills.css';
 const SkillsPage = () => {
   const [skills, setSkills] = useState([]);
   const [contacts, setContacts] = useState([]); // Assuming contacts are needed for reference in Add/Edit Modals
-  const [isLoading, setIsLoading] = useState(false);
+  //const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
@@ -29,22 +29,20 @@ const SkillsPage = () => {
   const [mostPopularSkill, setMostPopularSkill] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [sortCriteria, setSortCriteria] = useState({ field: 'name', order: 'asc' });
-  const [filterRating, setFilterRating] = useState('');
   const [isLoadingPopularSkill, setIsLoadingPopularSkill] = useState(false);
   const [showViewModal, setShowViewModal] = useState(false);
   const [currentContact, setCurrentContact] = useState({});
 
 
   // Combined fetch function for skills and contacts
-  const fetchData = async () => {
-    setIsLoading(true);
+  const fetchData = useCallback(async () => {
+    //setIsLoading(true);
     setError(''); // Reset error message at the beginning of a fetch operation
     try {
       const token = localStorage.getItem('token');
       let queryParams = new URLSearchParams();
   
       if (searchTerm) queryParams.append('search', searchTerm);
-      if (filterRating) queryParams.append('minRating', filterRating);
   
       // Fetch skills
       const skillsResponse = await fetch(`/skills?${queryParams.toString()}`, {
@@ -73,12 +71,12 @@ const SkillsPage = () => {
       
       setContacts(contactsData);
     } catch (error) {
-      setError('Failed to load data: ' + error.message);
+      setError('No results match!');
       setSkills([]); // Ensure the skills list is cleared on error
     } finally {
-      setIsLoading(false);
+      //setIsLoading(false);
     }
-  };
+  }, [searchTerm]);
   
   // Inside your SkillsPage component
   const sortedSkills = useMemo(() => {
@@ -156,7 +154,7 @@ const SkillsPage = () => {
   
   useEffect(() => {
     fetchData();
-  }, [searchTerm, filterRating]); // Removed sortCriteria from dependencies
+  }, [fetchData]); // Removed sortCriteria from dependencies
   
   useEffect(() => {
     fetchMostPopularSkill();
@@ -164,7 +162,7 @@ const SkillsPage = () => {
   
   // Add skill
   const addSkill = async (skill) => {
-    setIsLoading(true);
+    //setIsLoading(true);
     try {
       const token = localStorage.getItem('token');
       const response = await fetch('/skills', {
@@ -179,7 +177,7 @@ const SkillsPage = () => {
       if (!response.ok) {
         const errorData = await response.json();
         setError(errorData.message || 'Failed to add the skill'); // Update error message based on response
-        setIsLoading(false);
+        //setIsLoading(false);
         return; // Early return to avoid further processing
       }
 
@@ -189,14 +187,14 @@ const SkillsPage = () => {
     } catch (error) {
       setError(error.message);
     } finally {
-      setIsLoading(false);
+      //setIsLoading(false);
     }
   };
 
 
   // Edit skill
   const editSkill = async (skill) => {
-    setIsLoading(true);
+    //setIsLoading(true);
     try {
       const token = localStorage.getItem('token');
       const response = await fetch(`/skills/${skill._id}`, {
@@ -218,13 +216,13 @@ const SkillsPage = () => {
     } catch (error) {
       setError(error.message);
     } finally {
-      setIsLoading(false);
+      //setIsLoading(false);
     }
   };
 
   // Delete skill
   const deleteSkill = async (skillId) => {
-    setIsLoading(true);
+    //setIsLoading(true);
     try {
       const token = localStorage.getItem('token');
       const response = await fetch(`/skills/${skillId}`, {
@@ -245,7 +243,7 @@ const SkillsPage = () => {
     } catch (error) {
       setError(error.message);
     } finally {
-      setIsLoading(false);
+      //setIsLoading(false);
     }
   };
 
@@ -299,7 +297,7 @@ const SkillsPage = () => {
         <div className="skills-page__filters">
           <input
             type="text"
-            placeholder="Search by name..."
+            placeholder="Search by name or reference..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />

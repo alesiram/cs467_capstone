@@ -41,7 +41,7 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 30px;
-  width: 100%;
+  width: 75%;
 }
 
 /* Buttons */
@@ -222,7 +222,7 @@
 /* Additional styling for overall filter container for alignment and spacing */
 .skills-page__filters {
   display: flex;
-  justify-content: start; /* Align items to the start of the container */
+  justify-content: flex-start; /* Align items to the start of the container */
   align-items: center; /* Center items vertically */
   gap: 10px; /* Space between filter inputs */
   padding: 20px 0; /* Padding above and below the filter container */
