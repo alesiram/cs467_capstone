@@ -50,102 +50,89 @@ const AddJobsModal = ({ onClose, onSave, skills }) => {
   };
 
   return (
-    <div className="modal-background">
-      <div className="modal-content">
+    <div className="jobs-modal-background">
+      <div className="jobs-modal-content">
         <div className="add-job-header">
             <h2>Add New Job</h2>
           </div>
-        <span className="jobb-modal-close" onClick={onClose}>&times;</span>
-        <form onSubmit={handleSubmit} className="two-column-form">
-          <div className="form-column">
-          <label className="form-label">
+
+        <form className="jobs-form-parent" onSubmit={handleSubmit}>
+          <label className="jobs-form-label">
               Company:
-              <input type="text" name="company" value={newJob.company} onChange={handleChange} required />
+              <input type="text" className="jobs-text" name='company' value={newJob.company} onChange={handleChange} required />
             </label>
-            <label className="form-label">
+            <label className="jobs-form-label">
               Title:
-              <input type="text" name="title" value={newJob.title} onChange={handleChange} />
+              <input type="text" className="jobs-text" name="title" value={newJob.title} onChange={handleChange} />
             </label>
-            <label className="form-label">
+            <label className="jobs-form-label" >
               Type:
-              <select name="type" value={newJob.type} onChange={handleChange}>
+              <select className="jobs-select" name="type" value={newJob.type} onChange={handleChange}>
                 <option value="Full Time">Full Time</option>
                 <option value="Part-time">Part-time</option>
                 <option value="Internship">Internship</option>
               </select>
             </label>
-            <label className="form-label">
+            <label className="jobs-form-label">
               Location:
-              <input type="text" name="location" value={newJob.location} onChange={handleChange}  />
+              <input type="text" className="jobs-text" name="location" value={newJob.location} onChange={handleChange}  />
             </label>
-            <label className="form-label">
+            <label className="jobs-form-label">
               Job Posting Link:
-              <input type="text" name="jobPostingLink" value={newJob.jobPostingLink} onChange={handleChange} />
+              <input type="text" className="jobs-text" name="jobPostingLink" value={newJob.jobPostingLink} onChange={handleChange} />
             </label>
-            <label className="form-label">
+            <label className="jobs-form-label">
               Pay:
-              <input type="text" name="pay" value={newJob.pay} onChange={handleChange} />
+              <input type="text" className="jobs-text" name="pay" value={newJob.pay} onChange={handleChange} />
             </label>
-          </div>
-          
-          <div className="form-column">
-          <label className="form-label">
+          <label className="jobs-form-label">
               Apply Date:   
               <input 
                 type="date" 
-                name="applyDate" 
+                className="jobs-drop-down" 
+                name="applyDate"
                 value={newJob.applyDate} 
-                onChange={handleChange} 
-                style={{ marginLeft: '10px' }}
+                onChange={handleChange}
               />
-            </label>
-            </div>
-
-            <div className="form-column">
-            <label className="form-label">
+          </label>
+            <label className="jobs-form-label">
               Status:
-              <select name="jobStatus" value={newJob.jobStatus} onChange={handleChange}>
+              <select className="jobs-select"name="jobStatus" value={newJob.jobStatus} onChange={handleChange}>
                 <option value="Open">Open</option>
                 <option value="Closed">Closed</option>
               </select>
             </label>
-            </div>
-            <div className="form-column">
-            <label className="form-label">
+
+            <label className="jobs-form-label">
               Interviewed:
-              <select name="interviewed" value={newJob.interviewed} onChange={handleChange}>
+              <select className="jobs-select" name="interviewed"  value={newJob.interviewed} onChange={handleChange}>
                 <option value="Yes">Yes</option>
                 <option value="No">No</option>
                 <option value="Pending">Pending</option>
               </select>
             </label>
-            </div>
-            <div className="form-column">
-            <label className="form-label">
+  
+            <label className="jobs-form-label">
               Interview Date:
               <input 
                 type="date" 
-                name="interviewDate" 
+                className="jobs-drop-down"
+                name='interviewDate'
                 value={newJob.interviewDate || ''} 
                 onChange={handleChange} 
-                style={{ marginLeft: '10px' }}
               />
             </label>
-            </div>
 
-            <div className="form-column">
-            <label className="form-label">
+            <label className="jobs-form-label">
               Decision:
-              <select name="decision" value={newJob.decision} onChange={handleChange}>
+              <select className="jobs-select" name="decision" value={newJob.decision} onChange={handleChange}>
                 <option value="Pending">Pending</option>
                 <option value="Rejected">Rejected</option>
                 <option value="Hired">Hired</option>
               </select>
             </label>
-            </div>
 
-            <div className="form-column">
-            <label className="form-label">
+            <label className="jobs-form-label">
               Required Skills:
               <Select
                 isMulti
@@ -154,13 +141,12 @@ const AddJobsModal = ({ onClose, onSave, skills }) => {
                 value={newJob.requiredSkills}
               />
             </label>
-            </div>
-            <div className="form-column">
-            <label className="form-label">
+
+            <label className="jobs-form-label">
               Notes:
-              <input type="text" name="notes" value={newJob.notes} onChange={handleChange} />
+              <input type="text" className="jobs-text" name="notes" value={newJob.notes} onChange={handleChange} />
             </label>
-          </div>
+
           <div className="jobs-modal-actions">
             <button type="submit" className="job-modal-button-add">Add</button>
             <button type="button" className="job-modal-button-cancel" onClick={onClose}>Cancel</button>

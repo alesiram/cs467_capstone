@@ -46,11 +46,13 @@ const JobsPage = () => {
       });
 
       const [jobsResponse, skillsResponse] = await Promise.all([jobsPromise, skillsPromise]);
-      if (!jobsResponse.ok || !skillsResponse.ok) throw new Error('Failed to fetch data');
+      if (!jobsResponse.ok) throw new Error('Failed to fetch data');
 
       const [jobsData, skillsData] = await Promise.all([jobsResponse.json(), skillsResponse.json()]);
       setJobs(jobsData);
-      setSkills(skillsData); // Update state with skills data
+      if (skillsResponse.ok) {
+        setSkills(skillsData); // Update state with skills data
+      }
 
     } catch (error) {
       setError('Failed to load data: ' + error.message);
