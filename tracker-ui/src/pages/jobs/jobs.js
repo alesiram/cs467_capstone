@@ -50,7 +50,9 @@ const JobsPage = () => {
 
       const [jobsData, skillsData] = await Promise.all([jobsResponse.json(), skillsResponse.json()]);
       setJobs(jobsData);
-      setSkills(skillsData); // Update state with skills data
+      if (skillsResponse.ok) {
+        setSkills(skillsData); // Update state with skills data
+      }
 
     } catch (error) {
       setError('Failed to load data: ' + error.message);
