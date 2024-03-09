@@ -55,7 +55,6 @@ const AddJobsModal = ({ onClose, onSave, skills }) => {
         <div className="add-job-header">
             <h2>Add New Job</h2>
           </div>
-
         <form className="jobs-form-parent" onSubmit={handleSubmit}>
           <label className="jobs-form-label">
               Company:
@@ -102,7 +101,6 @@ const AddJobsModal = ({ onClose, onSave, skills }) => {
                 <option value="Closed">Closed</option>
               </select>
             </label>
-
             <label className="jobs-form-label">
               Interviewed:
               <select className="jobs-select" name="interviewed"  value={newJob.interviewed} onChange={handleChange}>
@@ -111,7 +109,6 @@ const AddJobsModal = ({ onClose, onSave, skills }) => {
                 <option value="Pending">Pending</option>
               </select>
             </label>
-  
             <label className="jobs-form-label">
               Interview Date:
               <input 
@@ -122,7 +119,6 @@ const AddJobsModal = ({ onClose, onSave, skills }) => {
                 onChange={handleChange} 
               />
             </label>
-
             <label className="jobs-form-label">
               Decision:
               <select className="jobs-select" name="decision" value={newJob.decision} onChange={handleChange}>
@@ -131,7 +127,6 @@ const AddJobsModal = ({ onClose, onSave, skills }) => {
                 <option value="Hired">Hired</option>
               </select>
             </label>
-
             <label className="jobs-form-label">
               Required Skills:
               <Select
@@ -141,12 +136,10 @@ const AddJobsModal = ({ onClose, onSave, skills }) => {
                 value={newJob.requiredSkills}
               />
             </label>
-
             <label className="jobs-form-label">
               Notes:
               <input type="text" className="jobs-text" name="notes" value={newJob.notes} onChange={handleChange} />
             </label>
-
           <div className="jobs-modal-actions">
             <button type="submit" className="job-modal-button-add">Add</button>
             <button type="button" className="job-modal-button-cancel" onClick={onClose}>Cancel</button>

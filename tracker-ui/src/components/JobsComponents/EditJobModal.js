@@ -3,11 +3,12 @@ import Select from 'react-select';
 
 const EditJobModal = ({ onClose, job, onSave, skills }) => {
 
+  // func to transform the job object inot a format usable by react-select
   const transformJob = (job) => {
-    // We are transforming the job object here into 
-    // something that can be used and read by react-select
+    // Mapping through required skills to create options for react-select
     let editedRequiredSkills = job.requiredSkills.map(skill => {
       let maybeSkill = null
+      // matching skill names with avaialable skills to get their IDs
       for (const sk of skills) {
         if (sk.name === skill.name) {
           maybeSkill = { value: sk._id, label: sk.name }

@@ -5,7 +5,6 @@ const DeleteJobModal = ({ job, onClose, onDelete }) => {
     onDelete(job._id);
     onClose(); // Close the modal after delete action
   };
-
   return (
     <div className="delete-modal-background">
       <div className="delete-modal-content">
