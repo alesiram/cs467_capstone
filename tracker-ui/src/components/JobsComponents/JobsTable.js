@@ -39,9 +39,14 @@ const totalPages = Math.ceil(filteredJobs.length / itemsPerPage);
   if (filteredJobs.length === 0) {
     return (
       <div>
-        <div>No jobs found.</div>
-        {/* Button to reset search */}
-        <button onClick={() => setSearchQuery('')}>Show All Jobs</button>
+        {jobs.length === 0 && (
+       <div>Welcome to your job tracker! Click 'Add New Job' to begin.</div>)}
+
+        <div>&nbsp;</div>
+       
+         {/* Button to reset search */}
+        {jobs.length > 0 && <button onClick={() => setSearchQuery('')}>Show All Jobs</button>}
+
       </div>
     );
   }
