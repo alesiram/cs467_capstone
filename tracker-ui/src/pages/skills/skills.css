@@ -48,7 +48,8 @@
 .skills-page__button--add-new,
 .skills-page__button--save,
 .skills-page__button--cancel,
-.skills-page__button--delete {
+.skills-page__button--delete,
+.skills-page__button--metrics {
   background-color: var(--secondary-color);
   color: var(--button-text-color);
   border: none;
@@ -66,14 +67,16 @@
 }
 
 .skills-page__button--add-new,
-.skills-page__button--save {
+.skills-page__button--save,
+.skills-page__button--metrics {
   background-color: var(--primary-color); /* Adjusted to primary orange */
 }
 
 .skills-page__button--add-new:hover,
 .skills-page__button--save:hover,
 .skills-page__button--cancel:hover,
-.skills-page__button--delete:hover {
+.skills-page__button--delete:hover,
+.skills-page__button--metrics:hover {
   filter: brightness(110%);
   transform: translateY(-2px);
 }
@@ -222,7 +225,8 @@
 }
 
 /* Additional styling for overall filter container for alignment and spacing */
-.skills-page__filters {
+.skills-page__filters,
+.skills-page__add-and-metrics {
   display: flex;
   justify-content: flex-start; /* Align items to the start of the container */
   align-items: center; /* Center items vertically */

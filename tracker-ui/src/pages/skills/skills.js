@@ -8,11 +8,12 @@ import AddSkillModal from '../../components/SkillComponents/AddSkillModal';
 import EditSkillModal from '../../components/SkillComponents/EditSkillModal';
 import DeleteSkillModal from '../../components/SkillComponents/DeleteSkillModal';
 import ViewContactModal from '../../components/ContactComponents/ViewContactModal';
+import SkillMetricsModal from '../../components/SkillComponents/SkillMetricsModal';
 
 // Icons
 import SkillsIcon from '@mui/icons-material/Build';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-//import DashboardIcon from '@mui/icons-material/Dashboard';
+import DashboardIcon from '@mui/icons-material/Dashboard';
 
 // Assuming './skills.css' and NavBar, SkillTable, AddSkillModal, EditSkillModal, DeleteSkillModal are correctly implemented
 import './skills.css';
@@ -32,6 +33,7 @@ const SkillsPage = () => {
   const [isLoadingPopularSkill, setIsLoadingPopularSkill] = useState(false);
   const [showViewModal, setShowViewModal] = useState(false);
   const [currentContact, setCurrentContact] = useState({});
+  const [showMetricsModal, setShowMetricsModal] = useState(false);
 
 
   // Combined fetch function for skills and contacts
@@ -278,21 +280,14 @@ const SkillsPage = () => {
         <SkillsIcon style={{ marginRight: '8px', verticalAlign: 'middle' }} fontSize="large" />
         <h1>SKILLS</h1>
       </div>
-
-        
-        {/* Displaying the most popular skill summary */}
-        {mostPopularSkill ? (
-          <div className="skills-page__most-popular-summary">
-            <p>Most Popular Skill: {mostPopularSkill._id}</p>
-            <p>Average Rating: {mostPopularSkill.averageRating.toFixed(1)}</p>
-          </div>
-        ) : isLoadingPopularSkill ? (
-          <p>Loading most popular skill...</p>
-        ) : null}
-        
-        <button className="skills-page__button--add-new"  onClick={() => setShowAddModal(true)}>
-          <AddCircleIcon sx={{ color: 'var(--button-text-color' }} /> Add New Skill 
-        </button>
+        <div className="skills-page__add-and-metrics">
+          <button className="skills-page__button--add-new"  onClick={() => setShowAddModal(true)}>
+            <AddCircleIcon sx={{ color: 'var(--button-text-color' }} /> Add New Skill 
+          </button>
+          <button onClick={() => setShowMetricsModal(true)} className="skills-page__button--metrics">
+            <DashboardIcon sx={{ color: 'var(--button-text-color' }} />View Skill Metrics
+          </button>
+        </div>
         
         <div className="skills-page__filters">
           <input
@@ -316,6 +311,7 @@ const SkillsPage = () => {
         />
         
         {showAddModal && <AddSkillModal onClose={() => setShowAddModal(false)} onSave={addSkill} contacts={contacts} />}
+        {showMetricsModal && <SkillMetricsModal onClose={() => setShowMetricsModal(false)} />}
         {showEditModal && currentSkill && <EditSkillModal skill={currentSkill} onClose={() => setShowEditModal(false)} onSave={editSkill} contacts={contacts} />}
         {showDeleteModal && currentSkill && <DeleteSkillModal skill={currentSkill} onClose={() => setShowDeleteModal(false)} onDelete={deleteSkill} />}
         {currentContact && (<ViewContactModal show={showViewModal} onClose={handleCloseModal} contact={currentContact} />)}
