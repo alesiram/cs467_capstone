@@ -8,11 +8,12 @@ import AddSkillModal from '../../components/SkillComponents/AddSkillModal';
 import EditSkillModal from '../../components/SkillComponents/EditSkillModal';
 import DeleteSkillModal from '../../components/SkillComponents/DeleteSkillModal';
 import ViewContactModal from '../../components/ContactComponents/ViewContactModal';
+import SkillMetricsModal from '../../components/SkillComponents/SkillMetricsModal';
 
 // Icons
 import SkillsIcon from '@mui/icons-material/Build';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-//import DashboardIcon from '@mui/icons-material/Dashboard';
+import DashboardIcon from '@mui/icons-material/Dashboard';
 
 // Assuming './skills.css' and NavBar, SkillTable, AddSkillModal, EditSkillModal, DeleteSkillModal are correctly implemented
 import './skills.css';
@@ -26,17 +27,15 @@ const SkillsPage = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [currentSkill, setCurrentSkill] = useState(null);
-  const [mostPopularSkill, setMostPopularSkill] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [sortCriteria, setSortCriteria] = useState({ field: 'name', order: 'asc' });
-  const [isLoadingPopularSkill, setIsLoadingPopularSkill] = useState(false);
   const [showViewModal, setShowViewModal] = useState(false);
   const [currentContact, setCurrentContact] = useState({});
+  const [showMetricsModal, setShowMetricsModal] = useState(false);
 
 
   // Combined fetch function for skills and contacts
   const fetchData = useCallback(async () => {
-    //setIsLoading(true);
     setError(''); // Reset error message at the beginning of a fetch operation
     try {
       const token = localStorage.getItem('token');
@@ -74,7 +73,6 @@ const SkillsPage = () => {
       setError('No results match!');
       setSkills([]); // Ensure the skills list is cleared on error
     } finally {
-      //setIsLoading(false);
     }
   }, [searchTerm]);
   
@@ -121,48 +119,12 @@ const SkillsPage = () => {
     setShowEditModal(true);
   }
   
-  // Correctly define fetchMostPopularSkill within SkillsPage component
-  const fetchMostPopularSkill = async () => {
-    setIsLoadingPopularSkill(true); // Assume you have a separate loading state for this operation
-    try {
-      const token = localStorage.getItem('token');
-      const response = await fetch('/skills/popular', {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-      });
-  
-      if (!response.ok) {
-        // If the server response is not ok, throw an error with the status text
-        throw new Error(`Failed to fetch the most popular skill: ${response.statusText}`);
-      }
-  
-      const data = await response.json();
-      // Assuming the backend sends the most popular skill in the expected format
-      // directly set the received data to your state
-      setMostPopularSkill(data);
-    } catch (error) {
-      // Catch any errors that occur during the fetch operation
-      setError(`Failed to load the most popular skill: ${error.message}`);
-    } finally {
-      // Whether successful or not, indicate that loading is complete
-      setIsLoadingPopularSkill(false);
-    }
-  };
-  
   useEffect(() => {
     fetchData();
   }, [fetchData]); // Removed sortCriteria from dependencies
   
-  useEffect(() => {
-    fetchMostPopularSkill();
-  }, []); // Empty dependency array ensures this runs only once on component mount
-  
   // Add skill
   const addSkill = async (skill) => {
-    //setIsLoading(true);
     try {
       const token = localStorage.getItem('token');
       const response = await fetch('/skills', {
@@ -187,14 +149,12 @@ const SkillsPage = () => {
     } catch (error) {
       setError(error.message);
     } finally {
-      //setIsLoading(false);
     }
   };
 
 
   // Edit skill
   const editSkill = async (skill) => {
-    //setIsLoading(true);
     try {
       const token = localStorage.getItem('token');
       const response = await fetch(`/skills/${skill._id}`, {
@@ -216,13 +176,11 @@ const SkillsPage = () => {
     } catch (error) {
       setError(error.message);
     } finally {
-      //setIsLoading(false);
     }
   };
 
   // Delete skill
   const deleteSkill = async (skillId) => {
-    //setIsLoading(true);
     try {
       const token = localStorage.getItem('token');
       const response = await fetch(`/skills/${skillId}`, {
@@ -243,7 +201,6 @@ const SkillsPage = () => {
     } catch (error) {
       setError(error.message);
     } finally {
-      //setIsLoading(false);
     }
   };
 
@@ -278,21 +235,14 @@ const SkillsPage = () => {
         <SkillsIcon style={{ marginRight: '8px', verticalAlign: 'middle' }} fontSize="large" />
         <h1>SKILLS</h1>
       </div>
-
-        
-        {/* Displaying the most popular skill summary */}
-        {mostPopularSkill ? (
-          <div className="skills-page__most-popular-summary">
-            <p>Most Popular Skill: {mostPopularSkill._id}</p>
-            <p>Average Rating: {mostPopularSkill.averageRating.toFixed(1)}</p>
-          </div>
-        ) : isLoadingPopularSkill ? (
-          <p>Loading most popular skill...</p>
-        ) : null}
-        
-        <button className="skills-page__button--add-new"  onClick={() => setShowAddModal(true)}>
-          <AddCircleIcon sx={{ color: 'var(--button-text-color' }} /> Add New Skill 
-        </button>
+        <div className="skills-page__add-and-metrics">
+          <button className="skills-page__button--add-new"  onClick={() => setShowAddModal(true)}>
+            <AddCircleIcon sx={{ color: 'var(--button-text-color' }} /> Add New Skill 
+          </button>
+          <button onClick={() => setShowMetricsModal(true)} className="skills-page__button--metrics">
+            <DashboardIcon sx={{ color: 'var(--button-text-color' }} />View Skill Metrics
+          </button>
+        </div>
         
         <div className="skills-page__filters">
           <input
@@ -316,6 +266,7 @@ const SkillsPage = () => {
         />
         
         {showAddModal && <AddSkillModal onClose={() => setShowAddModal(false)} onSave={addSkill} contacts={contacts} />}
+        {showMetricsModal && <SkillMetricsModal onClose={() => setShowMetricsModal(false)} />}
         {showEditModal && currentSkill && <EditSkillModal skill={currentSkill} onClose={() => setShowEditModal(false)} onSave={editSkill} contacts={contacts} />}
         {showDeleteModal && currentSkill && <DeleteSkillModal skill={currentSkill} onClose={() => setShowDeleteModal(false)} onDelete={deleteSkill} />}
         {currentContact && (<ViewContactModal show={showViewModal} onClose={handleCloseModal} contact={currentContact} />)}

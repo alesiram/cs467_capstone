@@ -2,6 +2,7 @@
 
 import Skill from '../models/skill_model.mjs'; // Adjust the path as necessary
 import Contact from '../models/contact_model.mjs'; // Adjust the path as necessary
+//import ContactsMetricsFollowUps from '../../tracker-ui/src/components/ContactComponents/ContactsMetricsFollowUps';
 
 // Create a new skill
 export const createSkill = async (req, res) => {
@@ -113,10 +114,6 @@ export const getSkills = async (req, res) => {
 
         const skills = await Skill.aggregate(pipeline);
 
-        if (skills.length === 0) {
-            return res.status(404).json({ message: 'No skills found' });
-        }
-
         res.json(skills);
     } catch (error) {
         console.error(error);
@@ -226,4 +223,51 @@ export const getMostPopularSkill = async (req, res) => {
       res.status(500).json({ message: error.message });
     }
   };
+
+export const getAverageSkills = async (req, res) => {
+    try {
+        console.log(req)
+        const aggregation = await Skill.aggregate([
+            // Initial match stage if necessary, for example, to filter skills based on certain criteria
+            { $match: {} }, // Placeholder, adjust as needed
+
+            // Group by user and calculate the average rating for each user, along with counting the number of skills
+            {
+                $group: {
+                    _id: "$name",
+                    averageRating: { $avg: "$rating" },
+                    skillsCount: { $sum: 1 }
+                }
+            },
+            // Calculate the overall averages across all users
+            {
+                $group: {
+                    _id: null, // Grouping without a specific field to calculate overall averages
+                    averageNumberOfSkills: { $avg: "$skillsCount" },
+                    overallAverageRating: { $avg: "$averageRating" }
+                }
+            },
+            // Optionally, project the fields to provide a cleaner response, excluding the _id field
+            {
+                $project: {
+                    _id: 0,
+                    averageNumberOfSkills: 1,
+                    overallAverageRating: 1
+                }
+            }
+        ]);
+
+        if (aggregation.length === 0) {
+            return res.status(404).json({ message: 'No skills data found to calculate averages' });
+        }
+
+        // Return the calculated averages
+        res.json(aggregation[0]);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error calculating average skills: ' + error.message });
+    }
+};
+
+
   

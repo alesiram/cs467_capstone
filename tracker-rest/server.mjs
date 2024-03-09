@@ -47,6 +47,7 @@ app.delete('/contacts/:id', authMiddleware, contact.deleteContact);
 
 // Route to get the most popular skills
 app.get('/skills/popular', authMiddleware, skill.getMostPopularSkill);
+app.get('/skills/averages', authMiddleware, skill.getAverageSkills)
 // Routes for skills (protected routes - must be auth'd)
 app.post('/skills', authMiddleware, skill.createSkill);
 app.get('/skills', authMiddleware, skill.getSkills);
