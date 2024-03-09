@@ -10,18 +10,12 @@ function App() {
   return (
     <div className="App">
       <Router>
-          {/* Route for the Home Page */}
-          <Route path="/" exact component={HomePage} />
-          <Route path='/login'>
-            <LoginPage />
-          </Route>
-          <Route path='/contacts'>
-            <ContactsPage />
-          </Route>
-          <Route path='/skills' exact component={SkillsPage}>
-            <SkillsPage />
-          </Route>
-          <Route path='/jobs' component={JobsPage}  /> 
+        {/* Component prop for all routes */}
+        <Route path="/" exact component={HomePage} />
+        <Route path="/login" exact component={LoginPage} />
+        <Route path="/contacts" exact component={ContactsPage} />
+        <Route path="/skills" exact component={SkillsPage} />
+        <Route path="/jobs" exact component={JobsPage} />
       </Router>
     </div>
   );
