@@ -27,10 +27,8 @@ const SkillsPage = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [currentSkill, setCurrentSkill] = useState(null);
-  const [mostPopularSkill, setMostPopularSkill] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [sortCriteria, setSortCriteria] = useState({ field: 'name', order: 'asc' });
-  const [isLoadingPopularSkill, setIsLoadingPopularSkill] = useState(false);
   const [showViewModal, setShowViewModal] = useState(false);
   const [currentContact, setCurrentContact] = useState({});
   const [showMetricsModal, setShowMetricsModal] = useState(false);
@@ -38,7 +36,6 @@ const SkillsPage = () => {
 
   // Combined fetch function for skills and contacts
   const fetchData = useCallback(async () => {
-    //setIsLoading(true);
     setError(''); // Reset error message at the beginning of a fetch operation
     try {
       const token = localStorage.getItem('token');
@@ -76,7 +73,6 @@ const SkillsPage = () => {
       setError('No results match!');
       setSkills([]); // Ensure the skills list is cleared on error
     } finally {
-      //setIsLoading(false);
     }
   }, [searchTerm]);
   
@@ -123,48 +119,12 @@ const SkillsPage = () => {
     setShowEditModal(true);
   }
   
-  // Correctly define fetchMostPopularSkill within SkillsPage component
-  const fetchMostPopularSkill = async () => {
-    setIsLoadingPopularSkill(true); // Assume you have a separate loading state for this operation
-    try {
-      const token = localStorage.getItem('token');
-      const response = await fetch('/skills/popular', {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-      });
-  
-      if (!response.ok) {
-        // If the server response is not ok, throw an error with the status text
-        throw new Error(`Failed to fetch the most popular skill: ${response.statusText}`);
-      }
-  
-      const data = await response.json();
-      // Assuming the backend sends the most popular skill in the expected format
-      // directly set the received data to your state
-      setMostPopularSkill(data);
-    } catch (error) {
-      // Catch any errors that occur during the fetch operation
-      setError(`Failed to load the most popular skill: ${error.message}`);
-    } finally {
-      // Whether successful or not, indicate that loading is complete
-      setIsLoadingPopularSkill(false);
-    }
-  };
-  
   useEffect(() => {
     fetchData();
   }, [fetchData]); // Removed sortCriteria from dependencies
   
-  useEffect(() => {
-    fetchMostPopularSkill();
-  }, []); // Empty dependency array ensures this runs only once on component mount
-  
   // Add skill
   const addSkill = async (skill) => {
-    //setIsLoading(true);
     try {
       const token = localStorage.getItem('token');
       const response = await fetch('/skills', {
@@ -189,14 +149,12 @@ const SkillsPage = () => {
     } catch (error) {
       setError(error.message);
     } finally {
-      //setIsLoading(false);
     }
   };
 
 
   // Edit skill
   const editSkill = async (skill) => {
-    //setIsLoading(true);
     try {
       const token = localStorage.getItem('token');
       const response = await fetch(`/skills/${skill._id}`, {
@@ -218,13 +176,11 @@ const SkillsPage = () => {
     } catch (error) {
       setError(error.message);
     } finally {
-      //setIsLoading(false);
     }
   };
 
   // Delete skill
   const deleteSkill = async (skillId) => {
-    //setIsLoading(true);
     try {
       const token = localStorage.getItem('token');
       const response = await fetch(`/skills/${skillId}`, {
@@ -245,7 +201,6 @@ const SkillsPage = () => {
     } catch (error) {
       setError(error.message);
     } finally {
-      //setIsLoading(false);
     }
   };
 
