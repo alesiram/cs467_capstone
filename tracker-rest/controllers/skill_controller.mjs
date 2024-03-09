@@ -113,10 +113,6 @@ export const getSkills = async (req, res) => {
 
         const skills = await Skill.aggregate(pipeline);
 
-        if (skills.length === 0) {
-            return res.status(404).json({ message: 'No skills found' });
-        }
-
         res.json(skills);
     } catch (error) {
         console.error(error);

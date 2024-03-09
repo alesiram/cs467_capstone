@@ -129,7 +129,8 @@
 }
 
 .skills-page__action-button--edit:hover,
-.skills-page__action-button--delete:hover {
+.skills-page__action-button--delete:hover,
+.skills-page__action-button--clear:hover {
   filter: brightness(110%);
   transform: translateY(-2px);
 }
@@ -216,6 +217,7 @@
   height: 40px; /* Example fixed height */
   padding: 8px;
   font-size: 16px; /* Ensure font size is consistent */
+  width: 100%;
   /* Optional: Define a specific width or use flex-grow if within a flex container for alignment */
 }
 
@@ -253,7 +255,7 @@
   margin: 20px 0; /* Margin for spacing around the error message */
   text-align: center; /* Centered text for emphasis */
   font-size: 0.9rem; /* Slightly smaller font size for distinction */
-  width: 100%;
+  width: 75%;
 }
 
 /* Skills page header icon styling */
