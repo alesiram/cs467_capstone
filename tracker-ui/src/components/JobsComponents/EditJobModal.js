@@ -1,15 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Select from 'react-select';
 
 const EditJobModal = ({ onClose, job, onSave, skills }) => {
 
+  // func to transform the job object inot a format usable by react-select
   const transformJob = (job) => {
-    // We are transforming the job object here into 
-    // something that can be used and read by react-select
+    // Mapping through required skills to create options for react-select
     let editedRequiredSkills = job.requiredSkills.map(skill => {
       let maybeSkill = null
+      // matching skill names with avaialable skills to get their IDs
       for (const sk of skills) {
-        if (sk.name == skill.name) {
+        if (sk.name === skill.name) {
           maybeSkill = { value: sk._id, label: sk.name }
         }
       }
@@ -20,9 +21,11 @@ const EditJobModal = ({ onClose, job, onSave, skills }) => {
 
   const [editedJob, setEditedJob] = useState(transformJob(job));
 
-  useEffect(() => {
-    setEditedJob(transformJob(job)); // This will reset the form with the new job when the job prop changes
-  }, [job]);
+   //This will reset the form with the new job when the job prop changes
+   
+  //  useEffect(() => {
+  //   setEditedJob(transformJob(job)); 
+  // }, [job]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -59,13 +62,11 @@ const EditJobModal = ({ onClose, job, onSave, skills }) => {
             </label>
             <label className="jobs-form-label">
               Type:
-            
               <select type="text" className="jobs-select" name="type" value={editedJob.type} onChange={handleChange}>
               <option value="Full Time">Full Time</option>
               <option value="Part-time">Part-time</option>
               <option value="Internship">Internship</option>
               </select>
-
             </label>
             <label className="jobs-form-label">
               Location:
@@ -90,7 +91,6 @@ const EditJobModal = ({ onClose, job, onSave, skills }) => {
               <option value="Closed">Closed</option>
             </select>
             </label>
-
             <label className="jobs-form-label">
               Interviewed:
               <select className="jobs-select" name="interviewed" value={editedJob.interviewed} onChange={handleChange}>
@@ -99,7 +99,6 @@ const EditJobModal = ({ onClose, job, onSave, skills }) => {
               <option value="Pending">Pending</option>
               </select>
             </label>
-
             <label className="jobs-form-label">
               Interview Date:
               <input type="date" className="jobs-drop-down" name="interviewDate" value={editedJob.interviewDate ? editedJob.interviewDate.split('T')[0] : ''} onChange={handleChange}
@@ -126,7 +125,6 @@ const EditJobModal = ({ onClose, job, onSave, skills }) => {
                 value={editedJob.requiredSkills}
               />
             </label>
-
             <label className="jobs-form-label">
               Notes:
               <input type="text" className="jobs-text" name="notes" value={editedJob.notes} onChange={handleChange} />

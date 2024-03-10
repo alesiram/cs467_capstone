@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import NavBar from '../../components/NavBar';
+
+// Jobs components 
 import JobsTable from '../../components/JobsComponents/JobsTable';
 import AddJobModal from '../../components/JobsComponents/AddJobModal';
 import EditJobModal from '../../components/JobsComponents/EditJobModal';
@@ -15,7 +17,7 @@ const JobsPage = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedJob, setSelectedJob] = useState(null);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [skills, setSkills] = useState([]); // Update to hold skills data
   const [showJobsMetrics, setShowJobsMetrics] = useState(false);
@@ -138,6 +140,8 @@ useEffect(() => {
       case 'Hired':
         setHiredCount(prevCount => prevCount + 1);
         break;
+      default:
+        break; // Add a default case to cover any other possible values
     }
   });
 }, [jobs]);
@@ -228,8 +232,6 @@ useEffect(() => {
   }
     // Close the add modal
     setShowAddModal(false);
-    
-
   };
 
   const handleEditJob = async (updatedJob) => {
@@ -297,6 +299,18 @@ useEffect(() => {
       setIsLoading(false);
     }
   };
+
+
+  if (isLoading) return <div
+  className="jobsloadmsg">
+    <span>
+      Page content loading...
+    </span>
+  </div>;
+  if (error) return <div
+    className="jobsErrorloadmsg">
+        An Error has occured: {error}
+  </div>;
 
   return (
     <div>

@@ -84,7 +84,7 @@
   
 }
 .jobs-page-button-add-job:hover {
-  background-color:#d35400;  
+  filter: brightness(110%);
   transform: translateY(-2px);
 }
 
@@ -119,12 +119,12 @@
   font-weight: bold;
   transition: background-color 0.3s, transform 0.2s;
   color: white;
-  background-color: rgb(170, 167, 163); /* Orange */
+  background-color:  rgb(255, 96, 6);
   border-color: transparent; /* Remove border outline color */
 }
 
 .job-action-buttons button.edit:hover {
-  background-color: #6a6967; /* Darker orange on hover */
+  filter: brightness(110%);
   transform: translateY(-2px);
 }
 
@@ -138,12 +138,12 @@
   font-weight: bold;
   transition: background-color 0.3s, transform 0.2s;
   color: white;
-  background-color: #f44336; /* Red */
+  background-color: #d35400;
   border-color: transparent; /* Remove border outline color */
 }
 
 .job-action-buttons button.delete:hover {
-  background-color: #dd1919; /* Darker red on hover */
+  filter: brightness(110%);
   transform: translateY(-2px);
 }
 

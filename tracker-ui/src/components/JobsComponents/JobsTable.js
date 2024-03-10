@@ -1,17 +1,12 @@
 import React, { useState } from 'react';
 
 const JobTableModal = ({ jobs, onEdit, onDelete, setJobs }) => {
-  // console.log("jobs", jobs)
   // pagination state 
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10); // Number of items to display per page
 
-
  // Search state
  const [searchQuery, setSearchQuery] = useState('');
-  // Log jobs and searchQuery for debugging
-  // console.log('All jobs:', jobs);
-  // console.log('Search query:', searchQuery);
 
  // Filtered jobs based on search query
  const filteredJobs = jobs.filter((job) =>
@@ -33,7 +28,6 @@ const handleNotesChange = (e, jobId) => {
   );
 };
 
-
 // Pagination logic
 const indexOfLastItem = currentPage * itemsPerPage;
 const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -45,16 +39,17 @@ const totalPages = Math.ceil(filteredJobs.length / itemsPerPage);
   if (filteredJobs.length === 0) {
     return (
       <div>
-        <div>No jobs found.</div>
-        {/* Button to reset search */}
-        <button onClick={() => setSearchQuery('')}>Show All Jobs</button>
+        {jobs.length === 0 && (
+       <div>Welcome to your job tracker! Click 'Add New Job' to begin.</div>)}
+
+        <div>&nbsp;</div>
+       
+         {/* Button to reset search */}
+        {jobs.length > 0 && <button onClick={() => setSearchQuery('')}>Show All Jobs</button>}
+
       </div>
     );
   }
-
-   // Calculate whether there are more pages available
-   const hasMorePages = currentJobs.length === itemsPerPage && filteredJobs.length > indexOfLastItem;
-
   return (
     <div className="job-table-container">
         <input
@@ -83,10 +78,8 @@ const totalPages = Math.ceil(filteredJobs.length / itemsPerPage);
               <th>Actions</th>
             </tr>
           </thead>
-          
           <tbody>
             {currentJobs.map((job) => {
-
               // Formatting to display correct date in UI 
               // APPLY DATE 
               const dateParts = job.applyDate.split('T')[0].split('-');
@@ -114,7 +107,6 @@ const totalPages = Math.ceil(filteredJobs.length / itemsPerPage);
               } else {
                 formattedInterviewDate = ''; // Set to empty string if interviewDate is empty
               }
-              
               return (
                 <tr key={job._id}>
                   <td>{job.company}</td>

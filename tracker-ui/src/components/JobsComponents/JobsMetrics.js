@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'; 
+// job Metrics 
 
 const JobsMetricsModal = ({ show, onClose, totalApplications,  totalOpenJobs, fullTimeCount, partTimeCount, internshipCount, pendingCount, rejectedCount, hiredCount, skillCounts, interviewPendingCount, interviewYescount, interviewNocount }) => {
  
@@ -10,11 +10,10 @@ const JobsMetricsModal = ({ show, onClose, totalApplications,  totalOpenJobs, fu
           <div className="metrics-header">
             <h2>Job Metrics</h2>
           </div>
-          
             <div className="metric-tiles">
               <div className="metric-tile">
                 <h3>Total Applications</h3>
-                <p>{totalApplications}</p> {/* Use totalApplications here */}
+                <p>{totalApplications}</p>
               </div>
               <div className="metric-tile">
                 <h3>Open Jobs</h3>
