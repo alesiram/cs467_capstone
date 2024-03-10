@@ -10,7 +10,6 @@ const contactSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
-        unique: true
     },
     company: {
         type: String,
