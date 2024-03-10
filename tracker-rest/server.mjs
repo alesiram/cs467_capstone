@@ -7,6 +7,10 @@ import * as skill from './controllers/skill_controller.mjs'; // Import the skill
 import * as jobs from './controllers/jobs_controller.mjs';
 import { authMiddleware } from './middleware/auth_middleware.mjs';
 
+import fs from 'fs'; // Import fs to check if the build directory exists
+import path from 'path'; // Import path module
+import { fileURLToPath } from 'url'; // Import url
+
 // Express middleware to parse incoming requests with JSON payloads
 const app = express();
 app.use(express.json());
@@ -21,6 +25,9 @@ const db = mongoose.connection;
 db.once("open", () => {
     console.log("Successfully connected to MongoDB using Mongoose!");
 });
+
+// Directory pathname
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 /* ROUTES START */
 
@@ -64,6 +71,17 @@ app.put('/jobs/:id', authMiddleware, jobs.updateJob);
 app.delete('/jobs/:id', authMiddleware, jobs.deleteJob);
 
 /* ROUTES END */
+
+//Use the build if it exists
+const buildPath = path.join(__dirname, '../tracker-ui/build');
+if (fs.existsSync(buildPath)) {
+    // Serve static files
+    app.use(express.static(buildPath));
+    // Catchall handler to serve the React app for any non-API routes
+    app.get('*', (req, res) => {
+        res.sendFile(path.join(buildPath, 'index.html'));
+    });
+}
 
 // Listen on the PORT
 const PORT = process.env.PORT;
