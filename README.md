@@ -125,6 +125,60 @@ npm start
 
 - Once both servers are running concurrently, you should see the web application running on `http://localhost:8000/` (or the port specified if changed) and you can go to signup/login at `http://localhost:8000/login`.
 
+### Build
+
+The instructions above detail running the application in the development environment. The application can also be built and run from a single server that looks for any build files and will use them if there is a `build` folder.
+
+<i>(<b>NOTE:</b> manual page refreshes should be avoided when using the build version to prevent auth messages. If you manually refresh a page, simply return to the home page [i.e. `http://localhost:3000/` ] and navigate using the nav bar)</i>
+
+Follow all of the installation steps above, but instead of running <b>Step 5</b>, replace with the following steps:
+
+<b>1. Ensure all dependencies and env variables are added</b> 
+
+- Ensure that all dependencies are installed in both the `tracker-ui` and `tracker-rest` folders (see above step 3)
+- Ensure the `tracker-rest` `.env` file has the required `env variables`. (see above step 4)
+- Note, the build will use the `PORT` identified from the `tracker-rest` `.env` file
+
+<b>2. Run the build</b> 
+
+- Navigate to the `tracker-ui` folder and run the below. A `build` folder will be created in the `tracker-ui` folder containing the static files:
+```
+npm run build
+```
+- Note, it may take a few minutes to complete and you can simply delete the `build` folder and run the command again to ensure you're working with the most current version.
+
+<b>3. Start the server </b> 
+
+- Then, navigate to the `tracker-rest` folder and run the below. This will start the server, and the application will use the build files: 
+```
+npm start
+```
+
+<b>4. Use the application! </b> 
+
+- The application will be available via the `PORT` specified in the `tracker-rest` `.env` file. Following the example `.env` variables above, the `PORT` is set to `3000` so the application will run on `http://localhost:3000` instead of `http://localhost:8000`. When using the build there is no need to start the development server in the `tracker-ui`.
+
+
+<b>Using Forever </b> 
+
+Alternatively, the `forever` library can be used to run the server continuously (i.e. forever). See the [forever documentation](https://github.com/foreversd/forever#readme) for more information and usage, and use it cautiously. So, instead of starting the server with `npm start`, it can be started via the below:
+
+```
+npx forever start server.mjs
+```
+
+And it can be stopped via:
+
+```
+npx forever stop server.mjs
+```
+
+And to see if there are any forever processes running:
+
+```
+npx forever list
+```
+
 ## Technologies
 
 ##### Artificial Intelligence Tools
@@ -174,5 +228,6 @@ npm start
 ##### Development Tools
 - `nodemon`: Utility that monitors for any changes in your source and automatically restarts your server.
 - `dotenv`: Loads environment variables from a `.env` file for Node.js projects.
+- `forever`: CLI tool for ensuring a given script runs continuously, automatically restarting it if it stops or fails
 
 [Back to Top](#table-of-contents)
